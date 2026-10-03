@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr7ut1wnmgkf1"
-path="res://.godot/imported/Hole_BG.png-9d435035b41d3bc4ced2dc997286a560.ctex"
+uid="uid://ckawdq4shoq8e"
+path="res://.godot/imported/Table_Tray.png-db889714981bf0916e45c20f13b63232.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art Folder/Hole_BG.png"
-dest_files=["res://.godot/imported/Hole_BG.png-9d435035b41d3bc4ced2dc997286a560.ctex"]
+source_file="res://Art/Table_Tray.png"
+dest_files=["res://.godot/imported/Table_Tray.png-db889714981bf0916e45c20f13b63232.ctex"]
 
 [params]
 
