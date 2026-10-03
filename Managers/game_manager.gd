@@ -11,7 +11,6 @@ var player_score := 0
 #Part of temp Player Controls
 @export var max_shot_power := 5000.0
 @export var power_multiplier := 20.0
-#@export var minimum_shot_power := 100.0
 @export var flick_threshold := 100.0
 
 var previous_mouse_position := Vector2.ZERO
@@ -54,9 +53,6 @@ func _process(_delta: float) -> void:
 
 func _on_ball_scored(points: int, hole_position: Vector2) -> void:
 	player_score += points
-	
-	print("Player scored ", points, " point(s)!")
-	print("Player score: ", player_score)
 	
 	call_deferred("_handle_ball_scored", hole_position)
 
