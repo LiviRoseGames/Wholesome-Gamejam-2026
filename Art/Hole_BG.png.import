@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5478nf2wdpg5"
-path="res://.godot/imported/Baseball_Test.png-8f80eed0d8a069e00fdbfca996639c5a.ctex"
+uid="uid://cr7ut1wnmgkf1"
+path="res://.godot/imported/Hole_BG.png-fb17d8d1fecdf34bb8c8be8154cac31d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art Folder/Baseball_Test.png"
-dest_files=["res://.godot/imported/Baseball_Test.png-8f80eed0d8a069e00fdbfca996639c5a.ctex"]
+source_file="res://Art/Hole_BG.png"
+dest_files=["res://.godot/imported/Hole_BG.png-fb17d8d1fecdf34bb8c8be8154cac31d.ctex"]
 
 [params]
 

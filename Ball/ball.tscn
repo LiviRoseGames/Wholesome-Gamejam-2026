@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://4hxdppls2u7a"]
+
+[ext_resource type="Script" uid="uid://dqxmcg08se75n" path="res://Ball/ball.gd" id="1_l4sn5"]
+[ext_resource type="Texture2D" uid="uid://b5478nf2wdpg5" path="res://Art/Baseball_Test.png" id="2_65gad"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gbba"]
+radius = 101.07918
+
+[node name="Ball" type="RigidBody2D" unique_id=297288324]
+gravity_scale = 0.0
+linear_damp = 1.5
+angular_damp = 1.0
+script = ExtResource("1_l4sn5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=711866344]
+texture = ExtResource("2_65gad")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=801342274]
+shape = SubResource("CircleShape2D_8gbba")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=457922458]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=464896736]

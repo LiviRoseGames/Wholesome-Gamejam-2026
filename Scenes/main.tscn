@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dla3gxas2awug"]
+
+[ext_resource type="Script" uid="uid://cwccxjnrtjw46" path="res://Managers/game_manager.gd" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://dr5fc5hp8u6dt" path="res://Scenes/game_table.tscn" id="2_bo1nx"]
+
+[node name="Main" type="Node2D" unique_id=2023708926]
+
+[node name="GameManager" type="Node" parent="." unique_id=1420313222]
+script = ExtResource("1_jjgbg")
+
+[node name="PlayerTable" parent="." unique_id=359746636 instance=ExtResource("2_bo1nx")]
+position = Vector2(3200, 1080)

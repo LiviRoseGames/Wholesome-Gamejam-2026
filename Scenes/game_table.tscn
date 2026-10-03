@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://dr5fc5hp8u6dt"]
+
+[ext_resource type="Texture2D" uid="uid://ckawdq4shoq8e" path="res://Art/Table_Tray.png" id="1_pfbou"]
+[ext_resource type="Texture2D" uid="uid://d0agxr6xna53h" path="res://Art/Table_Wood.png" id="2_gwftx"]
+[ext_resource type="PackedScene" uid="uid://4hxdppls2u7a" path="res://Ball/ball.tscn" id="3_ipb7x"]
+[ext_resource type="PackedScene" uid="uid://bbayk8d3th0cg" path="res://Hole/hole.tscn" id="5_6ex0o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ef17l"]
+size = Vector2(1280, 500)
+
+[node name="GameTable" type="Node2D" unique_id=359746636]
+
+[node name="Under" type="Sprite2D" parent="." unique_id=457879713]
+z_index = -1
+texture = ExtResource("1_pfbou")
+
+[node name="Table" type="Sprite2D" parent="." unique_id=69423381]
+z_index = 1
+position = Vector2(0, -216)
+scale = Vector2(1, 0.8)
+texture = ExtResource("2_gwftx")
+
+[node name="Ball" parent="." unique_id=297288324 instance=ExtResource("3_ipb7x")]
+position = Vector2(-1456, 578)
+
+[node name="BallSpawn" type="Marker2D" parent="." unique_id=759912438]
+position = Vector2(280, 861)
+
+[node name="BallHoldArea" type="Area2D" parent="." unique_id=1802968624]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BallHoldArea" unique_id=1517167590]
+position = Vector2(0, 830)
+shape = SubResource("RectangleShape2D_ef17l")
+
+[node name="Holes" type="Node2D" parent="." unique_id=175197404]
+
+[node name="Hole" parent="Holes" unique_id=228950574 instance=ExtResource("5_6ex0o")]
+position = Vector2(-360, -399)
+
+[node name="Hole2" parent="Holes" unique_id=569882683 instance=ExtResource("5_6ex0o")]
+position = Vector2(335, -398)
+hole_type = 1
+
+[node name="Hole3" parent="Holes" unique_id=1893582721 instance=ExtResource("5_6ex0o")]
+position = Vector2(1, -876)
+hole_type = 2

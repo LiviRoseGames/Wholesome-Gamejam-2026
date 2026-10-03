@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bbayk8d3th0cg"]
+
+[ext_resource type="Script" uid="uid://safb383kn7i7" path="res://Hole/hole.gd" id="1_5chai"]
+[ext_resource type="Texture2D" uid="uid://cr7ut1wnmgkf1" path="res://Art/Hole_BG.png" id="2_q25xr"]
+[ext_resource type="Texture2D" uid="uid://c84wu0vure8ag" path="res://Art/Hole_Ring.png" id="3_wbotu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_65gad"]
+radius = 109.03669
+
+[node name="Hole" type="Area2D" unique_id=228950574]
+z_index = 2
+collision_layer = 2
+script = ExtResource("1_5chai")
+
+[node name="BG" type="Sprite2D" parent="." unique_id=157489111]
+texture = ExtResource("2_q25xr")
+
+[node name="Ring" type="Sprite2D" parent="." unique_id=1891171940]
+texture = ExtResource("3_wbotu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=857129459]
+rotation = 1.5707964
+shape = SubResource("CircleShape2D_65gad")

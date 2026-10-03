@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c84wu0vure8ag"
-path="res://.godot/imported/Hole_Ring.png-2e7eddede2293391d55641d48a5777bc.ctex"
+uid="uid://clasq0udxd5nv"
+path="res://.godot/imported/placeholder_hole.png-ac5fe66644c994df503f70a71d57005d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art Folder/Hole_Ring.png"
-dest_files=["res://.godot/imported/Hole_Ring.png-2e7eddede2293391d55641d48a5777bc.ctex"]
+source_file="res://placeholder_hole.png"
+dest_files=["res://.godot/imported/placeholder_hole.png-ac5fe66644c994df503f70a71d57005d.ctex"]
 
 [params]
 

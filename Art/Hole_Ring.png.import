@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckawdq4shoq8e"
-path="res://.godot/imported/Table_Tray.png-f4ce68f011269796b5dfb3c555571423.ctex"
+uid="uid://c84wu0vure8ag"
+path="res://.godot/imported/Hole_Ring.png-97b83f3ba2ca4902fb6b399034a3cd20.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art Folder/Table_Tray.png"
-dest_files=["res://.godot/imported/Table_Tray.png-f4ce68f011269796b5dfb3c555571423.ctex"]
+source_file="res://Art/Hole_Ring.png"
+dest_files=["res://.godot/imported/Hole_Ring.png-97b83f3ba2ca4902fb6b399034a3cd20.ctex"]
 
 [params]
 
