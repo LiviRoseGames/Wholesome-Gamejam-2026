@@ -8,6 +8,7 @@
 radius = 109.03669
 
 [node name="Hole" type="Area2D" unique_id=228950574]
+z_index = 2
 collision_layer = 2
 script = ExtResource("1_5chai")
 

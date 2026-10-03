@@ -1,30 +1,12 @@
 [gd_scene format=3 uid="uid://dla3gxas2awug"]
 
 [ext_resource type="Script" uid="uid://cwccxjnrtjw46" path="res://Managers/game_manager.gd" id="1_jjgbg"]
-[ext_resource type="PackedScene" uid="uid://4hxdppls2u7a" path="res://Ball/ball.tscn" id="2_8gbba"]
-[ext_resource type="PackedScene" uid="uid://bbayk8d3th0cg" path="res://Hole/hole.tscn" id="3_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://dr5fc5hp8u6dt" path="res://Scenes/game_table.tscn" id="2_bo1nx"]
 
 [node name="Main" type="Node2D" unique_id=2023708926]
 
 [node name="GameManager" type="Node" parent="." unique_id=1420313222]
 script = ExtResource("1_jjgbg")
 
-[node name="BallSpawn" type="Marker2D" parent="." unique_id=2046646029]
-position = Vector2(540, 540)
-
-[node name="Holes" type="Node" parent="." unique_id=154481972]
-
-[node name="Hole" parent="Holes" unique_id=228950574 instance=ExtResource("3_jjvhh")]
-position = Vector2(234, 89)
-
-[node name="Hole2" parent="Holes" unique_id=1244362075 instance=ExtResource("3_jjvhh")]
-position = Vector2(926, 90)
-hole_type = 1
-
-[node name="Hole3" parent="Holes" unique_id=880997686 instance=ExtResource("3_jjvhh")]
-position = Vector2(554, 87)
-hole_type = 2
-
-[node name="Ball" parent="." unique_id=297288324 instance=ExtResource("2_8gbba")]
-z_index = 1
-position = Vector2(2069, 221)
+[node name="PlayerTable" parent="." unique_id=359746636 instance=ExtResource("2_bo1nx")]
+position = Vector2(3200, 1080)

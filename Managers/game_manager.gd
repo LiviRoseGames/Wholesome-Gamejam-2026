@@ -1,8 +1,9 @@
 extends Node
 
-@onready var ball: GameBall = $"../Ball"
-@onready var ball_spawn: Marker2D	 = $"../BallSpawn"
-@onready var holes: Node = $"../Holes"
+@onready var player_table = $"../PlayerTable"
+@onready var ball: GameBall = $"../PlayerTable/Ball"
+@onready var ball_spawn: Marker2D = $"../PlayerTable/BallSpawn"
+@onready var holes: Node2D = $"../PlayerTable/Holes"
 
 var player_score := 0
 
