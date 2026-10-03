@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bvwsdxexdomg4"
-path="res://.godot/imported/Horse1_Head.png-296555fb871d4a919abafcac040f09c8.ctex"
+path="res://.godot/imported/Horse1_Head.png-a98d920f7d74e8c07f1f9efebc25f969.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Horse1_Head.png"
-dest_files=["res://.godot/imported/Horse1_Head.png-296555fb871d4a919abafcac040f09c8.ctex"]
+source_file="res://Art/Horse/Horse1_Head.png"
+dest_files=["res://.godot/imported/Horse1_Head.png-a98d920f7d74e8c07f1f9efebc25f969.ctex"]
 
 [params]
 

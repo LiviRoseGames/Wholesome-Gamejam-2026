@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cagi87ntbp2mc"]
+
+[ext_resource type="Texture2D" uid="uid://bvwsdxexdomg4" path="res://Art/Horse/Horse1_Head.png" id="1_xnc1m"]
+[ext_resource type="Texture2D" uid="uid://bcku55m3s2n2s" path="res://Art/Horse/Horse1_Body.png" id="2_mjxxu"]
+
+[node name="Horse" type="Node2D" unique_id=390380381]
+
+[node name="Horse1Head" type="Sprite2D" parent="." unique_id=1619993029]
+texture = ExtResource("1_xnc1m")
+
+[node name="Horse1Body" type="Sprite2D" parent="." unique_id=1366332231]
+texture = ExtResource("2_mjxxu")

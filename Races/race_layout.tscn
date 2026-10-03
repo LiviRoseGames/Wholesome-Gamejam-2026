@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://c1nhfqb8i3ccn"]
+
+[ext_resource type="Texture2D" uid="uid://bscf7hrsqyp8j" path="res://Art/Sky.png" id="1_c77hu"]
+[ext_resource type="Texture2D" uid="uid://dcey33ylsvg1r" path="res://Art/Bush1.png" id="2_i8in6"]
+[ext_resource type="Texture2D" uid="uid://d3cdegg3qbsg" path="res://Art/Finish_Line.png" id="3_c1qnt"]
+[ext_resource type="Texture2D" uid="uid://cpn7jyfou2b2y" path="res://Art/Bush2.png" id="4_vnim4"]
+
+[node name="RaceLayout" type="Node2D" unique_id=1174800223]
+
+[node name="Sky" type="Sprite2D" parent="." unique_id=156779241]
+texture = ExtResource("1_c77hu")
+
+[node name="Bush1" type="Sprite2D" parent="." unique_id=1178629416]
+texture = ExtResource("2_i8in6")
+
+[node name="FinishLine" type="Sprite2D" parent="." unique_id=298698717]
+texture = ExtResource("3_c1qnt")
+
+[node name="Bush2" type="Sprite2D" parent="." unique_id=520608089]
+texture = ExtResource("4_vnim4")
