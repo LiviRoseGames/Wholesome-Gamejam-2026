@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cwccxjnrtjw46" path="res://Managers/game_manager.gd" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://dr5fc5hp8u6dt" path="res://Scenes/game_table.tscn" id="2_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://c1nhfqb8i3ccn" path="res://Races/race_layout.tscn" id="3_8gbba"]
 
 [node name="Main" type="Node2D" unique_id=2023708926]
 
@@ -10,3 +11,6 @@ script = ExtResource("1_jjgbg")
 
 [node name="PlayerTable" parent="." unique_id=359746636 instance=ExtResource("2_bo1nx")]
 position = Vector2(3200, 1080)
+
+[node name="RaceLayout" parent="." unique_id=1174800223 instance=ExtResource("3_8gbba")]
+position = Vector2(1280, 1080)
