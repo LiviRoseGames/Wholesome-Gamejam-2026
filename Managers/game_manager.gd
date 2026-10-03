@@ -1,18 +1,21 @@
 extends Node
 
-@onready var player_table = $"../PlayerTable"
+@onready var player_table: Node2D = $"../PlayerTable"
 @onready var ball: GameBall = $"../PlayerTable/Ball"
 @onready var ball_spawn: Marker2D = $"../PlayerTable/BallSpawn"
+@onready var ball_hold_area: Area2D = $"../PlayerTable/BallHoldArea"
 @onready var holes: Node2D = $"../PlayerTable/Holes"
 
 var player_score := 0
 
 #Part of temp Player Controls
-@export var max_shot_power := 800.0
-@export var power_multiplier := 3.0
+@export var max_shot_power := 5000.0
+@export var power_multiplier := 20.0
+#@export var minimum_shot_power := 100.0
+@export var flick_threshold := 100.0
 
-var is_aiming := false
-var aim_start_position := Vector2.ZERO
+var previous_mouse_position := Vector2.ZERO
+var just_picked_up := false
 
 func _ready() -> void:
 	for hole in holes.get_children():
@@ -20,6 +23,34 @@ func _ready() -> void:
 			hole.ball_scored.connect(_on_ball_scored)
 	
 	respawn_ball()
+
+func _process(_delta: float) -> void:
+	if not ball.is_held:
+		return
+	
+	var mouse_position := player_table.get_global_mouse_position()
+	
+	if just_picked_up:
+		previous_mouse_position = mouse_position
+		just_picked_up = false
+		return
+	
+	var hold_position := get_clamped_hold_position(mouse_position)
+	ball.global_position = hold_position
+	
+	var mouse_delta := mouse_position - previous_mouse_position
+	
+	if mouse_delta.length() >= flick_threshold:
+		var direction := mouse_delta.normalized()
+		
+		if direction.y < 0.0:
+			var power := mouse_delta.length() * power_multiplier
+			power = min(power, max_shot_power)
+			
+			ball.launch(direction, power)
+			return
+	
+	previous_mouse_position = mouse_position
 
 func _on_ball_scored(points: int, hole_position: Vector2) -> void:
 	player_score += points
@@ -66,37 +97,47 @@ func respawn_ball() -> void:
 	ball.angular_velocity = 0.0
 	
 	ball.is_in_play = false
+	ball.is_held = false
 	ball.freeze = true
+	
+	ball.z_index = ball.spawn_z_index
 
 #Temp Player Controls
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				start_aiming()
-			else:
-				release_shot()
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			pick_up_ball()
 
-func start_aiming() -> void:
+func pick_up_ball() -> void:
 	if not ball.freeze:
 		return
 	
-	is_aiming = true
-	aim_start_position = get_viewport().get_mouse_position()
+	var mouse_position := player_table.get_global_mouse_position()
+	
+	if mouse_position.distance_to(ball.global_position) > 50.0:
+		return
+	
+	ball.pick_up()
+	previous_mouse_position = mouse_position
+	just_picked_up = true
 
-func release_shot() -> void:
-	if not is_aiming:
-		return
+func get_clamped_hold_position(mouse_position: Vector2) -> Vector2:
+	var collision_shape := ball_hold_area.get_node("CollisionShape2D") as CollisionShape2D
+	var shape := collision_shape.shape as RectangleShape2D
 	
-	is_aiming = false
+	var local_mouse := ball_hold_area.to_local(mouse_position)
+	var half_size := shape.size / 2.0
 	
-	var mouse_position := get_viewport().get_mouse_position()
-	var direction := mouse_position - aim_start_position
+	local_mouse.x = clamp(
+		local_mouse.x,
+		collision_shape.position.x - half_size.x,
+		collision_shape.position.x + half_size.x
+	)
 	
-	var power := direction.length() * power_multiplier
-	power = min(power, max_shot_power)
+	local_mouse.y = clamp(
+		local_mouse.y,
+		collision_shape.position.y - half_size.y,
+		collision_shape.position.y + half_size.y
+	)
 	
-	if power <= 10.0:
-		return
-	
-	ball.launch(direction, power)
+	return ball_hold_area.to_global(local_mouse)
