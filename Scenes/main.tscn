@@ -12,16 +12,19 @@ script = ExtResource("1_jjgbg")
 [node name="BallSpawn" type="Marker2D" parent="." unique_id=2046646029]
 position = Vector2(540, 540)
 
-[node name="Hole" parent="." unique_id=228950574 instance=ExtResource("3_jjvhh")]
+[node name="Holes" type="Node" parent="." unique_id=154481972]
+
+[node name="Hole" parent="Holes" unique_id=228950574 instance=ExtResource("3_jjvhh")]
 position = Vector2(234, 89)
 
-[node name="Hole2" parent="." unique_id=1244362075 instance=ExtResource("3_jjvhh")]
-visible = false
+[node name="Hole2" parent="Holes" unique_id=1244362075 instance=ExtResource("3_jjvhh")]
 position = Vector2(926, 90)
+hole_type = 1
 
-[node name="Hole3" parent="." unique_id=880997686 instance=ExtResource("3_jjvhh")]
-visible = false
+[node name="Hole3" parent="Holes" unique_id=880997686 instance=ExtResource("3_jjvhh")]
 position = Vector2(554, 87)
+hole_type = 2
 
 [node name="Ball" parent="." unique_id=297288324 instance=ExtResource("2_8gbba")]
+z_index = 1
 position = Vector2(2069, 221)

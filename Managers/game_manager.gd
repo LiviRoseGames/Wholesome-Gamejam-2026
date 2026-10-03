@@ -2,7 +2,7 @@ extends Node
 
 @onready var ball: GameBall = $"../Ball"
 @onready var ball_spawn: Marker2D	 = $"../BallSpawn"
-@onready var hole: ScoringHole = $"../Hole"
+@onready var holes: Node = $"../Holes"
 
 var player_score := 0
 
@@ -14,7 +14,10 @@ var is_aiming := false
 var aim_start_position := Vector2.ZERO
 
 func _ready() -> void:
-	hole.ball_scored.connect(_on_ball_scored)
+	for hole in holes.get_children():
+		if hole is ScoringHole:
+			hole.ball_scored.connect(_on_ball_scored)
+	
 	respawn_ball()
 
 func _on_ball_scored(points: int, hole_position: Vector2) -> void:

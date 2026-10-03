@@ -1,27 +1,47 @@
 class_name ScoringHole
 extends Area2D
 
-@export var points: int = 1
+enum HoleType {
+	YELLOW,
+	BLUE,
+	RED
+}
+
+@export var hole_type: HoleType = HoleType.YELLOW
 
 signal ball_scored(points: int, hole_position: Vector2)
 
+@onready var ring: Sprite2D = $Ring
+
 func _ready() -> void:
+	_setup_hole()
 	body_entered.connect(_on_body_entered)
+
+func _setup_hole() -> void:
+	match hole_type:
+		HoleType.YELLOW:
+			ring.modulate = Color.YELLOW
+		
+		HoleType.BLUE:
+			ring.modulate = Color.BLUE
+		
+		HoleType.RED:
+			ring.modulate = Color.RED
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is GameBall:
+		var points := get_points()
 		ball_scored.emit(points, global_position)
 
-#func consume_ball(ball: GameBall) -> void:
-	#ball.freeze = true
-	#ball.linear_velocity = Vector2.ZERO
-	#
-	#var tween := create_tween()
-	#
-	#tween.set_parallel(true)
-	#tween.tween_property(ball, "scale", Vector2.ZERO, 0.15)
-	#tween.tween_property(ball, "modulate:a", 0.0, 0.15)
-	#
-	#await tween.finished
-	#
-	#ball.visible = false
+func get_points() -> int:
+	match hole_type:
+		HoleType.YELLOW:
+			return 1
+		
+		HoleType.BLUE:
+			return 3
+		
+		HoleType.RED:
+			return 5
+	
+	return 0
