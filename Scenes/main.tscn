@@ -2,15 +2,30 @@
 
 [ext_resource type="Script" uid="uid://cwccxjnrtjw46" path="res://Managers/game_manager.gd" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://dr5fc5hp8u6dt" path="res://Scenes/game_table.tscn" id="2_bo1nx"]
+[ext_resource type="Script" uid="uid://cj2uxfj28igf8" path="res://Player/player_controller.gd" id="2_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://c1nhfqb8i3ccn" path="res://Races/race_layout.tscn" id="3_8gbba"]
+[ext_resource type="Texture2D" uid="uid://cwobk6brfb0n5" path="res://Art/Hooves_Idle_Small.png" id="3_21xkr"]
+[ext_resource type="Texture2D" uid="uid://drqijqckx07q0" path="res://Art/Hooves_Hold_Small.png" id="4_6bp64"]
+[ext_resource type="Texture2D" uid="uid://bspawfoom2ymw" path="res://Art/Curtain_Divider.png" id="7_6bp64"]
 
 [node name="Main" type="Node2D" unique_id=2023708926]
 
 [node name="GameManager" type="Node" parent="." unique_id=1420313222]
 script = ExtResource("1_jjgbg")
 
+[node name="PlayerController" type="Node" parent="." unique_id=1882614978 node_paths=PackedStringArray("player_table")]
+script = ExtResource("2_jjvhh")
+player_table = NodePath("../PlayerTable")
+default_cursor = ExtResource("3_21xkr")
+holding_cursor = ExtResource("4_6bp64")
+
 [node name="PlayerTable" parent="." unique_id=359746636 instance=ExtResource("2_bo1nx")]
 position = Vector2(3200, 1080)
 
 [node name="RaceLayout" parent="." unique_id=1174800223 instance=ExtResource("3_8gbba")]
 position = Vector2(1280, 1080)
+
+[node name="CurtainDivider" type="Sprite2D" parent="." unique_id=535074608]
+z_index = 50
+position = Vector2(2560, 1080)
+texture = ExtResource("7_6bp64")

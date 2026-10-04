@@ -24,8 +24,8 @@ signal race_finished(winner: RaceHorse)
 @export var ai_level_min := 1
 @export var ai_level_max := 10
 
-@export var ai_check_interval_min := 0.5
-@export var ai_check_interval_max := 2.0
+@export var ai_check_interval_min := 2.0
+@export var ai_check_interval_max := 4.0
 
 @onready var finish_line: Node2D = $FinishLine
 @onready var winner_popup: WinnerPopup = $WinnerPopup
@@ -35,6 +35,7 @@ var player_horse: RaceHorse
 #var ai_score_timers: Array[float] = []
 var ai_levels: Array[int] = []
 var ai_check_timers: Array[float] = []
+var ai_second_try_guaranteed: Array[bool] = []
 
 var bushes: Array[RaceBush] = []
 
@@ -108,6 +109,7 @@ func spawn_horses() -> void:
 		if i == 0:
 			ai_levels.append(0)
 			ai_check_timers.append(-1.0)
+			ai_second_try_guaranteed.append(false)
 		else:
 			ai_levels.append(
 				randi_range(
@@ -122,6 +124,8 @@ func spawn_horses() -> void:
 					ai_check_interval_max
 				)
 			)
+			
+		ai_second_try_guaranteed.append(false)
 	
 	if horses.size() > 0:
 		player_horse = horses[0]
@@ -142,8 +146,13 @@ func update_ai(delta: float) -> void:
 		
 		var roll := randi_range(1, 100)
 		
-		if roll <= threshold:
+		if ai_second_try_guaranteed[i]:
 			horses[i].advance(hole)
+			ai_second_try_guaranteed[i] = false
+		elif roll <= threshold:
+			horses[i].advance(hole)
+		else:
+			ai_second_try_guaranteed[i] = true
 		
 		ai_check_timers[i] = randf_range(
 			ai_check_interval_min,
