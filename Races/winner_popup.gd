@@ -3,6 +3,7 @@ extends Node2D
 
 @export var drop_distance := 500.0
 @export var drop_duration := 0.7
+@export var horse_target_offset := Vector2(0.0, 950.0)
 
 @onready var cloud_container: Sprite2D = $CloudContainer
 @onready var winner_label: Label = $CloudContainer/WinnerLabel
@@ -13,8 +14,11 @@ func _ready() -> void:
 	final_position = position
 	visible = false
 
+func get_horse_target_position() -> Vector2:
+	return final_position + horse_target_offset
+
 func show_winner(winner_name: String) -> void:
-	winner_label.text = winner_name + " WINS!"
+	winner_label.text = (winner_name + " WINS!").to_upper()
 	
 	visible = true
 	

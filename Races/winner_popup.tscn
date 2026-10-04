@@ -1,13 +1,14 @@
 [gd_scene format=3 uid="uid://bjgxdnwmnta8o"]
 
 [ext_resource type="Script" uid="uid://bw5rqqioyhay8" path="res://Races/winner_popup.gd" id="1_7q8f5"]
-[ext_resource type="Texture2D" uid="uid://403y4xy050t2" path="res://Art/CloudContainer.png" id="1_s7w4p"]
+[ext_resource type="Texture2D" uid="uid://brmv1f2yukek1" path="res://Art/CloudContainerNew.png" id="2_7q8f5"]
 
 [node name="WinnerPopup" type="Node2D" unique_id=525302044]
+z_index = 20
 script = ExtResource("1_7q8f5")
 
 [node name="CloudContainer" type="Sprite2D" parent="." unique_id=1782063397]
-texture = ExtResource("1_s7w4p")
+texture = ExtResource("2_7q8f5")
 
 [node name="WinnerLabel" type="Label" parent="CloudContainer" unique_id=739419367]
 offset_left = -210.0

@@ -20,7 +20,7 @@ metadata/_edit_lock_ = true
 
 [node name="FinishLine" type="Node2D" parent="." unique_id=302187849]
 z_index = 30
-position = Vector2(-1080, 180)
+position = Vector2(-1225, 100)
 
 [node name="Sprite2D" type="Sprite2D" parent="FinishLine" unique_id=1233619384]
 texture = ExtResource("3_c1qnt")

@@ -11,6 +11,7 @@ signal race_finished(winner: RaceHorse)
 @export_group("Finish Line Layout")
 @export var finish_line_x := -1080.0
 @export var finish_line_y := 180.0
+@export var finish_line_offset := 300.0
 
 @export_group("Horse Layout")
 @export var horse_scene: PackedScene
@@ -24,9 +25,10 @@ signal race_finished(winner: RaceHorse)
 @export var ai_level_max := 10
 
 @export var ai_check_interval_min := 0.5
-@export var ai_check_interval_max := 1.0
+@export var ai_check_interval_max := 2.0
 
 @onready var finish_line: Node2D = $FinishLine
+@onready var winner_popup: WinnerPopup = $WinnerPopup
 
 var horses: Array[RaceHorse] = []
 var player_horse: RaceHorse
@@ -52,7 +54,7 @@ func _process(delta: float) -> void:
 	update_ai(delta)
 	
 	for horse in horses:
-		if horse.position.x <= finish_line.position.x:
+		if horse.position.x <= finish_line.position.x + finish_line_offset:
 			_on_horse_finished(horse)
 			break
 
@@ -61,6 +63,10 @@ func _on_horse_finished(horse: RaceHorse) -> void:
 	
 	for race_horse in horses:
 		race_horse.stop()
+		
+	horse.celebrate_win(
+	winner_popup.get_horse_target_position()
+)
 	
 	race_finished.emit(horse)
 
@@ -85,6 +91,9 @@ func spawn_bushes() -> void:
 		bushes.append(bush)
 
 func spawn_horses() -> void:
+	RaceHorse.previous_variant = -1
+	RaceHorse.used_names.clear()
+	
 	for i in horse_count:
 		var horse := horse_scene.instantiate() as RaceHorse
 		
