@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://ckawdq4shoq8e" path="res://Art/Table_Tray.png" id="1_pfbou"]
 [ext_resource type="Texture2D" uid="uid://d0agxr6xna53h" path="res://Art/Table_Wood.png" id="2_gwftx"]
 [ext_resource type="PackedScene" uid="uid://4hxdppls2u7a" path="res://Ball/ball.tscn" id="3_ipb7x"]
+[ext_resource type="Script" uid="uid://bfubmxdywgkve" path="res://Scenes/ball_hold_area.gd" id="4_ipb7x"]
 [ext_resource type="PackedScene" uid="uid://bbayk8d3th0cg" path="res://Hole/hole.tscn" id="5_6ex0o"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u0qty"]
@@ -67,14 +68,18 @@ shape = SubResource("RectangleShape2D_kani2")
 position = Vector2(0, 1288)
 shape = SubResource("RectangleShape2D_2jn0s")
 
-[node name="Ball" parent="." unique_id=297288324 instance=ExtResource("3_ipb7x")]
+[node name="Ball" parent="." unique_id=297288324 node_paths=PackedStringArray("ball_hold_area") instance=ExtResource("3_ipb7x")]
 position = Vector2(-1456, 578)
 physics_material_override = SubResource("PhysicsMaterial_ipb7x")
+linear_damp = 0.1
+angular_damp = 0.1
+ball_hold_area = NodePath("../BallHoldArea")
 
 [node name="BallSpawn" type="Marker2D" parent="." unique_id=759912438]
 position = Vector2(280, 861)
 
 [node name="BallHoldArea" type="Area2D" parent="." unique_id=1802968624]
+script = ExtResource("4_ipb7x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BallHoldArea" unique_id=1517167590]
 position = Vector2(0, 830)
