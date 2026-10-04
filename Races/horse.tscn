@@ -183,7 +183,7 @@ script = ExtResource("1_akykj")
 body_variants = Array[Texture2D]([ExtResource("2_mjxxu"), ExtResource("3_eyjna"), ExtResource("4_j0jiu"), ExtResource("5_soaej")])
 face_variants = Array[Texture2D]([ExtResource("2_e3mc8"), ExtResource("7_gw86k"), ExtResource("8_5o65v"), ExtResource("9_81gri")])
 head_variants = Array[Texture2D]([ExtResource("1_xnc1m"), ExtResource("11_n38vv"), ExtResource("12_vsrm8"), ExtResource("13_fmmk0")])
-tarp_colors = Array[Color]([Color(0.47058824, 0, 0, 1), Color(0, 0.5372549, 0, 1), Color(0, 0, 0.77254903, 1), Color(0.46675694, 0.584041, 0.2518201, 1), Color(0.38761824, 0.19882476, 0.47818947, 1), Color(0.07088811, 0.24096563, 0.26459816, 1), Color(0.9757075, 0.44539255, 0.6640381, 1), Color(0.3092085, 0.27147645, 0.031905152, 1), Color(0.82021374, 0.91012657, 0.7786057, 1), Color(0.23568496, 0.7820119, 0.6391874, 1), Color(0.8024504, 0.00055446627, 0.8123056, 1)])
+tarp_colors = Array[Color]([Color(0.70980394, 0, 0.14117648, 1), Color(0.8666667, 0.3372549, 0, 1), Color(0.85882354, 0.3254902, 0.21568628, 1), Color(0.76862746, 0.73333335, 0, 1), Color(0.14901961, 0.6392157, 0, 1), Color(0, 0.6313726, 0.5137255, 1), Color(0.1764706, 0.57254905, 0.7882353, 1), Color(0.1254902, 0.26666668, 0.6901961, 1), Color(0.3882353, 0.1254902, 0.6901961, 1), Color(1, 0.17254902, 0.42745098, 1), Color(0.54901963, 0.5058824, 0.4745098, 1)])
 
 [node name="Head" type="Node2D" parent="." unique_id=1166562608]
 
@@ -199,6 +199,7 @@ texture = ExtResource("2_e3mc8")
 texture = ExtResource("2_mjxxu")
 
 [node name="Tarp" type="Sprite2D" parent="Body" unique_id=264618155]
+modulate = Color(0.55, 0.50636667, 0.47300002, 1)
 texture = ExtResource("3_mjxxu")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=973253121]
