@@ -85,11 +85,11 @@ func randomize_appearance() -> void:
 		
 		body.texture = body_variants[variant]
 		
-		if face_variants.size() > variant:
-			face.texture = face_variants[variant]
-		
 		if head_variants.size() > variant:
 			head.texture = head_variants[variant]
+	
+	if face_variants.size() > 0:
+		face.texture = face_variants.pick_random()
 	
 	if tarp_colors.size() > 0:
 		tarp.modulate = tarp_colors.pick_random()
