@@ -11,6 +11,7 @@ signal race_finished(winner: RaceHorse)
 @export_group("Finish Line Layout")
 @export var finish_line_x := -1080.0
 @export var finish_line_y := 180.0
+@export var finish_line_offset := 300.0
 
 @export_group("Horse Layout")
 @export var horse_scene: PackedScene
@@ -53,7 +54,7 @@ func _process(delta: float) -> void:
 	update_ai(delta)
 	
 	for horse in horses:
-		if horse.position.x <= finish_line.position.x:
+		if horse.position.x <= finish_line.position.x + finish_line_offset:
 			_on_horse_finished(horse)
 			break
 
