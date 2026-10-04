@@ -27,6 +27,7 @@ signal race_finished(winner: RaceHorse)
 @export var ai_check_interval_max := 2.0
 
 @onready var finish_line: Node2D = $FinishLine
+@onready var winner_popup: WinnerPopup = $WinnerPopup
 
 var horses: Array[RaceHorse] = []
 var player_horse: RaceHorse
@@ -61,6 +62,10 @@ func _on_horse_finished(horse: RaceHorse) -> void:
 	
 	for race_horse in horses:
 		race_horse.stop()
+		
+	horse.celebrate_win(
+	winner_popup.get_horse_target_position()
+)
 	
 	race_finished.emit(horse)
 

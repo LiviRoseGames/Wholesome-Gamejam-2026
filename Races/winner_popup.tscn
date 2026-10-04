@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://403y4xy050t2" path="res://Art/CloudContainer.png" id="1_s7w4p"]
 
 [node name="WinnerPopup" type="Node2D" unique_id=525302044]
+z_index = 20
 script = ExtResource("1_7q8f5")
 
 [node name="CloudContainer" type="Sprite2D" parent="." unique_id=1782063397]
