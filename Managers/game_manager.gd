@@ -69,9 +69,6 @@ func _on_race_finished(winner: RaceHorse) -> void:
 func _on_ball_scored(points: int, hole_position: Vector2) -> void:
 	player_score += points
 	player_scored.emit(points)
-
-	print("Player scored ", points, " point(s)!")
-	print("Player score: ", player_score)
 	
 	call_deferred("_handle_ball_scored", hole_position)
 

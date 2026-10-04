@@ -71,12 +71,6 @@ func spawn_bushes() -> void:
 		
 		$Bushes.add_child(bush)
 		bushes.append(bush)
-		
-		print(
-			"Bush ", i,
-			" | z_index: ", bush.z_index,
-			" | parent z: ", bush.get_parent().z_index
-		)
 
 func spawn_horses() -> void:
 	for i in horse_count:
