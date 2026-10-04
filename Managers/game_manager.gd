@@ -24,6 +24,9 @@ func _ready() -> void:
 			hole.ball_scored.connect(_on_ball_scored)
 	
 	respawn_ball()
+	
+	var race_layout := $"../RaceLayout"
+	race_layout.race_finished.connect(_on_race_finished)
 
 func _process(_delta: float) -> void:
 	if not ball.is_held:
@@ -52,6 +55,9 @@ func _process(_delta: float) -> void:
 			return
 	
 	previous_mouse_position = mouse_position
+
+func _on_race_finished(winner: RaceHorse) -> void:
+	print("Race winner: ", winner.name)
 
 func _on_ball_scored(points: int, hole_position: Vector2) -> void:
 	player_score += points
