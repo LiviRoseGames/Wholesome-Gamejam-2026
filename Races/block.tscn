@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://jsjho4sdg8an"]
+
+[ext_resource type="Script" uid="uid://y078n4etahnc" path="res://Races/block.gd" id="1_0y03y"]
+[ext_resource type="Texture2D" uid="uid://b66dxlx5rbf8p" path="res://Art/Obstacle_Block.png" id="2_w0j7l"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3foiw"]
+friction = 0.0
+bounce = 0.8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3foiw"]
+size = Vector2(435, 74)
+
+[node name="Block" type="AnimatableBody2D" unique_id=678022419]
+physics_material_override = SubResource("PhysicsMaterial_3foiw")
+script = ExtResource("1_0y03y")
+direction = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1772053709]
+texture = ExtResource("2_w0j7l")
+
+[node name="CollisionBody" type="CollisionShape2D" parent="." unique_id=811072564]
+shape = SubResource("RectangleShape2D_3foiw")
+metadata/_edit_lock_ = true
