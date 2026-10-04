@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://4hxdppls2u7a" path="res://Ball/ball.tscn" id="3_8txwk"]
 [ext_resource type="Script" uid="uid://bfubmxdywgkve" path="res://Scenes/ball_hold_area.gd" id="4_76e0a"]
 [ext_resource type="PackedScene" uid="uid://bbayk8d3th0cg" path="res://Hole/hole.tscn" id="5_p3ngv"]
+[ext_resource type="PackedScene" uid="uid://jsjho4sdg8an" path="res://Races/block.tscn" id="6_1n3bh"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u0qty"]
 friction = 0.0
@@ -90,7 +91,7 @@ shape = SubResource("RectangleShape2D_ef17l")
 [node name="Holes" type="Node2D" parent="." unique_id=175197404]
 
 [node name="Hole" parent="Holes" unique_id=228950574 instance=ExtResource("5_p3ngv")]
-position = Vector2(-360, -400)
+position = Vector2(-368, -88)
 
 [node name="Hole2" parent="Holes" unique_id=569882683 instance=ExtResource("5_p3ngv")]
 position = Vector2(360, -400)
@@ -99,5 +100,18 @@ hole_type = 1
 [node name="Hole3" parent="Holes" unique_id=1893582721 instance=ExtResource("5_p3ngv")]
 position = Vector2(0, -800)
 hole_type = 2
+
+[node name="Block" parent="Holes" unique_id=678022419 instance=ExtResource("6_1n3bh")]
+z_index = 2
+position = Vector2(-368, 264)
+move_distance = 350.0
+move_time = 0.75
+
+[node name="Block2" parent="Holes" unique_id=1152071416 instance=ExtResource("6_1n3bh")]
+z_index = 2
+position = Vector2(360, -40)
+direction = 2
+move_distance = 350.0
+move_time = 0.75
 
 [connection signal="body_entered" from="Ball" to="Ball" method="_on_body_entered"]
