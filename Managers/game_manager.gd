@@ -2,24 +2,34 @@ extends Node
 
 signal player_scored(points: int)
 
-@onready var ball: GameBall = $"../PlayerTable/Ball"
-@onready var ball_spawn: Marker2D = $"../PlayerTable/BallSpawn"
-@onready var holes: Node2D = $"../PlayerTable/Holes"
 @onready var winner_popup: WinnerPopup = $"../RaceLayout/WinnerPopup"
+
+var ball: GameBall
+var ball_spawn: Marker2D
+var holes: Node2D
 
 var player_score := 0
 var is_race_finished := false
 
 
 func _ready() -> void:
+	var level_manager := $"../LevelManager"
+	level_manager.level_loaded.connect(_on_level_loaded)
+
+	var race_layout := $"../RaceLayout"
+	race_layout.race_finished.connect(_on_race_finished)
+
+
+func _on_level_loaded(new_player_table: Node2D) -> void:
+	ball = new_player_table.get_node("Ball") as GameBall
+	ball_spawn = new_player_table.get_node("BallSpawn") as Marker2D
+	holes = new_player_table.get_node("Holes") as Node2D
+
 	for hole in holes.get_children():
 		if hole is ScoringHole:
 			hole.ball_scored.connect(_on_ball_scored)
 
 	respawn_ball()
-
-	var race_layout := $"../RaceLayout"
-	race_layout.race_finished.connect(_on_race_finished)
 
 
 func _on_race_finished(winner: RaceHorse) -> void:
@@ -61,6 +71,7 @@ func _handle_ball_scored(hole_position: Vector2) -> void:
 
 	release_ball_from_hole(hole_position)
 
+
 func release_ball_from_hole(hole_position: Vector2) -> void:
 	ball.global_position = hole_position
 	ball.scale = Vector2.ONE
@@ -75,6 +86,7 @@ func release_ball_from_hole(hole_position: Vector2) -> void:
 	ball.freeze = false
 
 	ball.z_index = ball.spawn_z_index - 1
+
 
 func respawn_ball() -> void:
 	ball.visible = true
