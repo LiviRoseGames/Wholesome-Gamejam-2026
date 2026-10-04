@@ -1,6 +1,6 @@
 extends Node2D
 
-signal race_finished(winner: RaceHorse)
+signal race_finished(winner: RaceHorse, player_won: bool)
 
 @export_group("Bush Layout")
 @export var bush_scene: PackedScene
@@ -24,7 +24,7 @@ signal race_finished(winner: RaceHorse)
 @export var ai_level_min := 1
 @export var ai_level_max := 10
 
-@export var ai_check_interval_min := 2.0
+@export var ai_check_interval_min := 1.5
 @export var ai_check_interval_max := 4.0
 
 @onready var finish_line: Node2D = $FinishLine
@@ -44,9 +44,12 @@ var is_race_finished := false
 func _ready() -> void:
 	spawn_bushes()
 	spawn_horses()
-	
+
 	var game_manager := $"../GameManager"
 	game_manager.player_scored.connect(_on_player_scored)
+
+	var level_manager := $"../LevelManager"
+	level_manager.level_loaded.connect(_on_level_loaded)
 
 func _process(delta: float) -> void:
 	if is_race_finished:
@@ -59,17 +62,19 @@ func _process(delta: float) -> void:
 			_on_horse_finished(horse)
 			break
 
+func _on_level_loaded(_player_table: Node2D) -> void:
+	reset_race()
+
 func _on_horse_finished(horse: RaceHorse) -> void:
 	is_race_finished = true
-	
+
 	for race_horse in horses:
 		race_horse.stop()
-		
-	horse.celebrate_win(
-	winner_popup.get_horse_target_position()
-)
-	
-	race_finished.emit(horse)
+
+	horse.celebrate_win(winner_popup.get_horse_target_position())
+
+	var player_won := horse == player_horse
+	race_finished.emit(horse, player_won)
 
 func _on_player_scored(points: int) -> void:
 	if is_race_finished:
@@ -129,6 +134,20 @@ func spawn_horses() -> void:
 	
 	if horses.size() > 0:
 		player_horse = horses[0]
+
+func reset_race() -> void:
+	is_race_finished = false
+	winner_popup.hide()
+
+	for horse in horses:
+		horse.queue_free()
+
+	horses.clear()
+	ai_levels.clear()
+	ai_check_timers.clear()
+	ai_second_try_guaranteed.clear()
+
+	spawn_horses()
 
 func update_ai(delta: float) -> void:
 	for i in range(1, horses.size()):

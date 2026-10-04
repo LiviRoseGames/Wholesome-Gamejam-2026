@@ -56,6 +56,7 @@ static var used_names: Array[String] = []
 
 var target_x := 0.0
 var is_celebrating := false
+var celebration_tween: Tween
 
 func _ready() -> void:
 	target_x = position.x
@@ -140,6 +141,22 @@ func stop_at_finish(finish_x: float) -> void:
 		target_x = finish_x
 	else:
 		target_x = position.x
+
+func reset_horse(start_position: Vector2) -> void:
+	for tween in get_tree().get_processed_tweens():
+		if tween.get_valid():
+			var bound_node: Node = tween.get_bound_node()
+			if bound_node == self:
+				tween.kill()
+
+	is_celebrating = false
+	target_x = start_position.x
+	position = start_position
+	rotation = 0.0
+	scale = Vector2.ONE
+	z_index = 19
+
+	animation_player.stop()
 
 func celebrate_win(target_position: Vector2) -> void:
 	is_celebrating = true
