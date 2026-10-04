@@ -14,7 +14,7 @@ func _ready() -> void:
 	visible = false
 
 func show_winner(winner_name: String) -> void:
-	winner_label.text = winner_name + " WINS!"
+	winner_label.text = (winner_name + " WINS!").to_upper()
 	
 	visible = true
 	

@@ -24,7 +24,7 @@ signal race_finished(winner: RaceHorse)
 @export var ai_level_max := 10
 
 @export var ai_check_interval_min := 0.5
-@export var ai_check_interval_max := 1.0
+@export var ai_check_interval_max := 2.0
 
 @onready var finish_line: Node2D = $FinishLine
 
@@ -85,6 +85,9 @@ func spawn_bushes() -> void:
 		bushes.append(bush)
 
 func spawn_horses() -> void:
+	RaceHorse.previous_variant = -1
+	RaceHorse.used_names.clear()
+	
 	for i in horse_count:
 		var horse := horse_scene.instantiate() as RaceHorse
 		

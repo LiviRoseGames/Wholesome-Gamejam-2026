@@ -4,7 +4,16 @@
 [ext_resource type="Texture2D" uid="uid://bvwsdxexdomg4" path="res://Art/Horse/Horse1_Head.png" id="1_xnc1m"]
 [ext_resource type="Texture2D" uid="uid://pe3oyxljha7k" path="res://Art/Horse/Horse1_Face.png" id="2_e3mc8"]
 [ext_resource type="Texture2D" uid="uid://bcku55m3s2n2s" path="res://Art/Horse/Horse1_Body.png" id="2_mjxxu"]
+[ext_resource type="Texture2D" uid="uid://dnn8plyeiqosj" path="res://Art/Horse/Horse2_Body.png" id="3_eyjna"]
 [ext_resource type="Texture2D" uid="uid://fq5gseti3tfy" path="res://Art/Horse/Horse_Tarp.png" id="3_mjxxu"]
+[ext_resource type="Texture2D" uid="uid://xnalsh2dr7c" path="res://Art/Horse/Horse3_Body.png" id="4_j0jiu"]
+[ext_resource type="Texture2D" uid="uid://cj2avhs2tcfua" path="res://Art/Horse/Horse4_Body.png" id="5_soaej"]
+[ext_resource type="Texture2D" uid="uid://oj5m1rdweyw" path="res://Art/Horse/Horse2_Face.png" id="7_gw86k"]
+[ext_resource type="Texture2D" uid="uid://8l24qt0g6c13" path="res://Art/Horse/Horse3_Face.png" id="8_5o65v"]
+[ext_resource type="Texture2D" uid="uid://dlfmb7kd2y3h3" path="res://Art/Horse/Horse4_Face.png" id="9_81gri"]
+[ext_resource type="Texture2D" uid="uid://v3cwpb06wuyr" path="res://Art/Horse/Horse2_Head.png" id="11_n38vv"]
+[ext_resource type="Texture2D" uid="uid://dlfe5rj7j086h" path="res://Art/Horse/Horse3_Head.png" id="12_vsrm8"]
+[ext_resource type="Texture2D" uid="uid://cant547xpjjbv" path="res://Art/Horse/Horse4_Head.png" id="13_fmmk0"]
 
 [sub_resource type="Animation" id="Animation_e3mc8"]
 resource_name = "Horse Animation"
@@ -172,6 +181,10 @@ _data = {
 [node name="Horse" type="Node2D" unique_id=390380381]
 z_index = 10
 script = ExtResource("1_akykj")
+body_variants = Array[Texture2D]([ExtResource("2_mjxxu"), ExtResource("3_eyjna"), ExtResource("4_j0jiu"), ExtResource("5_soaej")])
+face_variants = Array[Texture2D]([ExtResource("2_e3mc8"), ExtResource("7_gw86k"), ExtResource("8_5o65v"), ExtResource("9_81gri")])
+head_variants = Array[Texture2D]([ExtResource("1_xnc1m"), ExtResource("11_n38vv"), ExtResource("12_vsrm8"), ExtResource("13_fmmk0")])
+tarp_colors = Array[Color]([Color(0.47058824, 0, 0, 1), Color(0, 0.5372549, 0, 1), Color(0, 0, 0.77254903, 1), Color(0.46675694, 0.584041, 0.2518201, 1), Color(0.38761824, 0.19882476, 0.47818947, 1), Color(0.07088811, 0.24096563, 0.26459816, 1), Color(0.9757075, 0.44539255, 0.6640381, 1), Color(0.3092085, 0.27147645, 0.031905152, 1), Color(0.82021374, 0.91012657, 0.7786057, 1), Color(0.23568496, 0.7820119, 0.6391874, 1), Color(0.8024504, 0.00055446627, 0.8123056, 1)])
 
 [node name="Head" type="Node2D" parent="." unique_id=1166562608]
 
