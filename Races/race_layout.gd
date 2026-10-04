@@ -19,10 +19,20 @@ signal race_finished(winner: RaceHorse)
 @export var first_horse_y := 680.0
 @export var horse_spacing := -200.0
 
+@export_group("AI")
+@export var ai_level_min := 1
+@export var ai_level_max := 10
+
+@export var ai_check_interval_min := 0.5
+@export var ai_check_interval_max := 1.0
+
 @onready var finish_line: Node2D = $FinishLine
 
 var horses: Array[RaceHorse] = []
 var player_horse: RaceHorse
+#var ai_score_timers: Array[float] = []
+var ai_levels: Array[int] = []
+var ai_check_timers: Array[float] = []
 
 var bushes: Array[RaceBush] = []
 
@@ -35,9 +45,11 @@ func _ready() -> void:
 	var game_manager := $"../GameManager"
 	game_manager.player_scored.connect(_on_player_scored)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if is_race_finished:
 		return
+	
+	update_ai(delta)
 	
 	for horse in horses:
 		if horse.position.x <= finish_line.position.x:
@@ -48,7 +60,7 @@ func _on_horse_finished(horse: RaceHorse) -> void:
 	is_race_finished = true
 	
 	for race_horse in horses:
-		race_horse.stop_at_finish(finish_line.position.x)
+		race_horse.stop()
 	
 	race_finished.emit(horse)
 
@@ -83,6 +95,61 @@ func spawn_horses() -> void:
 		
 		$Horses.add_child(horse)
 		horses.append(horse)
+		
+		if i == 0:
+			ai_levels.append(0)
+			ai_check_timers.append(-1.0)
+		else:
+			ai_levels.append(
+				randi_range(
+					ai_level_min,
+					ai_level_max
+				)
+			)
+			
+			ai_check_timers.append(
+				randf_range(
+					ai_check_interval_min,
+					ai_check_interval_max
+				)
+			)
 	
 	if horses.size() > 0:
 		player_horse = horses[0]
+
+func update_ai(delta: float) -> void:
+	for i in range(1, horses.size()):
+		ai_check_timers[i] -= delta
+		
+		if ai_check_timers[i] > 0.0:
+			continue
+		
+		var hole := randi_range(1, 3)
+		
+		var threshold := get_ai_threshold(
+			ai_levels[i],
+			hole
+		)
+		
+		var roll := randi_range(1, 100)
+		
+		if roll <= threshold:
+			horses[i].advance(hole)
+		
+		ai_check_timers[i] = randf_range(
+			ai_check_interval_min,
+			ai_check_interval_max
+		)
+
+func get_ai_threshold(ai_level: int, hole: int) -> int:
+	var base_threshold := 40 + (ai_level * 6)
+	
+	match hole:
+		1:
+			return base_threshold
+		3:
+			return base_threshold - 10
+		5:
+			return base_threshold - 20
+	
+	return 0
