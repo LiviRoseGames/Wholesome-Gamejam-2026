@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dqxmcg08se75n" path="res://Ball/ball.gd" id="1_l4sn5"]
 [ext_resource type="Texture2D" uid="uid://b5478nf2wdpg5" path="res://Art/Baseball_Test.png" id="2_65gad"]
+[ext_resource type="Shader" uid="uid://cxm3ct173t1wq" path="res://Ball/ball.gdshader" id="3_ngrkv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_65gad"]
+shader = ExtResource("3_ngrkv")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8gbba"]
 radius = 101.07918
@@ -12,12 +16,19 @@ linear_damp = 1.5
 angular_damp = 1.0
 script = ExtResource("1_l4sn5")
 
+[node name="Shadow" type="Polygon2D" parent="." unique_id=689782545]
+scale = Vector2(0.7, 0.5)
+skew = -0.5235988
+color = Color(0.2509804, 0, 0.31764707, 0.34901962)
+polygon = PackedVector2Array(4.755371, 51.633926, -90.73175, 75.018555, -151.14197, 127.63391, -186.21887, 186.09546, -178.42401, 244.55698, -103.37915, 305.5709, 12.1604, 315.00272, 125.34192, 312.64474, 193.72241, 293.78116, 223.01184, 250.40314, 228.85791, 197.78775, 197.67847, 137.3775, 148.96057, 94.50571, 78.80664, 63.326233)
+uv = PackedVector2Array(4.755371, 18.505737, -112.1676, 59.428802, -151.14197, 127.63391, -186.21887, 186.09546, -178.42401, 244.55698, -104.37274, 273.78775, -1.0906982, 285.48004, 55.42212, 285.48004, 162.60156, 281.5826, 223.01184, 250.40314, 228.85791, 197.78775, 197.67847, 137.3775, 137.26819, 96.45444, 78.80664, 63.326233)
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=711866344]
+texture = ExtResource("2_65gad")
+
+[node name="Highlight" type="Sprite2D" parent="." unique_id=1475042502]
+material = SubResource("ShaderMaterial_65gad")
 texture = ExtResource("2_65gad")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=801342274]
 shape = SubResource("CircleShape2D_8gbba")
-
-[node name="PointLight2D" type="PointLight2D" parent="." unique_id=457922458]
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=464896736]
