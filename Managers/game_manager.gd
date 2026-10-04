@@ -6,6 +6,7 @@ signal player_scored(points: int)
 @onready var next_round_button: TextureButton = $"../NextRoundButton"
 @onready var try_again_button: TextureButton = $"../TryAgainButton"
 @onready var transition_fade: TransitionFade = $"../TransitionFade"
+@onready var intro_screen: IntroScreen = $"../IntroScreen"
 
 var ball: GameBall
 var ball_spawn: Marker2D
@@ -50,7 +51,10 @@ func _on_race_finished(winner: RaceHorse, player_won: bool) -> void:
 	winner_popup.show_winner(winner.horse_name, player_won)
 
 	if player_won:
-		next_round_button.show_button()
+		if $"../LevelManager".is_last_level():
+			intro_screen.show_end_screen()
+		else:
+			next_round_button.show_button()
 	else:
 		try_again_button.show_button()
 
@@ -152,11 +156,15 @@ func disable_ball() -> void:
 	ball.angular_velocity = 0.0
 
 func _on_try_again_button_pressed() -> void:
+	try_again_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
 	transition_active = true
 	await transition_fade.fade_to_black()
 	$"../LevelManager".restart_level()
 
 func _on_next_round_button_pressed() -> void:
+	next_round_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
 	transition_active = true
 	await transition_fade.fade_to_black()
 	$"../LevelManager".next_level()
