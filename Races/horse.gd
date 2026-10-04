@@ -60,12 +60,12 @@ func _process(delta: float) -> void:
 			target_x,
 			movement_speed * delta
 		)
-
-		if animation_player.current_animation != "Horse Animation":
+		
+		if not animation_player.is_playing():
 			animation_player.play("Horse Animation")
-	else:
-		if animation_player.is_playing():
-			animation_player.stop()
+			
+	elif animation_player.is_playing():
+		pass
 
 func randomize_appearance() -> void:
 	if body_variants.size() > 0:
