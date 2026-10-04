@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://4hxdppls2u7a" path="res://Ball/ball.tscn" id="3_khoke"]
 [ext_resource type="Script" uid="uid://bfubmxdywgkve" path="res://Scenes/ball_hold_area.gd" id="4_u706s"]
 [ext_resource type="PackedScene" uid="uid://bbayk8d3th0cg" path="res://Hole/hole.tscn" id="5_4phem"]
+[ext_resource type="PackedScene" uid="uid://bwj8n6i640j1u" path="res://Races/piston.tscn" id="6_ohx6q"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u0qty"]
 friction = 0.0
@@ -99,5 +100,10 @@ hole_type = 1
 [node name="Hole3" parent="Holes" unique_id=1893582721 instance=ExtResource("5_4phem")]
 position = Vector2(0, -800)
 hole_type = 2
+
+[node name="Piston" parent="." unique_id=678022419 instance=ExtResource("6_ohx6q")]
+z_index = 100
+position = Vector2(567, -414)
+direction = 0
 
 [connection signal="body_entered" from="Ball" to="Ball" method="_on_body_entered"]

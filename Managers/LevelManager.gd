@@ -5,7 +5,7 @@ signal level_loaded(player_table: Node2D)
 
 @export var level_tables: Array[PackedScene]
 
-var current_level := 2
+var current_level := 1
 
 @onready var main := get_parent()
 
@@ -30,10 +30,17 @@ func load_level(level_number: int) -> void:
 
 	call_deferred("_add_player_table")
 
+func next_level() -> void:
+	if current_level < level_tables.size():
+		load_level(current_level + 1)
+
+func restart_level() -> void:
+	load_level(current_level)
 
 func _add_player_table() -> void:
-	main.add_child(player_table)
 	player_table.position = Vector2(3200.0, 1080.0)
+
+	main.add_child(player_table)
 	main.move_child(player_table, 3)
 
 	level_loaded.emit(player_table)

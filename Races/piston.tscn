@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bwj8n6i640j1u"]
+
+[ext_resource type="Texture2D" uid="uid://blpag741fj60t" path="res://Art/Obstacle_Piston.png" id="1_h34aw"]
+[ext_resource type="Script" uid="uid://c0uvohbq24std" path="res://Races/piston.gd" id="1_s8iqq"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3foiw"]
+friction = 0.0
+bounce = 0.8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3foiw"]
+size = Vector2(1138, 74)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdyat"]
+size = Vector2(74, 430)
+
+[node name="Piston" type="AnimatableBody2D" unique_id=678022419]
+physics_material_override = SubResource("PhysicsMaterial_3foiw")
+script = ExtResource("1_s8iqq")
+direction = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1772053709]
+texture = ExtResource("1_h34aw")
+
+[node name="CollisionBody" type="CollisionShape2D" parent="." unique_id=811072564]
+position = Vector2(71, -1)
+shape = SubResource("RectangleShape2D_3foiw")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1136696774]
+position = Vector2(-460, 0)
+shape = SubResource("RectangleShape2D_gdyat")
