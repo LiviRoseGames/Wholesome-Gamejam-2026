@@ -20,16 +20,19 @@ signal race_finished(winner: RaceHorse)
 @export var horse_spacing := -200.0
 
 @export_group("AI")
-@export var ai_score_interval_min := 1.0
-@export var ai_score_interval_max := 2.0
-@export var ai_points_min := 1
-@export var ai_points_max := 3
+@export var ai_level_min := 1
+@export var ai_level_max := 10
+
+@export var ai_check_interval_min := 0.5
+@export var ai_check_interval_max := 1.0
 
 @onready var finish_line: Node2D = $FinishLine
 
 var horses: Array[RaceHorse] = []
 var player_horse: RaceHorse
-var ai_score_timers: Array[float] = []
+#var ai_score_timers: Array[float] = []
+var ai_levels: Array[int] = []
+var ai_check_timers: Array[float] = []
 
 var bushes: Array[RaceBush] = []
 
@@ -94,12 +97,20 @@ func spawn_horses() -> void:
 		horses.append(horse)
 		
 		if i == 0:
-			ai_score_timers.append(-1.0)
+			ai_levels.append(0)
+			ai_check_timers.append(-1.0)
 		else:
-			ai_score_timers.append(
+			ai_levels.append(
+				randi_range(
+					ai_level_min,
+					ai_level_max
+				)
+			)
+			
+			ai_check_timers.append(
 				randf_range(
-					ai_score_interval_min,
-					ai_score_interval_max
+					ai_check_interval_min,
+					ai_check_interval_max
 				)
 			)
 	
@@ -108,17 +119,37 @@ func spawn_horses() -> void:
 
 func update_ai(delta: float) -> void:
 	for i in range(1, horses.size()):
-		ai_score_timers[i] -= delta
+		ai_check_timers[i] -= delta
 		
-		if ai_score_timers[i] <= 0.0:
-			var points := randi_range(
-				ai_points_min,
-				ai_points_max
-			)
-			
-			horses[i].advance(points)
-			
-			ai_score_timers[i] = randf_range(
-				ai_score_interval_min,
-				ai_score_interval_max
-			)
+		if ai_check_timers[i] > 0.0:
+			continue
+		
+		var hole := randi_range(1, 3)
+		
+		var threshold := get_ai_threshold(
+			ai_levels[i],
+			hole
+		)
+		
+		var roll := randi_range(1, 100)
+		
+		if roll <= threshold:
+			horses[i].advance(hole)
+		
+		ai_check_timers[i] = randf_range(
+			ai_check_interval_min,
+			ai_check_interval_max
+		)
+
+func get_ai_threshold(ai_level: int, hole: int) -> int:
+	var base_threshold := 40 + (ai_level * 6)
+	
+	match hole:
+		1:
+			return base_threshold
+		3:
+			return base_threshold - 10
+		5:
+			return base_threshold - 20
+	
+	return 0
