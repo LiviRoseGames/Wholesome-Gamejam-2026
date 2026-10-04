@@ -19,6 +19,8 @@
 [ext_resource type="Script" uid="uid://bgog2eoeu84hg" path="res://Scenes/next_round_button.gd" id="14_k12tt"]
 [ext_resource type="Texture2D" uid="uid://brmv1f2yukek1" path="res://Art/CloudContainerNew.png" id="14_wsu2k"]
 [ext_resource type="Script" uid="uid://dxj56qs8jm5vh" path="res://Scenes/try_again.gd" id="16_h1bgf"]
+[ext_resource type="Script" uid="uid://hyjb76w31r7i" path="res://Scenes/intro_screen.gd" id="20_hibaj"]
+[ext_resource type="Script" uid="uid://rcefv2st3y2u" path="res://Scenes/start_button.gd" id="21_pdsj5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3foiw"]
 shader = ExtResource("11_b3802")
@@ -57,7 +59,7 @@ material = SubResource("ShaderMaterial_3foiw")
 offset_left = -202.0
 offset_top = -320.0
 offset_right = 4088.0
-offset_bottom = 2512.0
+offset_bottom = 3582.0
 color = Color(0.60784316, 0.09411765, 0.23529412, 1)
 script = ExtResource("12_fevyy")
 
@@ -112,5 +114,133 @@ fit_content = true
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
+[node name="IntroScreen" type="Control" parent="." unique_id=911840461]
+z_index = 1000
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 3840.0
+offset_bottom = 2160.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("20_hibaj")
+
+[node name="Title" type="Control" parent="IntroScreen" unique_id=526215163]
+z_index = 1
+anchors_preset = 0
+offset_top = 600.0
+offset_right = 3840.0
+offset_bottom = 850.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Wild" type="RichTextLabel" parent="IntroScreen/Title" unique_id=622601877]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.26093748
+anchor_top = -1.912
+anchor_right = -0.2609375
+anchor_bottom = -1.276
+offset_left = -6.1035156e-05
+offset_top = 846.0
+offset_right = 3840.0
+offset_bottom = 1096.0
+rotation = -0.20943952
+theme_override_colors/font_outline_color = Color(0.16470589, 0.14117648, 0.1882353, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/normal_font_size = 140
+bbcode_enabled = true
+text = "[center][font_size=300][color=#FFF4E6]Wild[/color][/font_size][/center]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Derby" type="RichTextLabel" parent="IntroScreen/Title" unique_id=791558494]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.015885416
+anchor_top = -5.724
+anchor_right = 0.015885416
+anchor_bottom = -5.088
+offset_top = 1209.0
+offset_right = 3840.0
+offset_bottom = 1459.0
+theme_override_colors/font_outline_color = Color(0.16470589, 0.14117648, 0.1882353, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/normal_font_size = 140
+bbcode_enabled = true
+text = "[center][font_size=300][color=#FFD95A]Derby[/color][/font_size][/center]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Carnival" type="RichTextLabel" parent="IntroScreen/Title" unique_id=1743671466]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.30885416
+anchor_top = -4.108
+anchor_right = 0.30885416
+anchor_bottom = -3.472
+offset_left = 159.0
+offset_top = 595.0
+offset_right = 3999.0
+offset_bottom = 845.0
+rotation = 0.20943952
+theme_override_colors/font_outline_color = Color(0.16470589, 0.14117648, 0.1882353, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/normal_font_size = 140
+bbcode_enabled = true
+text = "[center][font_size=300][color=#8FDDEB]Carnival[/color][/font_size][/center]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="StartButton" type="TextureButton" parent="IntroScreen" unique_id=444366551]
+material = SubResource("ShaderMaterial_h1bgf")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1240.0
+offset_top = -1180.0
+offset_right = -240.0
+offset_bottom = -380.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.5, 2.5)
+tooltip_text = "TRY AGAIN?
+"
+texture_normal = ExtResource("14_wsu2k")
+script = ExtResource("21_pdsj5")
+
+[node name="StartLabel" type="RichTextLabel" parent="IntroScreen/StartButton" unique_id=908760387]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.19100001
+anchor_top = 0.54825
+anchor_right = 0.81000006
+anchor_bottom = 0.767
+offset_left = -1.5258789e-05
+offset_top = 0.3999939
+offset_right = -6.1035156e-05
+offset_bottom = 0.39996338
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0.16470589, 0.14117648, 0.1882353, 1)
+theme_override_constants/outline_size = 10
+bbcode_enabled = true
+text = "[center][font_size=72][color=#FFD95A]✦[/color] [color=#FFF4E6]START RACE[/color] [color=#FFD95A]✦[/color][/font_size][/center]"
+fit_content = true
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
 [connection signal="pressed" from="NextRoundButton" to="GameManager" method="_on_next_round_button_pressed"]
 [connection signal="pressed" from="TryAgainButton" to="GameManager" method="_on_try_again_button_pressed"]
+[connection signal="pressed" from="IntroScreen/StartButton" to="IntroScreen" method="_on_start_button_pressed"]
