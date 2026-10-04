@@ -1,6 +1,8 @@
 class_name RaceHorse
 extends Node2D
 
+@export var horse_name := "Horse"
+
 @export_group("Movement")
 @export var movement_speed := 300.0
 @export var distance_per_point := 100.0
@@ -28,3 +30,9 @@ func _process(delta: float) -> void:
 
 func advance(points: int) -> void:
 	target_x -= points * distance_per_point
+
+func stop_at_finish(finish_x: float) -> void:
+	if position.x > finish_x:
+		target_x = finish_x
+	else:
+		target_x = position.x
