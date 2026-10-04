@@ -19,10 +19,17 @@ signal race_finished(winner: RaceHorse)
 @export var first_horse_y := 680.0
 @export var horse_spacing := -200.0
 
+@export_group("AI")
+@export var ai_score_interval_min := 1.0
+@export var ai_score_interval_max := 2.0
+@export var ai_points_min := 1
+@export var ai_points_max := 3
+
 @onready var finish_line: Node2D = $FinishLine
 
 var horses: Array[RaceHorse] = []
 var player_horse: RaceHorse
+var ai_score_timers: Array[float] = []
 
 var bushes: Array[RaceBush] = []
 
@@ -35,9 +42,11 @@ func _ready() -> void:
 	var game_manager := $"../GameManager"
 	game_manager.player_scored.connect(_on_player_scored)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if is_race_finished:
 		return
+	
+	update_ai(delta)
 	
 	for horse in horses:
 		if horse.position.x <= finish_line.position.x:
@@ -48,7 +57,7 @@ func _on_horse_finished(horse: RaceHorse) -> void:
 	is_race_finished = true
 	
 	for race_horse in horses:
-		race_horse.stop_at_finish(finish_line.position.x)
+		race_horse.stop()
 	
 	race_finished.emit(horse)
 
@@ -83,6 +92,33 @@ func spawn_horses() -> void:
 		
 		$Horses.add_child(horse)
 		horses.append(horse)
+		
+		if i == 0:
+			ai_score_timers.append(-1.0)
+		else:
+			ai_score_timers.append(
+				randf_range(
+					ai_score_interval_min,
+					ai_score_interval_max
+				)
+			)
 	
 	if horses.size() > 0:
 		player_horse = horses[0]
+
+func update_ai(delta: float) -> void:
+	for i in range(1, horses.size()):
+		ai_score_timers[i] -= delta
+		
+		if ai_score_timers[i] <= 0.0:
+			var points := randi_range(
+				ai_points_min,
+				ai_points_max
+			)
+			
+			horses[i].advance(points)
+			
+			ai_score_timers[i] = randf_range(
+				ai_score_interval_min,
+				ai_score_interval_max
+			)
