@@ -94,17 +94,17 @@ shape = SubResource("RectangleShape2D_ef17l")
 position = Vector2(-384, -456)
 
 [node name="Hole2" parent="Holes" unique_id=569882683 instance=ExtResource("5_thy8f")]
-position = Vector2(0, -896)
+position = Vector2(392, 0)
 hole_type = 1
 
 [node name="Hole3" parent="Holes" unique_id=1893582721 instance=ExtResource("5_thy8f")]
-position = Vector2(392, 0)
+position = Vector2(0, -896)
 hole_type = 2
 
 [node name="Block" parent="." unique_id=678022419 instance=ExtResource("6_lpyfv")]
 z_index = 2
 position = Vector2(392, 224)
-direction = 2
+move_distance = 400.0
 
 [node name="Piston" parent="." unique_id=1658564570 instance=ExtResource("7_ainfd")]
 z_index = 2

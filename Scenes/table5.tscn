@@ -103,6 +103,7 @@ hole_type = 2
 [node name="Block" parent="Holes" unique_id=678022419 instance=ExtResource("6_1n3bh")]
 z_index = 2
 position = Vector2(-368, 264)
+direction = 1
 move_distance = 350.0
 move_time = 0.75
 
