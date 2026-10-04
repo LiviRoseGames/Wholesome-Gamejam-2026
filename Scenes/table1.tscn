@@ -78,7 +78,6 @@ linear_damp = 0.1
 angular_damp = 0.1
 
 [node name="BallSpawn" type="Marker2D" parent="." unique_id=759912438]
-position = Vector2(280, 861)
 
 [node name="BallHoldArea" type="Area2D" parent="." unique_id=1802968624]
 script = ExtResource("4_u706s")

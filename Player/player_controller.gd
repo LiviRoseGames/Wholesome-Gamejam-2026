@@ -101,12 +101,20 @@ func is_mouse_over_ball(mouse_position: Vector2) -> bool:
 
 	return local_mouse.length() <= shape.radius
 
+func can_pick_up_ball() -> bool:
+	if ball == null:
+		return false
+	
+	if ball.is_returning:
+		return false
+	
+	if ball.is_held:
+		return true
+	
+	return ball_hold_area.overlaps_body(ball)
 
 func start_aiming() -> void:
-	if ball.is_in_play:
-		return
-
-	if ball.is_returning:
+	if not can_pick_up_ball():
 		return
 
 	is_aiming = true
