@@ -5,6 +5,26 @@
 [ext_resource type="PackedScene" uid="uid://4hxdppls2u7a" path="res://Ball/ball.tscn" id="3_ipb7x"]
 [ext_resource type="PackedScene" uid="uid://bbayk8d3th0cg" path="res://Hole/hole.tscn" id="5_6ex0o"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u0qty"]
+friction = 0.0
+bounce = 0.8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3foiw"]
+size = Vector2(119, 2264.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdyat"]
+size = Vector2(119, 2264.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kani2"]
+size = Vector2(1325, 416)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2jn0s"]
+size = Vector2(1325, 416)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ipb7x"]
+friction = 0.0
+bounce = 0.2
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ef17l"]
 size = Vector2(1280, 500)
 
@@ -20,8 +40,36 @@ position = Vector2(0, -216)
 scale = Vector2(1, 0.8)
 texture = ExtResource("2_gwftx")
 
+[node name="TableSides" type="Node2D" parent="." unique_id=1855572765]
+
+[node name="Left" type="StaticBody2D" parent="TableSides" unique_id=1043553436]
+physics_material_override = SubResource("PhysicsMaterial_u0qty")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Left" unique_id=1723533799]
+position = Vector2(-700, 0)
+shape = SubResource("RectangleShape2D_3foiw")
+
+[node name="Right" type="StaticBody2D" parent="TableSides" unique_id=225905138]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Right" unique_id=2039347073]
+position = Vector2(700, 0)
+shape = SubResource("RectangleShape2D_gdyat")
+
+[node name="Top" type="StaticBody2D" parent="TableSides" unique_id=763046273]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Top" unique_id=1661767426]
+position = Vector2(0, -1288)
+shape = SubResource("RectangleShape2D_kani2")
+
+[node name="Bottom" type="StaticBody2D" parent="TableSides" unique_id=668653793]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Bottom" unique_id=636785991]
+position = Vector2(0, 1288)
+shape = SubResource("RectangleShape2D_2jn0s")
+
 [node name="Ball" parent="." unique_id=297288324 instance=ExtResource("3_ipb7x")]
 position = Vector2(-1456, 578)
+physics_material_override = SubResource("PhysicsMaterial_ipb7x")
 
 [node name="BallSpawn" type="Marker2D" parent="." unique_id=759912438]
 position = Vector2(280, 861)
