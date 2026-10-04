@@ -1,5 +1,7 @@
 extends Node
 
+signal player_scored(points: int)
+
 @onready var player_table: Node2D = $"../PlayerTable"
 @onready var ball: GameBall = $"../PlayerTable/Ball"
 @onready var ball_spawn: Marker2D = $"../PlayerTable/BallSpawn"
@@ -53,6 +55,10 @@ func _process(_delta: float) -> void:
 
 func _on_ball_scored(points: int, hole_position: Vector2) -> void:
 	player_score += points
+	player_scored.emit(points)
+
+	print("Player scored ", points, " point(s)!")
+	print("Player score: ", player_score)
 	
 	call_deferred("_handle_ball_scored", hole_position)
 

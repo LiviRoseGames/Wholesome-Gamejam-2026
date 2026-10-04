@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cagi87ntbp2mc"]
 
+[ext_resource type="Script" uid="uid://di6k3nrrw2cpj" path="res://Races/horse.gd" id="1_akykj"]
 [ext_resource type="Texture2D" uid="uid://bvwsdxexdomg4" path="res://Art/Horse/Horse1_Head.png" id="1_xnc1m"]
 [ext_resource type="Texture2D" uid="uid://pe3oyxljha7k" path="res://Art/Horse/Horse1_Face.png" id="2_e3mc8"]
 [ext_resource type="Texture2D" uid="uid://bcku55m3s2n2s" path="res://Art/Horse/Horse1_Body.png" id="2_mjxxu"]
@@ -7,6 +8,7 @@
 
 [sub_resource type="Animation" id="Animation_e3mc8"]
 resource_name = "Horse Animation"
+loop_mode = 1
 step = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -168,6 +170,8 @@ _data = {
 }
 
 [node name="Horse" type="Node2D" unique_id=390380381]
+z_index = 10
+script = ExtResource("1_akykj")
 
 [node name="Head" type="Node2D" parent="." unique_id=1166562608]
 
