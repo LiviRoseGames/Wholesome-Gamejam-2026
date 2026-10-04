@@ -2,6 +2,9 @@ class_name IntroScreen
 extends Control
 
 @onready var start_button: Control = $StartButton
+@onready var replay_button: Control = $Control/ReplayButton
+@onready var end_screen: Sprite2D = $Control/EndScreen
+
 @onready var transition_fade: TransitionFade = $"../TransitionFade"
 @onready var start_label: RichTextLabel = $StartButton/StartLabel
 @onready var horse_title: RichTextLabel = $Title/Wild
@@ -32,6 +35,9 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	transition_fade.set_progress(1.0)
+
+	end_screen.hide()
+	replay_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	horse_start_position = horse_title.position
 	derby_start_position = derby_title.position
@@ -117,6 +123,27 @@ func _on_start_button_pressed() -> void:
 	start_button.hide()
 
 	await transition_fade.fade_from_black()
+
+	visible = false
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+
+func show_end_screen() -> void:
+	visible = true
+	mouse_filter = Control.MOUSE_FILTER_STOP
+
+	$Title.hide()
+	start_button.hide()
+
+	end_screen.show()
+	replay_button.mouse_filter = Control.MOUSE_FILTER_STOP
+
+
+func _on_replay_button_pressed() -> void:
+	replay_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	end_screen.hide()
+
+	$"../LevelManager".load_level(1)
 
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
