@@ -38,7 +38,7 @@ func _on_level_loaded(new_player_table: Node2D) -> void:
 		if hole is ScoringHole:
 			hole.ball_scored.connect(_on_ball_scored)
 
-	respawn_ball()
+	hide_ball()
 
 	if transition_active:
 		transition_active = false
@@ -102,6 +102,15 @@ func release_ball_from_hole(hole_position: Vector2) -> void:
 
 	ball.z_index = ball.spawn_z_index - 1
 
+func hide_ball() -> void:
+	ball.visible = false
+	ball.freeze = true
+	ball.is_in_play = false
+	ball.is_held = false
+	ball.is_returning = false
+
+	ball.linear_velocity = Vector2.ZERO
+	ball.angular_velocity = 0.0
 
 func respawn_ball() -> void:
 	ball.visible = true
@@ -119,7 +128,21 @@ func respawn_ball() -> void:
 
 	ball.z_index = ball.spawn_z_index
 
-
+func drop_ball_into_play() -> void:
+	ball.visible = true
+	ball.modulate.a = 1.0
+	ball.scale = Vector2.ONE
+	
+	ball.global_position = ball_spawn.global_position
+	ball.linear_velocity = Vector2.ZERO
+	ball.angular_velocity = 0.0
+	
+	ball.is_in_play = false
+	ball.is_held = false
+	ball.is_returning = true
+	ball.freeze = false
+	ball.fall_velocity = 0.0
+	ball.z_index = ball.spawn_z_index
 func disable_ball() -> void:
 	ball.is_held = false
 	ball.is_in_play = false

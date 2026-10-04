@@ -32,10 +32,13 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 
 	visible = false
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func show_button() -> void:
 	visible = true
+	mouse_filter = Control.MOUSE_FILTER_STOP
+
 	scale = Vector2.ZERO
 	rotation = 0.0
 
@@ -50,12 +53,14 @@ func show_button() -> void:
 
 	await pop_tween.finished
 	wiggle_loop()
-	
+
+
 func _on_mouse_entered() -> void:
 	if shader_material == null:
 		return
 
 	var tween := create_tween()
+
 	tween.tween_method(
 		set_glow_strength,
 		shader_material.get_shader_parameter("glow_strength"),
@@ -69,6 +74,7 @@ func _on_mouse_exited() -> void:
 		return
 
 	var tween := create_tween()
+
 	tween.tween_method(
 		set_glow_strength,
 		shader_material.get_shader_parameter("glow_strength"),

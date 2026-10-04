@@ -32,6 +32,9 @@ signal race_finished(winner: RaceHorse, player_won: bool)
 
 var horses: Array[RaceHorse] = []
 var player_horse: RaceHorse
+var horse_selected := false
+var race_started := false
+
 #var ai_score_timers: Array[float] = []
 var ai_levels: Array[int] = []
 var ai_check_timers: Array[float] = []
@@ -52,11 +55,14 @@ func _ready() -> void:
 	level_manager.level_loaded.connect(_on_level_loaded)
 
 func _process(delta: float) -> void:
+	if not race_started:
+		return
+
 	if is_race_finished:
 		return
-	
+
 	update_ai(delta)
-	
+
 	for horse in horses:
 		if horse.position.x <= finish_line.position.x + finish_line_offset:
 			_on_horse_finished(horse)
@@ -64,6 +70,22 @@ func _process(delta: float) -> void:
 
 func _on_level_loaded(_player_table: Node2D) -> void:
 	reset_race()
+
+func _on_horse_selected(horse: RaceHorse) -> void:
+	print("PLAYER HORSE SELECTED: ", horse.horse_name)
+	
+	if race_started:
+		return
+
+	player_horse = horse
+	horse_selected = true
+
+	for race_horse in horses:
+		race_horse.set_selected(race_horse == horse)
+
+	race_started = true
+
+	$"../GameManager".drop_ball_into_play()
 
 func _on_horse_finished(horse: RaceHorse) -> void:
 	is_race_finished = true
@@ -77,7 +99,13 @@ func _on_horse_finished(horse: RaceHorse) -> void:
 	race_finished.emit(horse, player_won)
 
 func _on_player_scored(points: int) -> void:
+	if not race_started:
+		return
+	
 	if is_race_finished:
+		return
+	
+	if player_horse == null:
 		return
 	
 	player_horse.advance(points)
@@ -99,44 +127,37 @@ func spawn_bushes() -> void:
 func spawn_horses() -> void:
 	RaceHorse.previous_variant = -1
 	RaceHorse.used_names.clear()
-	
+
 	for i in horse_count:
 		var horse := horse_scene.instantiate() as RaceHorse
-		
 		var y_position := first_horse_y + (i * horse_spacing)
-		
+
 		horse.position = Vector2(race_start_x, y_position)
 		horse.z_index = 19 - (i * 3)
-		
+
 		$Horses.add_child(horse)
 		horses.append(horse)
-		
-		if i == 0:
-			ai_levels.append(0)
-			ai_check_timers.append(-1.0)
-			ai_second_try_guaranteed.append(false)
-		else:
-			ai_levels.append(
-				randi_range(
-					ai_level_min,
-					ai_level_max
-				)
+
+		horse.selected.connect(_on_horse_selected)
+
+		ai_levels.append(
+			randi_range(ai_level_min, ai_level_max)
+		)
+
+		ai_check_timers.append(
+			randf_range(
+				ai_check_interval_min,
+				ai_check_interval_max
 			)
-			
-			ai_check_timers.append(
-				randf_range(
-					ai_check_interval_min,
-					ai_check_interval_max
-				)
-			)
-			
+		)
+
 		ai_second_try_guaranteed.append(false)
-	
-	if horses.size() > 0:
-		player_horse = horses[0]
 
 func reset_race() -> void:
 	is_race_finished = false
+	horse_selected = false
+	race_started = false
+	player_horse = null
 	winner_popup.hide()
 
 	for horse in horses:
@@ -150,7 +171,10 @@ func reset_race() -> void:
 	spawn_horses()
 
 func update_ai(delta: float) -> void:
-	for i in range(1, horses.size()):
+	for i in range(horses.size()):
+		if horses[i] == player_horse:
+			continue
+		
 		ai_check_timers[i] -= delta
 		
 		if ai_check_timers[i] > 0.0:

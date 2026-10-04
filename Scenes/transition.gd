@@ -8,6 +8,8 @@ extends ColorRect
 
 
 func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+
 	shader_material.set_shader_parameter("progress", 0.0)
 	shader_material.set_shader_parameter("edge_size", edge_size)
 
@@ -36,6 +38,7 @@ func fade_from_black() -> void:
 	).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 
 	await tween.finished
+
 
 func set_progress(value: float) -> void:
 	shader_material.set_shader_parameter("progress", value)

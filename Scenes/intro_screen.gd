@@ -29,6 +29,7 @@ var carnival_start_position := Vector2.ZERO
 
 func _ready() -> void:
 	visible = true
+	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	transition_fade.set_progress(1.0)
 
@@ -118,3 +119,4 @@ func _on_start_button_pressed() -> void:
 	await transition_fade.fade_from_black()
 
 	visible = false
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
