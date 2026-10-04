@@ -59,8 +59,22 @@ func _handle_ball_scored(hole_position: Vector2) -> void:
 
 	await tween.finished
 
-	respawn_ball()
+	release_ball_from_hole(hole_position)
 
+func release_ball_from_hole(hole_position: Vector2) -> void:
+	ball.global_position = hole_position
+	ball.scale = Vector2.ONE
+
+	ball.linear_velocity = Vector2.ZERO
+	ball.angular_velocity = 0.0
+
+	ball.fall_velocity = 0.0
+	ball.is_returning = true
+	ball.is_in_play = false
+	ball.is_held = false
+	ball.freeze = false
+
+	ball.z_index = ball.spawn_z_index - 1
 
 func respawn_ball() -> void:
 	ball.visible = true
