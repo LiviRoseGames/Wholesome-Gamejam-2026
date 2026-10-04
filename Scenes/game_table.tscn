@@ -68,12 +68,11 @@ shape = SubResource("RectangleShape2D_kani2")
 position = Vector2(0, 1288)
 shape = SubResource("RectangleShape2D_2jn0s")
 
-[node name="Ball" parent="." unique_id=297288324 node_paths=PackedStringArray("ball_hold_area") instance=ExtResource("3_ipb7x")]
+[node name="Ball" parent="." unique_id=297288324 instance=ExtResource("3_ipb7x")]
 position = Vector2(-1456, 578)
 physics_material_override = SubResource("PhysicsMaterial_ipb7x")
 linear_damp = 0.1
 angular_damp = 0.1
-ball_hold_area = NodePath("../BallHoldArea")
 
 [node name="BallSpawn" type="Marker2D" parent="." unique_id=759912438]
 position = Vector2(280, 861)
@@ -97,3 +96,5 @@ hole_type = 1
 [node name="Hole3" parent="Holes" unique_id=1893582721 instance=ExtResource("5_6ex0o")]
 position = Vector2(1, -876)
 hole_type = 2
+
+[connection signal="body_entered" from="Ball" to="Ball" method="_on_body_entered"]
