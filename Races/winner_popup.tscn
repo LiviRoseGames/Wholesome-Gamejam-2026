@@ -10,13 +10,15 @@ script = ExtResource("1_7q8f5")
 [node name="CloudContainer" type="Sprite2D" parent="." unique_id=1782063397]
 texture = ExtResource("2_7q8f5")
 
-[node name="WinnerLabel" type="Label" parent="CloudContainer" unique_id=739419367]
-offset_left = -210.0
-offset_top = 16.0
-offset_right = 308.0
-offset_bottom = 232.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
-text = "Horse Wins!"
+[node name="WinnerLabel" type="RichTextLabel" parent="CloudContainer" unique_id=141013105]
+offset_left = -260.0
+offset_top = 30.0
+offset_right = 258.0
+offset_bottom = 246.0
+theme_override_colors/font_outline_color = Color(0.16470589, 0.14117648, 0.1882353, 1)
+theme_override_constants/outline_size = 10
+bbcode_enabled = true
+text = "+"
+fit_content = true
 horizontal_alignment = 1
-vertical_alignment = 1
+metadata/_edit_use_anchors_ = true

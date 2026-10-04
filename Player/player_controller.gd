@@ -18,18 +18,23 @@ extends Node
 @export var default_hotspot := Vector2.ZERO
 @export var holding_hotspot := Vector2(128, 0)
 
-@onready var ball: GameBall = player_table.get_node("Ball")
-@onready var ball_hold_area: Area2D = player_table.get_node("BallHoldArea")
+var ball: GameBall
+var ball_hold_area: Area2D
 
 var is_aiming := false
 var holding_cursor_active := false
 var previous_mouse_position := Vector2.ZERO
 
 func _ready() -> void:
+	var level_manager := $"../LevelManager"
+	level_manager.level_loaded.connect(_on_level_loaded)
+
 	update_cursor()
 
-
 func _process(delta: float) -> void:
+	if player_table == null:
+		return
+	
 	var mouse_position := player_table.get_global_mouse_position()
 
 	if not is_aiming and holding_cursor_active:
@@ -65,6 +70,11 @@ func _process(delta: float) -> void:
 	)
 
 	previous_mouse_position = mouse_position
+
+func _on_level_loaded(new_player_table: Node2D) -> void:
+	player_table = new_player_table
+	ball = player_table.get_node("Ball") as GameBall
+	ball_hold_area = player_table.get_node("BallHoldArea") as Area2D
 
 func update_cursor() -> void:
 	if holding_cursor_active:
