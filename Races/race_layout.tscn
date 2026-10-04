@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://c1nhfqb8i3ccn"]
+
+[ext_resource type="Script" uid="uid://b4m613n1xtd3b" path="res://Races/race_layout.gd" id="1_bg76s"]
+[ext_resource type="Texture2D" uid="uid://bscf7hrsqyp8j" path="res://Art/Sky.png" id="1_c77hu"]
+[ext_resource type="PackedScene" uid="uid://q3bfbrvuyegs" path="res://Races/bush.tscn" id="2_c77hu"]
+[ext_resource type="Texture2D" uid="uid://d3cdegg3qbsg" path="res://Art/Finish_Line.png" id="3_c1qnt"]
+[ext_resource type="PackedScene" uid="uid://cagi87ntbp2mc" path="res://Races/horse.tscn" id="3_i8in6"]
+[ext_resource type="PackedScene" uid="uid://bjgxdnwmnta8o" path="res://Races/winner_popup.tscn" id="6_c1qnt"]
+
+[node name="RaceLayout" type="Node2D" unique_id=1174800223]
+script = ExtResource("1_bg76s")
+bush_scene = ExtResource("2_c77hu")
+horse_scene = ExtResource("3_i8in6")
+
+[node name="Sky" type="Sprite2D" parent="." unique_id=156779241]
+texture = ExtResource("1_c77hu")
+metadata/_edit_lock_ = true
+
+[node name="Bushes" type="Node2D" parent="." unique_id=1988334404]
+
+[node name="FinishLine" type="Node2D" parent="." unique_id=302187849]
+z_index = 30
+position = Vector2(-1080, 180)
+
+[node name="Sprite2D" type="Sprite2D" parent="FinishLine" unique_id=1233619384]
+texture = ExtResource("3_c1qnt")
+
+[node name="Horses" type="Node2D" parent="." unique_id=1396581769]
+
+[node name="WinnerPopup" parent="." unique_id=525302044 instance=ExtResource("6_c1qnt")]
+z_index = 30
+position = Vector2(0, -500)
+scale = Vector2(1.5, 1.5)
