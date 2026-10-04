@@ -6,7 +6,7 @@ signal level_changed(level_number: int)
 
 @export var level_tables: Array[PackedScene]
 
-var current_level := 5
+var current_level := 1
 var player_table: Node2D
 
 @onready var main := get_parent()
