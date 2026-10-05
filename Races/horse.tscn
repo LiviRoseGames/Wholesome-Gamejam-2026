@@ -11,10 +11,17 @@
 [ext_resource type="Texture2D" uid="uid://oj5m1rdweyw" path="res://Art/Horse/Horse2_Face.png" id="7_gw86k"]
 [ext_resource type="Texture2D" uid="uid://8l24qt0g6c13" path="res://Art/Horse/Horse3_Face.png" id="8_5o65v"]
 [ext_resource type="Texture2D" uid="uid://dlfmb7kd2y3h3" path="res://Art/Horse/Horse4_Face.png" id="9_81gri"]
+[ext_resource type="Texture2D" uid="uid://4fbpqkqp7hxt" path="res://Art/Horse/Horse5_Face.png" id="10_fmmk0"]
 [ext_resource type="Texture2D" uid="uid://v3cwpb06wuyr" path="res://Art/Horse/Horse2_Head.png" id="11_n38vv"]
+[ext_resource type="Texture2D" uid="uid://bdfwdkmxkc6hm" path="res://Art/Horse/Horse6_Face.png" id="11_rskbu"]
+[ext_resource type="Texture2D" uid="uid://dkmcb6jlomytf" path="res://Art/Horse/Horse7_Face.png" id="12_cfkbg"]
 [ext_resource type="Texture2D" uid="uid://dlfe5rj7j086h" path="res://Art/Horse/Horse3_Head.png" id="12_vsrm8"]
 [ext_resource type="Texture2D" uid="uid://cant547xpjjbv" path="res://Art/Horse/Horse4_Head.png" id="13_fmmk0"]
+[ext_resource type="Texture2D" uid="uid://chdgutil0aesi" path="res://Art/Horse/Horse8_Face.png" id="13_rp7dh"]
 [ext_resource type="Shader" uid="uid://dretd6iaj4e0q" path="res://Scenes/hoverglow.gdshader" id="14_j0jiu"]
+[ext_resource type="Texture2D" uid="uid://bt0qb7v0u7fuw" path="res://Art/Horse/Horse9_Face.png" id="14_wl60u"]
+[ext_resource type="Texture2D" uid="uid://bscmnadx2jg07" path="res://Art/Horse/Horse10_Face.png" id="15_tjpq6"]
+[ext_resource type="Texture2D" uid="uid://cqkbt1xgafiyr" path="res://Art/Horse/Horse11_Face.png" id="16_v2kdr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j0jiu"]
 shader = ExtResource("14_j0jiu")
@@ -191,7 +198,7 @@ size = Vector2(357.02304, 163.85516)
 z_index = 10
 script = ExtResource("1_akykj")
 body_variants = Array[Texture2D]([ExtResource("2_mjxxu"), ExtResource("3_eyjna"), ExtResource("4_j0jiu"), ExtResource("5_soaej")])
-face_variants = Array[Texture2D]([ExtResource("2_e3mc8"), ExtResource("7_gw86k"), ExtResource("8_5o65v"), ExtResource("9_81gri")])
+face_variants = Array[Texture2D]([ExtResource("2_e3mc8"), ExtResource("7_gw86k"), ExtResource("8_5o65v"), ExtResource("9_81gri"), ExtResource("10_fmmk0"), ExtResource("11_rskbu"), ExtResource("12_cfkbg"), ExtResource("13_rp7dh"), ExtResource("14_wl60u"), ExtResource("15_tjpq6"), ExtResource("16_v2kdr")])
 head_variants = Array[Texture2D]([ExtResource("1_xnc1m"), ExtResource("11_n38vv"), ExtResource("12_vsrm8"), ExtResource("13_fmmk0")])
 tarp_colors = Array[Color]([Color(0.70980394, 0, 0.14117648, 1), Color(0.8666667, 0.3372549, 0, 1), Color(0.85882354, 0.3254902, 0.21568628, 1), Color(0.76862746, 0.73333335, 0, 1), Color(0.14901961, 0.6392157, 0, 1), Color(0, 0.6313726, 0.5137255, 1), Color(0.1764706, 0.57254905, 0.7882353, 1), Color(0.1254902, 0.26666668, 0.6901961, 1), Color(0.3882353, 0.1254902, 0.6901961, 1), Color(1, 0.17254902, 0.42745098, 1), Color(0.54901963, 0.5058824, 0.4745098, 1)])
 
