@@ -26,7 +26,15 @@ signal selected(horse: RaceHorse)
 	"Button",
 	"Mochi",
 	"Jellybean",
-	"Thunder"
+	"Thunder",
+	"Alex",
+	"Johnathan",
+	"Samule",
+	"Bosco",
+	"Livi",
+	"Choco",
+	"Hatsune Miku"
+	
 ]
 
 @export_group("Movement")
