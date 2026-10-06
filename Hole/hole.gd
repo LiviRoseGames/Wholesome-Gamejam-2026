@@ -9,7 +9,7 @@ enum HoleType {
 
 @export var hole_type: HoleType = HoleType.YELLOW
 
-signal ball_scored(points: int, hole_position: Vector2)
+signal ball_scored(hole: ScoringHole)
 
 @onready var ring: Sprite2D = $Ring
 
@@ -29,9 +29,8 @@ func _setup_hole() -> void:
 			ring.modulate = Color.RED
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is GameBall:
-		var points := get_points()
-		ball_scored.emit(points, global_position)
+	if body is GameBall and body.is_in_play():
+		ball_scored.emit(self)
 
 func get_points() -> int:
 	match hole_type:

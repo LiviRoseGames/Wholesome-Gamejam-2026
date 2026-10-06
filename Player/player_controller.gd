@@ -105,11 +105,8 @@ func can_pick_up_ball() -> bool:
 	if ball == null:
 		return false
 	
-	if ball.is_returning:
+	if not ball.is_pickup_available():
 		return false
-	
-	if ball.is_held:
-		return true
 	
 	return ball_hold_area.overlaps_body(ball)
 

@@ -58,18 +58,18 @@ func _on_race_finished(winner: RaceHorse, player_won: bool) -> void:
 	else:
 		try_again_button.show_button()
 
-func _on_ball_scored(points: int, hole_position: Vector2) -> void:
+func _on_ball_scored(hole: ScoringHole) -> void:
+	var points := hole.get_points()
+	var hole_position := hole.global_position
+
 	player_score += points
 	player_scored.emit(points)
 
+	ball.begin_scoring()
+
 	call_deferred("_handle_ball_scored", hole_position)
 
-
 func _handle_ball_scored(hole_position: Vector2) -> void:
-	ball.freeze = true
-	ball.linear_velocity = Vector2.ZERO
-	ball.angular_velocity = 0.0
-
 	var tween := create_tween()
 	tween.set_parallel(true)
 
@@ -89,71 +89,36 @@ func _handle_ball_scored(hole_position: Vector2) -> void:
 
 	await tween.finished
 
-	release_ball_from_hole(hole_position)
+	ball.begin_respawn()
 
-func release_ball_from_hole(hole_position: Vector2) -> void:
-	ball.global_position = hole_position
-	ball.scale = Vector2.ONE
+	await get_tree().create_timer(0.35).timeout
 
-	ball.linear_velocity = Vector2.ZERO
-	ball.angular_velocity = 0.0
+	var respawn_position := Vector2(
+		hole_position.x,
+		ball_spawn.global_position.y
+	)
 
-	ball.fall_velocity = 0.0
-	ball.is_returning = true
-	ball.is_in_play = false
-	ball.is_held = false
-	ball.freeze = false
-
-	ball.z_index = ball.spawn_z_index - 1
+	ball.respawn_at(respawn_position)
+	ball.finish_respawn()
 
 func hide_ball() -> void:
 	ball.visible = false
 	ball.freeze = true
-	ball.is_in_play = false
-	ball.is_held = false
-	ball.is_returning = false
 
 	ball.linear_velocity = Vector2.ZERO
 	ball.angular_velocity = 0.0
-
-func respawn_ball() -> void:
-	ball.visible = true
-	ball.modulate.a = 1.0
-	ball.scale = Vector2.ONE
-
-	ball.global_position = ball_spawn.global_position
-
-	ball.linear_velocity = Vector2.ZERO
-	ball.angular_velocity = 0.0
-
-	ball.is_in_play = false
-	ball.is_held = false
-	ball.freeze = true
-
-	ball.z_index = ball.spawn_z_index
 
 func drop_ball_into_play() -> void:
 	ball.visible = true
 	ball.modulate.a = 1.0
 	ball.scale = Vector2.ONE
-	
 	ball.global_position = ball_spawn.global_position
-	ball.linear_velocity = Vector2.ZERO
-	ball.angular_velocity = 0.0
-	
-	ball.is_in_play = false
-	ball.is_held = false
-	ball.is_returning = true
-	ball.freeze = false
-	ball.fall_velocity = 0.0
 	ball.z_index = ball.spawn_z_index
-func disable_ball() -> void:
-	ball.is_held = false
-	ball.is_in_play = false
-	ball.freeze = true
+	
+	ball.drop_into_play()
 
-	ball.linear_velocity = Vector2.ZERO
-	ball.angular_velocity = 0.0
+func disable_ball() -> void:
+	ball.disable()
 
 func _on_try_again_button_pressed() -> void:
 	try_again_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
