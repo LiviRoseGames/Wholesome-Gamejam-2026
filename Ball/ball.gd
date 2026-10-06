@@ -1,11 +1,6 @@
 class_name GameBall
 extends RigidBody2D
 
-@export_group("Resting")
-@export var resting_gravity_scale := 3.0
-@export var rest_speed_threshold := 50.0
-@export var rest_delay := 0.25
-
 @export_group("Motion Lines")
 @export var motion_line_min_speed := 500.0
 @export var motion_line_interval := 0.04
@@ -18,8 +13,6 @@ extends RigidBody2D
 @onready var motion_trail: Node2D = $"../MotionTrail"
 
 var motion_line_timer := 0.0
-
-var rest_timer := 0.0
 
 var spawn_z_index := 0
 var held_z_index := 4
@@ -72,27 +65,17 @@ func _physics_process(delta: float) -> void:
 	$Shadow.rotation = -rotation
 	$Highlight.rotation = -rotation
 	update_motion_trail(delta)
-	
-	if not is_in_play() and not is_spawning():
-		return
-		
-	var speed := linear_velocity.length()
-	
-	if speed <= rest_speed_threshold:
-		rest_timer += delta
-		
-		if rest_timer >= rest_delay:
-			stop_ball()
-	else:
-		rest_timer = 0.0
+
+func _on_body_entered(body: Node) -> void:
+	if body.name == "Bottom" and is_in_play():
+		return_to_ready()
 
 func drop_into_play() -> void:
-	state = State.IN_PLAY
+	state = State.READY
 	freeze = false
 	
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-	rest_timer = 0.0
 	gravity_scale = 1.0
 
 func pick_up() -> void:
@@ -101,7 +84,6 @@ func pick_up() -> void:
 	
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-	rest_timer = 0.0
 	
 	gravity_scale = 1.0
 	
@@ -111,13 +93,13 @@ func pick_up() -> void:
 func launch(direction: Vector2, force: float) -> void:
 	state = State.IN_PLAY
 	freeze = false
-	
 	gravity_scale = 1.0
+
 	z_index = held_z_index
-	
+
 	$Shadow.visible = true
 	$Shadow.modulate.a = 0.0
-	
+
 	var shadow_tween := create_tween()
 	shadow_tween.tween_property(
 		$Shadow,
@@ -125,29 +107,22 @@ func launch(direction: Vector2, force: float) -> void:
 		1.0,
 		0.2
 	)
-	
+
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-	rest_timer = 0.0
 
 	apply_central_impulse(direction.normalized() * force)
 
 	var spin_direction: float = -sign(direction.x)
 	angular_velocity = spin_direction * force * 0.01
 
-func stop_ball() -> void:
-	print("Ball stopped → READY")
-	
-	state = State.READY
-	linear_velocity = Vector2.ZERO
-	angular_velocity = 0.0
-	rest_timer = 0.0
-	gravity_scale = resting_gravity_scale
-
 func disable() -> void:
 	freeze = true
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
+
+func return_to_ready() -> void:
+	state = State.READY
 
 func respawn_at(position: Vector2) -> void:
 	state = State.SPAWNING
@@ -157,7 +132,6 @@ func respawn_at(position: Vector2) -> void:
 	
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-	rest_timer = 0.0
 	
 	freeze = false
 	gravity_scale = 1.0
@@ -169,13 +143,9 @@ func begin_scoring() -> void:
 	
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-	rest_timer = 0.0
 
 func begin_respawn() -> void:
 	state = State.RESPAWNING
-
-func finish_respawn() -> void:
-	state = State.READY
 
 #~~~~~~~~~~~~~~~~~~ MOTION TRAIL CODE ~~~~~~~~~~~~~~~~~~
 func update_motion_trail(delta: float) -> void:

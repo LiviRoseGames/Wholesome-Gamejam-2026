@@ -99,7 +99,6 @@ func _handle_ball_scored(hole_position: Vector2) -> void:
 	)
 
 	ball.respawn_at(respawn_position)
-	ball.finish_respawn()
 
 func hide_ball() -> void:
 	ball.visible = false

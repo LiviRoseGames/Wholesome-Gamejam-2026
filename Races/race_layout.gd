@@ -72,8 +72,6 @@ func _on_level_loaded(_player_table: Node2D) -> void:
 	reset_race()
 
 func _on_horse_selected(horse: RaceHorse) -> void:
-	print("PLAYER HORSE SELECTED: ", horse.horse_name)
-	
 	if race_started:
 		return
 
