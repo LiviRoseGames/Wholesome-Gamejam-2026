@@ -11,6 +11,7 @@ bounce = 0.8
 size = Vector2(435, 74)
 
 [node name="Block" type="AnimatableBody2D" unique_id=678022419]
+collision_layer = 8
 physics_material_override = SubResource("PhysicsMaterial_3foiw")
 script = ExtResource("1_0y03y")
 

@@ -1,6 +1,8 @@
 class_name GameBall
 extends RigidBody2D
 
+signal shot_started
+
 @export_group("Motion Lines")
 @export var motion_line_min_speed := 500.0
 @export var motion_line_interval := 0.04
@@ -11,6 +13,8 @@ extends RigidBody2D
 @export var max_motion_lines := 8
 
 @onready var motion_trail: Node2D = $"../MotionTrail"
+
+const OBSTACLE_LAYER := 4
 
 var motion_line_timer := 0.0
 
@@ -29,6 +33,33 @@ enum State {
 }
 
 var state := State.READY
+
+
+func set_state(new_state: State, reason: String = "") -> void:
+	if state == new_state:
+		return
+
+	print(
+		"BALL STATE: ",
+		State.keys()[state],
+		" -> ",
+		State.keys()[new_state],
+		" | ",
+		reason,
+		" | position: ",
+		global_position,
+		" | velocity: ",
+		linear_velocity
+	)
+
+	state = new_state
+
+	match state:
+		State.IN_PLAY:
+			set_obstacle_collision(true)
+
+		_:
+			set_obstacle_collision(false)
 
 func is_ready() -> bool:
 	return state == State.READY
@@ -49,11 +80,14 @@ func is_scoring() -> bool:
 func is_respawning() -> bool:
 	return state == State.RESPAWNING
 
+
 func is_spawning() -> bool:
 	return state == State.SPAWNING
 
+
 func is_pickup_available() -> bool:
 	return is_ready() or is_spawning()
+
 
 func _ready() -> void:
 	spawn_z_index = z_index
@@ -61,52 +95,52 @@ func _ready() -> void:
 	max_contacts_reported = 1
 	gravity_scale = 1.0
 
+
 func _physics_process(delta: float) -> void:
 	$Shadow.rotation = -rotation
 	$Highlight.rotation = -rotation
 	update_motion_trail(delta)
 
-func _on_body_entered(body: Node) -> void:
-	if body.name == "Bottom" and is_in_play():
-		return_to_ready()
+func set_obstacle_collision(enabled: bool) -> void:
+	if enabled:
+		collision_mask |= 1 << (OBSTACLE_LAYER - 1)
+	else:
+		collision_mask &= ~(1 << (OBSTACLE_LAYER - 1))
 
 func drop_into_play() -> void:
-	state = State.READY
+	set_state(State.READY, "ball dropped into play")
 	freeze = false
-	
+
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
 	gravity_scale = 1.0
 
+
 func pick_up() -> void:
-	state = State.HELD
+	set_state(State.HELD, "player picked up ball")
 	freeze = true
-	
+
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-	
+
 	gravity_scale = 1.0
-	
+
 	z_index = held_z_index
 	$Shadow.visible = false
 
+
 func launch(direction: Vector2, force: float) -> void:
-	state = State.IN_PLAY
+	set_state(State.IN_PLAY, "ball launched")
+	shot_started.emit()
+
 	freeze = false
 	gravity_scale = 1.0
-
 	z_index = held_z_index
-
 	$Shadow.visible = true
 	$Shadow.modulate.a = 0.0
 
 	var shadow_tween := create_tween()
-	shadow_tween.tween_property(
-		$Shadow,
-		"modulate:a",
-		1.0,
-		0.2
-	)
+	shadow_tween.tween_property($Shadow, "modulate:a", 1.0, 0.2)
 
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
@@ -121,31 +155,43 @@ func disable() -> void:
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
 
+
 func return_to_ready() -> void:
-	state = State.READY
+	set_state(State.READY, "ball reached Bottom")
+
 
 func respawn_at(position: Vector2) -> void:
-	state = State.SPAWNING
-	
+	set_state(State.SPAWNING, "respawn started")
+
 	scale = Vector2.ONE
 	global_position = position
-	
+
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-	
+
 	freeze = false
 	gravity_scale = 1.0
 	z_index = spawn_z_index
 
+
+func recover_from_out_of_bounds() -> void:
+	if not is_in_play():
+		return
+
+	begin_respawn()
+
+
 func begin_scoring() -> void:
-	state = State.SCORING
+	set_state(State.SCORING, "ball entered scoring hole")
 	set_deferred("freeze", true)
-	
+
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
 
+
 func begin_respawn() -> void:
-	state = State.RESPAWNING
+	set_state(State.RESPAWNING, "respawn process started")
+
 
 #~~~~~~~~~~~~~~~~~~ MOTION TRAIL CODE ~~~~~~~~~~~~~~~~~~
 func update_motion_trail(delta: float) -> void:
@@ -167,6 +213,7 @@ func update_motion_trail(delta: float) -> void:
 	motion_line_timer = 0.0
 
 	spawn_motion_line(speed)
+
 
 func spawn_motion_line(
 	speed: float,

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dr5fc5hp8u6dt"]
 
+[ext_resource type="Script" uid="uid://lnkpqn5ht7op" path="res://Scenes/game_table.gd" id="1_6ex0o"]
 [ext_resource type="Texture2D" uid="uid://ckawdq4shoq8e" path="res://Art/Table_Tray.png" id="1_pfbou"]
 [ext_resource type="Texture2D" uid="uid://d0agxr6xna53h" path="res://Art/Table_Wood.png" id="2_gwftx"]
 [ext_resource type="PackedScene" uid="uid://4hxdppls2u7a" path="res://Ball/ball.tscn" id="3_ipb7x"]
@@ -30,6 +31,7 @@ bounce = 0.2
 size = Vector2(1280, 500)
 
 [node name="GameTable" type="Node2D" unique_id=359746636]
+script = ExtResource("1_6ex0o")
 
 [node name="Under" type="Sprite2D" parent="." unique_id=457879713]
 z_index = -1
@@ -78,7 +80,7 @@ linear_damp = 0.1
 angular_damp = 0.1
 
 [node name="BallSpawn" type="Marker2D" parent="." unique_id=759912438]
-position = Vector2(280, 861)
+position = Vector2(280, 500)
 
 [node name="BallHoldArea" type="Area2D" parent="." unique_id=1802968624]
 script = ExtResource("4_ipb7x")
@@ -88,7 +90,6 @@ position = Vector2(0, 830)
 shape = SubResource("RectangleShape2D_ef17l")
 
 [node name="Holes" type="Node2D" parent="." unique_id=175197404]
-visible = false
 
 [node name="Hole" parent="Holes" unique_id=228950574 instance=ExtResource("5_6ex0o")]
 position = Vector2(-360, -399)

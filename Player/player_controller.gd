@@ -107,14 +107,11 @@ func is_mouse_over_ball(mouse_position: Vector2) -> bool:
 func can_pick_up_ball() -> bool:
 	if ball == null:
 		return false
-	
-	if ball.is_ready():
-		return true
-	
-	if ball.is_spawning():
-		return ball_hold_area.overlaps_body(ball)
-	
-	return false
+
+	if not ball.is_pickup_available():
+		return false
+
+	return ball_hold_area.overlaps_body(ball)
 
 func start_aiming() -> void:
 	if not can_pick_up_ball():
