@@ -47,6 +47,13 @@ signal selected(horse: RaceHorse)
 @export var head_variants: Array[Texture2D]
 @export var tarp_colors: Array[Color]
 
+@export_group("Tarp Number")
+@export var tarp_number_transition_duration := 0.4
+@export var tarp_number_glow_color := Color("#FFD95A")
+
+var tarp_number_tween: Tween
+var tarp_number_glowing := false
+
 @export_group("Win Animation")
 @export var win_jump_height := 100.0
 @export var win_jump_distance := 1500.0
@@ -55,20 +62,13 @@ signal selected(horse: RaceHorse)
 @export var win_squash_amount := 0.8
 @export var win_stretch_amount := 1.15
 
-@export_group("Selection Glow")
-@export var selection_glow_strength := 100.0
-@export var selection_glow_color := Color("#FFD95A")
-@export var selection_glow_duration := 0.2
-
-var selection_glow_material: ShaderMaterial
-var selection_glow_tween: Tween
-
 @onready var horse_name_label: RichTextLabel = $HorseName
 @onready var body: Sprite2D = $Body/Body
 @onready var tarp: Sprite2D = $Body/Tarp
 @onready var head: Sprite2D = $Head/MuzzleHead
 @onready var face: Sprite2D = $Head/Face
 @onready var selection_area: Area2D = $SelectionArea
+@onready var tarp_number: Label = $NumberLabel
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 static var previous_variant := -1
@@ -90,25 +90,12 @@ func _ready() -> void:
 	target_x = position.x
 	randomize_appearance()
 	randomize_name()
-	
+
+	set_tarp_number(0)
+	tarp_number.modulate = Color.WHITE
+
 	horse_name_label.visible = false
 	horse_name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
-	var original_material := tarp.material as ShaderMaterial
-
-	if original_material != null:
-		selection_glow_material = original_material.duplicate()
-		tarp.material = selection_glow_material
-
-		selection_glow_material.set_shader_parameter(
-			"glow_color",
-			selection_glow_color
-		)
-
-		selection_glow_material.set_shader_parameter(
-			"glow_strength",
-			0.0
-		)
 	
 	selection_area.input_event.connect(_on_selection_area_input_event)
 
@@ -238,33 +225,9 @@ func set_name_visible(is_visible: bool) -> void:
 func set_selected(is_selected: bool) -> void:
 	if is_selected:
 		set_name_visible(false)
-
-	if selection_glow_material == null:
-		return
-
-	if selection_glow_tween:
-		selection_glow_tween.kill()
-
-	var target_strength := (
-		selection_glow_strength
-		if is_selected
-		else 0.0
-	)
-
-	selection_glow_tween = create_tween()
-
-	selection_glow_tween.tween_method(
-		set_selection_glow,
-		selection_glow_material.get_shader_parameter("glow_strength"),
-		target_strength,
-		selection_glow_duration
-	)
-
-func set_selection_glow(value: float) -> void:
-	selection_glow_material.set_shader_parameter(
-		"glow_strength",
-		value
-	)
+		start_tarp_number_glow()
+	else:
+		stop_tarp_number_glow()
 
 func set_horse_name() -> void:
 	var style := get_random_name_style()
@@ -339,6 +302,38 @@ func get_random_name_style() -> String:
 	used_name_styles.append(style_index)
 
 	return styles[style_index]
+
+func set_tarp_number(number: int) -> void:
+	tarp_number.text = str(number)
+	tarp_number.modulate = Color.WHITE
+
+
+func start_tarp_number_glow() -> void:
+	if tarp_number_glowing:
+		return
+
+	tarp_number_glowing = true
+
+	if tarp_number_tween:
+		tarp_number_tween.kill()
+
+	tarp_number_tween = create_tween()
+
+	tarp_number_tween.tween_property(
+		tarp_number,
+		"modulate",
+		tarp_number_glow_color,
+		tarp_number_transition_duration
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+
+func stop_tarp_number_glow() -> void:
+	tarp_number_glowing = false
+
+	if tarp_number_tween:
+		tarp_number_tween.kill()
+
+	tarp_number.modulate = Color.WHITE
 
 func get_random_variant() -> int:
 	var variants: Array[int] = [0, 1, 3]
