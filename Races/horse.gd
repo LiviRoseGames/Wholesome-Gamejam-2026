@@ -80,6 +80,7 @@ var is_celebrating := false
 var celebration_tween: Tween
 
 var is_hovered := false
+var selection_phase_active := true
 var name_tween: Tween
 
 var normal_head_scale := Vector2.ONE
@@ -224,7 +225,6 @@ func set_name_visible(is_visible: bool) -> void:
 
 func set_selected(is_selected: bool) -> void:
 	if is_selected:
-		set_name_visible(false)
 		start_tarp_number_glow()
 	else:
 		stop_tarp_number_glow()
@@ -236,6 +236,12 @@ func set_horse_name() -> void:
 		"{NAME}",
 		horse_name
 	)
+
+func set_selection_phase_active(active: bool) -> void:
+	selection_phase_active = active
+
+	if not active:
+		set_name_visible(false)
 
 func get_random_name_style() -> String:
 	var styles := [
@@ -354,6 +360,9 @@ func get_random_variant() -> int:
 	return variant
 
 func update_hover() -> void:
+	if not selection_phase_active:
+		return
+
 	var collision_shape := $SelectionArea/CollisionShape2D as CollisionShape2D
 	var shape := collision_shape.shape as RectangleShape2D
 	

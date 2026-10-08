@@ -80,6 +80,7 @@ func _on_horse_selected(horse: RaceHorse) -> void:
 
 	for race_horse in horses:
 		race_horse.set_selected(race_horse == horse)
+		race_horse.set_selection_phase_active(false)
 
 	race_started = true
 
@@ -132,9 +133,11 @@ func spawn_horses() -> void:
 
 		horse.position = Vector2(race_start_x, y_position)
 		horse.z_index = 19 - (i * 3)
-
+		
 		$Horses.add_child(horse)
 		horses.append(horse)
+		
+		horse.set_tarp_number(i + 1)
 
 		horse.selected.connect(_on_horse_selected)
 
