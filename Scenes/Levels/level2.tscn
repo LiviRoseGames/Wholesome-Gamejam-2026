@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://3koux2uud7vt"]
+
+[ext_resource type="PackedScene" uid="uid://dr5fc5hp8u6dt" path="res://Scenes/game_table.tscn" id="1_jgdhe"]
+[ext_resource type="PackedScene" uid="uid://jsjho4sdg8an" path="res://Races/block.tscn" id="2_qoeng"]
+
+[node name="Level2" type="Node2D" unique_id=578354719]
+
+[node name="GameTable" parent="." unique_id=359746636 instance=ExtResource("1_jgdhe")]
+
+[node name="Hole" parent="GameTable/Holes" parent_id_path=PackedInt32Array(359746636, 175197404) index="0" unique_id=228950574]
+position = Vector2(-384, -40)
+
+[node name="Hole2" parent="GameTable/Holes" parent_id_path=PackedInt32Array(359746636, 175197404) index="1" unique_id=569882683]
+position = Vector2(0, -440)
+
+[node name="Hole3" parent="GameTable/Holes" parent_id_path=PackedInt32Array(359746636, 175197404) index="2" unique_id=1893582721]
+position = Vector2(384, -808)
+
+[node name="Block" parent="." unique_id=678022419 instance=ExtResource("2_qoeng")]
+z_index = 2
+position = Vector2(384, 336)
+direction = 2
+move_distance = 300.0
+
+[editable path="GameTable"]

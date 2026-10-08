@@ -14,6 +14,7 @@ size = Vector2(1138, 74)
 size = Vector2(74, 430)
 
 [node name="Piston" type="AnimatableBody2D" unique_id=678022419]
+collision_layer = 8
 physics_material_override = SubResource("PhysicsMaterial_3foiw")
 script = ExtResource("1_s8iqq")
 direction = 1

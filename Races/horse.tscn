@@ -20,18 +20,11 @@
 [ext_resource type="Texture2D" uid="uid://dlfe5rj7j086h" path="res://Art/Horse/Horse3_Head.png" id="12_vsrm8"]
 [ext_resource type="Texture2D" uid="uid://cant547xpjjbv" path="res://Art/Horse/Horse4_Head.png" id="13_fmmk0"]
 [ext_resource type="Texture2D" uid="uid://chdgutil0aesi" path="res://Art/Horse/Horse8_Face.png" id="13_rp7dh"]
-[ext_resource type="Shader" uid="uid://dretd6iaj4e0q" path="res://Scenes/hoverglow.gdshader" id="14_j0jiu"]
 [ext_resource type="Texture2D" uid="uid://bt0qb7v0u7fuw" path="res://Art/Horse/Horse9_Face.png" id="14_wl60u"]
 [ext_resource type="Texture2D" uid="uid://bscmnadx2jg07" path="res://Art/Horse/Horse10_Face.png" id="15_tjpq6"]
 [ext_resource type="Texture2D" uid="uid://cqkbt1xgafiyr" path="res://Art/Horse/Horse11_Face.png" id="16_v2kdr"]
 [ext_resource type="Texture2D" uid="uid://beqpmkno6bhng" path="res://Art/Horse/Horse5_Head.png" id="22_rp7dh"]
 [ext_resource type="Texture2D" uid="uid://2tm8ksl1yci7" path="res://Art/Horse/Horse6_Head.png" id="24_tjpq6"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j0jiu"]
-shader = ExtResource("14_j0jiu")
-shader_parameter/glow_color = Color(1, 0.85, 0.35, 1)
-shader_parameter/glow_strength = 0.0
-shader_parameter/glow_size = 3.0
 
 [sub_resource type="Animation" id="Animation_e3mc8"]
 resource_name = "Horse Animation"
@@ -221,12 +214,23 @@ texture = ExtResource("2_mjxxu")
 
 [node name="Tarp" type="Sprite2D" parent="Body" unique_id=264618155]
 modulate = Color(0.55, 0.50636667, 0.47300002, 1)
-material = SubResource("ShaderMaterial_j0jiu")
 texture = ExtResource("3_mjxxu")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=973253121]
 root_node = NodePath("../Head/MuzzleHead")
 libraries/ = SubResource("AnimationLibrary_g61v1")
+
+[node name="NumberLabel" type="Label" parent="." unique_id=529127535]
+offset_left = -45.0
+offset_top = -154.265
+offset_right = 76.0
+offset_bottom = -9.264999
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 100
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SelectionArea" type="Area2D" parent="." unique_id=691142674]
 

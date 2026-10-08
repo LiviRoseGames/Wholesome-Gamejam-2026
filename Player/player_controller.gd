@@ -91,6 +91,9 @@ func update_cursor() -> void:
 		)
 
 func is_mouse_over_ball(mouse_position: Vector2) -> bool:
+	if ball == null:
+		return false
+	
 	var collision_shape := (
 		ball.get_node("CollisionShape2D")
 		as CollisionShape2D
@@ -104,13 +107,10 @@ func is_mouse_over_ball(mouse_position: Vector2) -> bool:
 func can_pick_up_ball() -> bool:
 	if ball == null:
 		return false
-	
-	if ball.is_returning:
+
+	if not ball.is_pickup_available():
 		return false
-	
-	if ball.is_held:
-		return true
-	
+
 	return ball_hold_area.overlaps_body(ball)
 
 func start_aiming() -> void:

@@ -1,13 +1,14 @@
 class_name LevelManager
 extends Node
 
-signal level_loaded(player_table: Node2D)
+signal level_loaded(player_table: GameTable)
 signal level_changed(level_number: int)
 
-@export var level_tables: Array[PackedScene]
+@export var levels: Array[PackedScene]
 
 var current_level := 1
-var player_table: Node2D
+var current_level_scene: Node2D
+var player_table: GameTable
 
 @onready var main := get_parent()
 
@@ -17,34 +18,35 @@ func _ready() -> void:
 
 
 func load_level(level_number: int) -> void:
-	if level_number < 1 or level_number > level_tables.size():
+	if level_number < 1 or level_number > levels.size():
 		return
 
 	current_level = level_number
 
-	if player_table:
-		player_table.queue_free()
+	if current_level_scene:
+		current_level_scene.queue_free()
+		current_level_scene = null
 		player_table = null
 
-	player_table = level_tables[current_level - 1].instantiate()
-	player_table.name = "PlayerTable"
+	current_level_scene = levels[current_level - 1].instantiate()
+	current_level_scene.name = "Level"
 
-	call_deferred("_add_player_table")
+	call_deferred("_add_level")
 
 
-func _add_player_table() -> void:
+func _add_level() -> void:
+	current_level_scene.position = Vector2(3200.0, 1080.0)
 
-	player_table.position = Vector2(3200.0, 1080.0)
+	main.add_child(current_level_scene)
+	main.move_child(current_level_scene, 3)
 
-	main.add_child(player_table)
-	main.move_child(player_table, 3)
+	player_table = current_level_scene.get_node("GameTable") as GameTable
 
 	level_loaded.emit(player_table)
 	level_changed.emit(current_level)
 
-
 func next_level() -> void:
-	if current_level >= level_tables.size():
+	if current_level >= levels.size():
 		return
 
 	load_level(current_level + 1)
@@ -55,4 +57,4 @@ func restart_level() -> void:
 
 
 func is_last_level() -> bool:
-	return current_level >= level_tables.size()
+	return current_level >= levels.size()

@@ -1,15 +1,7 @@
 class_name GameBall
 extends RigidBody2D
 
-signal entered_hole(points: int)
-
-@export_group("Fall")
-@export var fall_delay := 2.0
-@export var fall_gravity := 1000.0
-@export var resting_gravity_scale := 3.0
-
-@export var rest_speed_threshold := 50.0
-@export var rest_delay := 0.25
+signal shot_started
 
 @export_group("Motion Lines")
 @export var motion_line_min_speed := 500.0
@@ -19,23 +11,83 @@ signal entered_hole(points: int)
 @export var motion_line_max_length := 500.0
 @export var motion_line_width := 25.0
 @export var max_motion_lines := 8
-@export var fall_motion_line_count := 5
 
 @onready var motion_trail: Node2D = $"../MotionTrail"
 
+const OBSTACLE_LAYER := 4
+
 var motion_line_timer := 0.0
-
-var fall_timer := 0.0
-var fall_velocity := 0.0
-
-var rest_timer := 0.0
-
-var is_in_play := false
-var is_held := false
-var is_returning := false
 
 var spawn_z_index := 0
 var held_z_index := 4
+
+
+#~~~~~~~~~~~~~~~~~~ STATE MACHINE CODE ~~~~~~~~~~~~~~~~~~
+enum State {
+	READY,
+	HELD,
+	IN_PLAY,
+	SCORING,
+	RESPAWNING,
+	SPAWNING
+}
+
+var state := State.READY
+
+
+func set_state(new_state: State, reason: String = "") -> void:
+	if state == new_state:
+		return
+
+	print(
+		"BALL STATE: ",
+		State.keys()[state],
+		" -> ",
+		State.keys()[new_state],
+		" | ",
+		reason,
+		" | position: ",
+		global_position,
+		" | velocity: ",
+		linear_velocity
+	)
+
+	state = new_state
+
+	match state:
+		State.IN_PLAY:
+			set_obstacle_collision(true)
+
+		_:
+			set_obstacle_collision(false)
+
+func is_ready() -> bool:
+	return state == State.READY
+
+
+func is_held() -> bool:
+	return state == State.HELD
+
+
+func is_in_play() -> bool:
+	return state == State.IN_PLAY
+
+
+func is_scoring() -> bool:
+	return state == State.SCORING
+
+
+func is_respawning() -> bool:
+	return state == State.RESPAWNING
+
+
+func is_spawning() -> bool:
+	return state == State.SPAWNING
+
+
+func is_pickup_available() -> bool:
+	return is_ready() or is_spawning()
+
 
 func _ready() -> void:
 	spawn_z_index = z_index
@@ -43,115 +95,106 @@ func _ready() -> void:
 	max_contacts_reported = 1
 	gravity_scale = 1.0
 
+
 func _physics_process(delta: float) -> void:
 	$Shadow.rotation = -rotation
 	$Highlight.rotation = -rotation
 	update_motion_trail(delta)
-	
-	if is_returning:
-		fall_velocity += fall_gravity * delta
-		global_position.y += fall_velocity * delta
-		return
-		
-	if not is_in_play or is_held:
-		return
-		
-	fall_timer += delta
-	
-	if fall_timer >= fall_delay:
-		start_fall()
-		return
-	
-	var speed := linear_velocity.length()
-	
-	if speed <= rest_speed_threshold:
-		rest_timer += delta
-		
-		if rest_timer >= rest_delay:
-			stop_ball()
+
+func set_obstacle_collision(enabled: bool) -> void:
+	if enabled:
+		collision_mask |= 1 << (OBSTACLE_LAYER - 1)
 	else:
-		rest_timer = 0.0
+		collision_mask &= ~(1 << (OBSTACLE_LAYER - 1))
+
+func drop_into_play() -> void:
+	set_state(State.READY, "ball dropped into play")
+	freeze = false
+
+	linear_velocity = Vector2.ZERO
+	angular_velocity = 0.0
+	gravity_scale = 1.0
+
 
 func pick_up() -> void:
-	is_held = true
-	is_in_play = false
-	is_returning = false
+	set_state(State.HELD, "player picked up ball")
 	freeze = true
 
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-	rest_timer = 0.0
 
 	gravity_scale = 1.0
 
 	z_index = held_z_index
 	$Shadow.visible = false
 
+
 func launch(direction: Vector2, force: float) -> void:
-	is_held = false
-	is_in_play = true
-	is_returning = false
+	set_state(State.IN_PLAY, "ball launched")
+
 	freeze = false
-
 	gravity_scale = 1.0
-
 	z_index = held_z_index
-
 	$Shadow.visible = true
 	$Shadow.modulate.a = 0.0
 
 	var shadow_tween := create_tween()
-	shadow_tween.tween_property(
-		$Shadow,
-		"modulate:a",
-		1.0,
-		0.2
-	)
+	shadow_tween.tween_property($Shadow, "modulate:a", 1.0, 0.2)
 
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-
-	fall_timer = 0.0
-	rest_timer = 0.0
 
 	apply_central_impulse(direction.normalized() * force)
 
 	var spin_direction: float = -sign(direction.x)
 	angular_velocity = spin_direction * force * 0.01
 
-func stop_ball() -> void:
+func disable() -> void:
+	freeze = true
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
-	is_in_play = false
-	is_held = false
-	rest_timer = 0.0
-	gravity_scale = resting_gravity_scale
 
-func start_fall() -> void:
-	is_returning = true
-	is_in_play = false
-	is_held = false
 
-	fall_velocity = linear_velocity.y
-	spawn_fall_motion_lines()
+func return_to_ready() -> void:
+	set_state(State.READY, "ball reached Bottom")
 
-func stop_falling() -> void:
-	is_returning = false
-	is_in_play = false
-	is_held = false
 
-	linear_velocity.y = fall_velocity
+func respawn_at(position: Vector2) -> void:
+	set_state(State.SPAWNING, "respawn started")
+
+	scale = Vector2.ONE
+	global_position = position
+
+	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
 
-	fall_velocity = 0.0
-	gravity_scale = resting_gravity_scale
+	freeze = false
+	gravity_scale = 1.0
+	z_index = spawn_z_index
 
-func _on_body_entered(body: Node) -> void:
-	if body.name == "Bottom" and is_returning:
-		stop_falling()
 
+func recover_from_out_of_bounds() -> void:
+	if not is_in_play():
+		return
+
+	begin_respawn()
+
+
+func begin_scoring() -> void:
+	set_state(State.SCORING, "ball entered scoring hole")
+	set_deferred("freeze", true)
+
+	linear_velocity = Vector2.ZERO
+	angular_velocity = 0.0
+
+
+func begin_respawn() -> void:
+	set_state(State.RESPAWNING, "respawn process started")
+
+
+#~~~~~~~~~~~~~~~~~~ MOTION TRAIL CODE ~~~~~~~~~~~~~~~~~~
 func update_motion_trail(delta: float) -> void:
-	if is_held or not is_in_play:
+	if not is_in_play():
 		motion_line_timer = 0.0
 		return
 
@@ -169,6 +212,7 @@ func update_motion_trail(delta: float) -> void:
 	motion_line_timer = 0.0
 
 	spawn_motion_line(speed)
+
 
 func spawn_motion_line(
 	speed: float,
@@ -286,16 +330,3 @@ func spawn_motion_line(
 	await tween.finished
 
 	line.queue_free()
-
-func spawn_fall_motion_lines() -> void:
-	var speed: float = max(
-		abs(fall_velocity),
-		motion_line_min_speed
-	)
-
-	for i in range(fall_motion_line_count):
-		spawn_motion_line(
-			speed,
-			true,
-			Vector2.DOWN
-		)

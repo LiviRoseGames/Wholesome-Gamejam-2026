@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bcqha1jbeb0mh"]
+
+[ext_resource type="PackedScene" uid="uid://dr5fc5hp8u6dt" path="res://Scenes/game_table.tscn" id="1_jwpnw"]
+[ext_resource type="PackedScene" uid="uid://bwj8n6i640j1u" path="res://Races/piston.tscn" id="2_5oy68"]
+
+[node name="Level3" type="Node2D" unique_id=1237150494]
+
+[node name="GameTable" parent="." unique_id=359746636 instance=ExtResource("1_jwpnw")]
+
+[node name="Hole" parent="GameTable/Holes" parent_id_path=PackedInt32Array(359746636, 175197404) index="0" unique_id=228950574]
+position = Vector2(-392, 48)
+
+[node name="Hole2" parent="GameTable/Holes" parent_id_path=PackedInt32Array(359746636, 175197404) index="1" unique_id=569882683]
+position = Vector2(-392, -376)
+
+[node name="Hole3" parent="GameTable/Holes" parent_id_path=PackedInt32Array(359746636, 175197404) index="2" unique_id=1893582721]
+position = Vector2(-392, -800)
+
+[node name="Piston" parent="." unique_id=678022419 instance=ExtResource("2_5oy68")]
+z_index = 2
+position = Vector2(1040, 48)
+extend_distance = 800.0
+pause_time = 1.0
+
+[editable path="GameTable"]
