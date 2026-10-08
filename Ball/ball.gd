@@ -131,7 +131,6 @@ func pick_up() -> void:
 
 func launch(direction: Vector2, force: float) -> void:
 	set_state(State.IN_PLAY, "ball launched")
-	shot_started.emit()
 
 	freeze = false
 	gravity_scale = 1.0
