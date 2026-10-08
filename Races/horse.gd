@@ -342,21 +342,15 @@ func stop_tarp_number_glow() -> void:
 	tarp_number.modulate = Color.WHITE
 
 func get_random_variant() -> int:
-	var variants: Array[int] = [0, 1, 3]
+	var variants: Array[int] = [0, 1, 2, 3, 4, 5]
 	
-	if previous_variant == 2:
-		# Previous horse was a zebra, so choose a normal horse.
-		var variant: int = variants.pick_random()
-		previous_variant = variant
-		return variant
+	#No repeats
+	if previous_variant >= 0:
+		variants.erase(previous_variant)
 	
-	if randf() < 0.1:
-		previous_variant = 2
-		return 2
-	
-	# Normal horse.
 	var variant: int = variants.pick_random()
 	previous_variant = variant
+	
 	return variant
 
 func update_hover() -> void:
