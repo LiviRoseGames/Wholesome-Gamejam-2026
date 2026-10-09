@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://cq6alk7vtsgo6" path="res://Art/MenuArt_Text.png" id="22_3pmx8"]
 [ext_resource type="Texture2D" uid="uid://d0x3p5vtsn0vd" path="res://Art/Replay.png" id="23_u50mg"]
 [ext_resource type="Script" uid="uid://c26xlm3vhbj4a" path="res://Scenes/replay.gd" id="24_cbgmd"]
+[ext_resource type="Texture2D" uid="uid://p8p3jgynhie5" path="res://Art/Fence.png" id="25_u50mg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3foiw"]
 shader = ExtResource("11_b3802")
@@ -68,6 +69,10 @@ script = ExtResource("12_fevyy")
 
 [node name="RaceLayout" parent="." unique_id=1174800223 instance=ExtResource("3_8gbba")]
 position = Vector2(1280, 1080)
+
+[node name="Fence" type="Sprite2D" parent="." unique_id=858715062]
+position = Vector2(1989, 620)
+texture = ExtResource("25_u50mg")
 
 [node name="CurtainDivider" type="Sprite2D" parent="." unique_id=535074608]
 z_index = 50
@@ -227,19 +232,20 @@ script = ExtResource("21_pdsj5")
 [node name="StartLabel" type="RichTextLabel" parent="IntroScreen/StartButton" unique_id=908760387]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.19100001
-anchor_top = 0.54825
-anchor_right = 0.81000006
-anchor_bottom = 0.767
+anchor_left = 0.19200002
+anchor_top = 0.5895
+anchor_right = 2.7447999
+anchor_bottom = 1.1395
 offset_left = -1.5258789e-05
 offset_top = 0.3999939
 offset_right = -6.1035156e-05
 offset_bottom = 0.39996338
+scale = Vector2(0.240357, 0.240357)
 mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0.16470589, 0.14117648, 0.1882353, 1)
 theme_override_constants/outline_size = 10
 bbcode_enabled = true
-text = "[center][font_size=72][color=#FFD95A]✦[/color] [color=#FFF4E6]START RACE[/color] [color=#FFD95A]✦[/color][/font_size][/center]"
+text = "[center][font_size=300][color=#FFD95A]✦[/color] [color=#460C06]START RACE[/color] [color=#FFD95A]✦[/color][/font_size][/center]"
 fit_content = true
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
