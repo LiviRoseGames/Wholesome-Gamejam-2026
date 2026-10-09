@@ -12,7 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://oj5m1rdweyw" path="res://Art/Horse/Horse2_Face.png" id="7_gw86k"]
 [ext_resource type="Texture2D" uid="uid://bgtduppijwyvs" path="res://Art/Horse/Horse6_Body.png" id="7_wl60u"]
 [ext_resource type="Texture2D" uid="uid://8l24qt0g6c13" path="res://Art/Horse/Horse3_Face.png" id="8_5o65v"]
+[ext_resource type="Texture2D" uid="uid://b7y5f5ojb6ckt" path="res://Art/Horse/Horse7_Body.png" id="8_r6qvj"]
+[ext_resource type="Texture2D" uid="uid://boy0jbp1ocusk" path="res://Art/Horse/Horse8_Body.png" id="9_2rssj"]
 [ext_resource type="Texture2D" uid="uid://dlfmb7kd2y3h3" path="res://Art/Horse/Horse4_Face.png" id="9_81gri"]
+[ext_resource type="Texture2D" uid="uid://bvrw3p5l56un2" path="res://Art/Horse/Horse9_Body.png" id="10_8rkhm"]
 [ext_resource type="Texture2D" uid="uid://4fbpqkqp7hxt" path="res://Art/Horse/Horse5_Face.png" id="10_fmmk0"]
 [ext_resource type="Texture2D" uid="uid://v3cwpb06wuyr" path="res://Art/Horse/Horse2_Head.png" id="11_n38vv"]
 [ext_resource type="Texture2D" uid="uid://bdfwdkmxkc6hm" path="res://Art/Horse/Horse6_Face.png" id="11_rskbu"]
@@ -25,6 +28,9 @@
 [ext_resource type="Texture2D" uid="uid://cqkbt1xgafiyr" path="res://Art/Horse/Horse11_Face.png" id="16_v2kdr"]
 [ext_resource type="Texture2D" uid="uid://beqpmkno6bhng" path="res://Art/Horse/Horse5_Head.png" id="22_rp7dh"]
 [ext_resource type="Texture2D" uid="uid://2tm8ksl1yci7" path="res://Art/Horse/Horse6_Head.png" id="24_tjpq6"]
+[ext_resource type="Texture2D" uid="uid://de48y6spb6eqw" path="res://Art/Horse/Horse7_Head.png" id="27_8rkhm"]
+[ext_resource type="Texture2D" uid="uid://5e7e32abgqej" path="res://Art/Horse/Horse8_Head.png" id="28_vevfa"]
+[ext_resource type="Texture2D" uid="uid://c0sdthcxkkqbf" path="res://Art/Horse/Horse9_Head.png" id="30_vevfa"]
 
 [sub_resource type="Animation" id="Animation_e3mc8"]
 resource_name = "Horse Animation"
@@ -194,9 +200,9 @@ size = Vector2(357.02304, 163.85516)
 [node name="Horse" type="Node2D" unique_id=390380381]
 z_index = 10
 script = ExtResource("1_akykj")
-body_variants = Array[Texture2D]([ExtResource("2_mjxxu"), ExtResource("3_eyjna"), ExtResource("4_j0jiu"), ExtResource("5_soaej"), ExtResource("6_cfkbg"), ExtResource("7_wl60u")])
+body_variants = Array[Texture2D]([ExtResource("2_mjxxu"), ExtResource("3_eyjna"), ExtResource("4_j0jiu"), ExtResource("5_soaej"), ExtResource("6_cfkbg"), ExtResource("7_wl60u"), ExtResource("8_r6qvj"), ExtResource("9_2rssj"), ExtResource("10_8rkhm")])
 face_variants = Array[Texture2D]([ExtResource("2_e3mc8"), ExtResource("7_gw86k"), ExtResource("8_5o65v"), ExtResource("9_81gri"), ExtResource("10_fmmk0"), ExtResource("11_rskbu"), ExtResource("12_cfkbg"), ExtResource("13_rp7dh"), ExtResource("14_wl60u"), ExtResource("15_tjpq6"), ExtResource("16_v2kdr")])
-head_variants = Array[Texture2D]([ExtResource("1_xnc1m"), ExtResource("11_n38vv"), ExtResource("12_vsrm8"), ExtResource("13_fmmk0"), ExtResource("22_rp7dh"), ExtResource("24_tjpq6")])
+head_variants = Array[Texture2D]([ExtResource("1_xnc1m"), ExtResource("11_n38vv"), ExtResource("12_vsrm8"), ExtResource("13_fmmk0"), ExtResource("22_rp7dh"), ExtResource("24_tjpq6"), ExtResource("27_8rkhm"), ExtResource("28_vevfa"), ExtResource("30_vevfa")])
 tarp_colors = Array[Color]([Color(0.70980394, 0, 0.14117648, 1), Color(0.8666667, 0.3372549, 0, 1), Color(0.85882354, 0.3254902, 0.21568628, 1), Color(0.76862746, 0.73333335, 0, 1), Color(0.14901961, 0.6392157, 0, 1), Color(0, 0.6313726, 0.5137255, 1), Color(0.1764706, 0.57254905, 0.7882353, 1), Color(0.1254902, 0.26666668, 0.6901961, 1), Color(0.3882353, 0.1254902, 0.6901961, 1), Color(1, 0.17254902, 0.42745098, 1), Color(0.54901963, 0.5058824, 0.4745098, 1)])
 
 [node name="Head" type="Node2D" parent="." unique_id=1166562608]
