@@ -71,6 +71,12 @@ var tarp_number_glowing := false
 @onready var tarp_number: Label = $NumberLabel
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+@onready var horse_win_sfx: AudioStreamPlayer = $SFX/HorseWinSFX
+@onready var horse_groan_sfx_2: AudioStreamPlayer = $SFX/HorseGroanSFX
+@onready var button_click_sfx: AudioStreamPlayer = $SFX/ButtonClickSFX
+@onready var button_hover_sfx: AudioStreamPlayer = $SFX/ButtonHoverSFX
+@onready var start_whistle_sfx: AudioStreamPlayer = $SFX/StartWhistleSFX
+
 static var previous_variant := -1
 static var used_names: Array[String] = []
 static var used_name_styles: Array[int] = []
@@ -148,6 +154,9 @@ func _on_selection_area_input_event(
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			selected.emit(self)
+			button_click_sfx.play()
+			await get_tree().create_timer(1.0).timeout
+			start_whistle_sfx.play()
 
 func randomize_appearance() -> void:
 	if body_variants.size() > 0:
@@ -380,6 +389,7 @@ func update_hover() -> void:
 	if is_hovered:
 		scale_head_to(hover_head_scale)
 		set_name_visible(true)
+		button_hover_sfx.play()
 	else:
 		scale_head_to(normal_head_scale)
 		set_name_visible(false)
@@ -424,6 +434,7 @@ func celebrate_win(target_position: Vector2) -> void:
 		Vector2(1.15, 0.8),
 		0.12
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	horse_win_sfx.play()
 	
 	await squash_tween.finished
 	

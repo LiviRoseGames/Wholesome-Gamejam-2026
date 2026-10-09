@@ -12,6 +12,7 @@ enum HoleType {
 signal ball_scored(hole: ScoringHole)
 
 @onready var ring: Sprite2D = $Ring
+@onready var hit_hole_sfx: AudioStreamPlayer = $"../../SFX/HitHoleSFX"
 
 func _ready() -> void:
 	_setup_hole()
@@ -31,6 +32,7 @@ func _setup_hole() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body is GameBall and body.is_in_play():
 		ball_scored.emit(self)
+		hit_hole_sfx.play()
 
 func get_points() -> int:
 	match hole_type:

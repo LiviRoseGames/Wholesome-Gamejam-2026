@@ -21,6 +21,8 @@ var motion_line_timer := 0.0
 var spawn_z_index := 0
 var held_z_index := 4
 
+@onready var throw_ball_sfx: AudioStreamPlayer = $"../SFX/ThrowBallSFX"
+@onready var hit_wall_sfx: AudioStreamPlayer = $"../SFX/HitWallSFX"
 
 #~~~~~~~~~~~~~~~~~~ STATE MACHINE CODE ~~~~~~~~~~~~~~~~~~
 enum State {
@@ -148,6 +150,8 @@ func launch(direction: Vector2, force: float) -> void:
 
 	var spin_direction: float = -sign(direction.x)
 	angular_velocity = spin_direction * force * 0.01
+
+	throw_ball_sfx.play()
 
 func disable() -> void:
 	freeze = true

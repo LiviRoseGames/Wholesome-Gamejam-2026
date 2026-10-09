@@ -25,6 +25,8 @@
 [ext_resource type="Texture2D" uid="uid://d0x3p5vtsn0vd" path="res://Art/Replay.png" id="23_u50mg"]
 [ext_resource type="Script" uid="uid://c26xlm3vhbj4a" path="res://Scenes/replay.gd" id="24_cbgmd"]
 [ext_resource type="Texture2D" uid="uid://p8p3jgynhie5" path="res://Art/Fence.png" id="25_u50mg"]
+[ext_resource type="AudioStream" uid="uid://bpvpdkw5p3dl5" path="res://SoundEffect/ButtonClick.mp3" id="26_cbgmd"]
+[ext_resource type="AudioStream" uid="uid://dmp5jmrx8uu1f" path="res://SoundEffect/ButtonHover.mp3" id="27_1w6v2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3foiw"]
 shader = ExtResource("11_b3802")
@@ -276,6 +278,16 @@ offset_bottom = 860.0
 texture_normal = ExtResource("23_u50mg")
 script = ExtResource("24_cbgmd")
 metadata/_edit_use_anchors_ = true
+
+[node name="SFX" type="Node" parent="." unique_id=148327784]
+
+[node name="ButtonClickSFX" type="AudioStreamPlayer" parent="SFX" unique_id=2132735091]
+stream = ExtResource("26_cbgmd")
+volume_db = 3.0
+
+[node name="ButtonHoverSFX" type="AudioStreamPlayer" parent="SFX" unique_id=1904171180]
+stream = ExtResource("27_1w6v2")
+volume_db = 3.0
 
 [connection signal="pressed" from="NextRoundButton" to="GameManager" method="_on_next_round_button_pressed"]
 [connection signal="pressed" from="TryAgainButton" to="GameManager" method="_on_try_again_button_pressed"]

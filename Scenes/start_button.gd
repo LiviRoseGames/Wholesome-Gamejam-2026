@@ -9,6 +9,9 @@ extends TextureButton
 @export var glow_fade_duration := 0.12
 @export var glow_color := Color(1.0, 0.85, 0.35)
 
+@onready var button_click_sfx: AudioStreamPlayer = $"../../SFX/ButtonClickSFX"
+@onready var button_hover_sfx: AudioStreamPlayer = $"../../SFX/ButtonHoverSFX"
+
 var final_position := Vector2.ZERO
 var shader_material: ShaderMaterial
 
