@@ -92,6 +92,7 @@ func is_pickup_available() -> bool:
 
 
 func _ready() -> void:
+	body_entered.connect(_on_body_entered)
 	spawn_z_index = z_index
 	contact_monitor = true
 	max_contacts_reported = 1
@@ -102,6 +103,13 @@ func _physics_process(delta: float) -> void:
 	$Shadow.rotation = -rotation
 	$Highlight.rotation = -rotation
 	update_motion_trail(delta)
+
+func _on_body_entered(body: Node) -> void:
+	if not is_in_play():
+		return
+
+	if body.is_in_group("table_sides"):
+		hit_wall_sfx.play()
 
 func set_obstacle_collision(enabled: bool) -> void:
 	if enabled:

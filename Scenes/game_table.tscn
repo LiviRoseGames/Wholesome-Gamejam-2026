@@ -70,26 +70,26 @@ texture = ExtResource("2_gwftx")
 
 [node name="TableSides" type="Node2D" parent="." unique_id=1855572765]
 
-[node name="Left" type="StaticBody2D" parent="TableSides" unique_id=1043553436]
+[node name="Left" type="StaticBody2D" parent="TableSides" unique_id=1043553436 groups=["table_sides"]]
 physics_material_override = SubResource("PhysicsMaterial_u0qty")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Left" unique_id=1723533799]
 position = Vector2(-700, 0)
 shape = SubResource("RectangleShape2D_3foiw")
 
-[node name="Right" type="StaticBody2D" parent="TableSides" unique_id=225905138]
+[node name="Right" type="StaticBody2D" parent="TableSides" unique_id=225905138 groups=["table_sides"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Right" unique_id=2039347073]
 position = Vector2(700, 0)
 shape = SubResource("RectangleShape2D_gdyat")
 
-[node name="Top" type="StaticBody2D" parent="TableSides" unique_id=763046273]
+[node name="Top" type="StaticBody2D" parent="TableSides" unique_id=763046273 groups=["table_sides"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Top" unique_id=1661767426]
 position = Vector2(0, -1288)
 shape = SubResource("RectangleShape2D_kani2")
 
-[node name="Bottom" type="StaticBody2D" parent="TableSides" unique_id=668653793]
+[node name="Bottom" type="StaticBody2D" parent="TableSides" unique_id=668653793 groups=["table_sides"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Bottom" unique_id=636785991]
 position = Vector2(0, 1288)
