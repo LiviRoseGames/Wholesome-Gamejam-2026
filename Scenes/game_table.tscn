@@ -89,7 +89,7 @@ shape = SubResource("RectangleShape2D_gdyat")
 position = Vector2(0, -1288)
 shape = SubResource("RectangleShape2D_kani2")
 
-[node name="Bottom" type="StaticBody2D" parent="TableSides" unique_id=668653793 groups=["table_sides"]]
+[node name="Bottom" type="StaticBody2D" parent="TableSides" unique_id=668653793 groups=["bottom", "table_sides"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Bottom" unique_id=636785991]
 position = Vector2(0, 1288)
