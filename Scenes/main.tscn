@@ -16,14 +16,11 @@
 [ext_resource type="Script" uid="uid://c3wn8lf8ehn02" path="res://Scenes/transition.gd" id="12_fevyy"]
 [ext_resource type="Texture2D" uid="uid://hqwhx30xfv57" path="res://Art/NextRound.png" id="13_fdnlq"]
 [ext_resource type="Shader" uid="uid://dretd6iaj4e0q" path="res://Scenes/hoverglow.gdshader" id="13_h1bgf"]
-[ext_resource type="Script" uid="uid://bgog2eoeu84hg" path="res://Scenes/next_round_button.gd" id="14_k12tt"]
 [ext_resource type="Texture2D" uid="uid://brmv1f2yukek1" path="res://Art/CloudContainerNew.png" id="14_wsu2k"]
-[ext_resource type="Script" uid="uid://dxj56qs8jm5vh" path="res://Scenes/try_again.gd" id="16_h1bgf"]
 [ext_resource type="Script" uid="uid://hyjb76w31r7i" path="res://Scenes/intro_screen.gd" id="20_hibaj"]
-[ext_resource type="Script" uid="uid://rcefv2st3y2u" path="res://Scenes/start_button.gd" id="21_pdsj5"]
 [ext_resource type="Texture2D" uid="uid://cq6alk7vtsgo6" path="res://Art/MenuArt_Text.png" id="22_3pmx8"]
+[ext_resource type="Script" uid="uid://uq1o265a4xg0" path="res://Scenes/CustomButton.gd" id="22_u50mg"]
 [ext_resource type="Texture2D" uid="uid://d0x3p5vtsn0vd" path="res://Art/Replay.png" id="23_u50mg"]
-[ext_resource type="Script" uid="uid://c26xlm3vhbj4a" path="res://Scenes/replay.gd" id="24_cbgmd"]
 [ext_resource type="Texture2D" uid="uid://p8p3jgynhie5" path="res://Art/Fence.png" id="25_u50mg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3foiw"]
@@ -87,7 +84,12 @@ offset_top = 280.0
 offset_right = 3800.0
 offset_bottom = 1200.0
 texture_normal = ExtResource("13_fdnlq")
-script = ExtResource("14_k12tt")
+script = ExtResource("22_u50mg")
+hover_scale_enabled = true
+hover_glow_enabled = true
+pop_in_enabled = true
+wiggle_enabled = true
+start_hidden = true
 
 [node name="TryAgainButton" type="TextureButton" parent="." unique_id=861362490]
 z_index = 200
@@ -100,7 +102,10 @@ offset_transform_scale = Vector2(1.2, 1.2)
 tooltip_text = "TRY AGAIN?
 "
 texture_normal = ExtResource("14_wsu2k")
-script = ExtResource("16_h1bgf")
+script = ExtResource("22_u50mg")
+hover_glow_enabled = true
+drop_in_enabled = true
+start_hidden = true
 
 [node name="TryAgainLabel" type="RichTextLabel" parent="TryAgainButton" unique_id=569784130]
 layout_mode = 1
@@ -115,7 +120,8 @@ offset_right = -6.1035156e-05
 offset_bottom = 0.39996338
 mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0.16470589, 0.14117648, 0.1882353, 1)
-theme_override_constants/outline_size = 10
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/normal_font_size = 100
 bbcode_enabled = true
 text = "Try Again?"
 fit_content = true
@@ -224,10 +230,15 @@ offset_bottom = -380.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2.5, 2.5)
-tooltip_text = "TRY AGAIN?
+tooltip_text = "START
 "
 texture_normal = ExtResource("14_wsu2k")
-script = ExtResource("21_pdsj5")
+script = ExtResource("22_u50mg")
+hover_glow_enabled = true
+drop_in_enabled = true
+start_hidden = true
+drop_distance = 1000.0
+drop_duration = 0.65
 
 [node name="StartLabel" type="RichTextLabel" parent="IntroScreen/StartButton" unique_id=908760387]
 layout_mode = 1
@@ -245,7 +256,7 @@ mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0.16470589, 0.14117648, 0.1882353, 1)
 theme_override_constants/outline_size = 10
 bbcode_enabled = true
-text = "[center][font_size=300][color=#FFD95A]✦[/color] [color=#460C06]START RACE[/color] [color=#FFD95A]✦[/color][/font_size][/center]"
+text = "[center][font_size=300][color=#FFD95A][/color] [color=#460C06]START RACE[/color] [color=#FFD95A][/color][/font_size][/center]"
 fit_content = true
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
@@ -256,6 +267,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="EndScreen" type="Sprite2D" parent="IntroScreen/Control" unique_id=1663037871]
+visible = false
 position = Vector2(1920, 1080)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("22_3pmx8")
@@ -274,7 +286,11 @@ offset_top = -60.0
 offset_right = 3782.0
 offset_bottom = 860.0
 texture_normal = ExtResource("23_u50mg")
-script = ExtResource("24_cbgmd")
+script = ExtResource("22_u50mg")
+hover_glow_enabled = true
+pop_in_enabled = true
+wiggle_enabled = true
+start_hidden = true
 metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="NextRoundButton" to="GameManager" method="_on_next_round_button_pressed"]
