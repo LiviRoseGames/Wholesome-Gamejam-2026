@@ -71,8 +71,6 @@ var tarp_number_glowing := false
 @onready var tarp_number: Label = $NumberLabel
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-@onready var horse_win_sfx: AudioStreamPlayer = $SFX/HorseWinSFX
-@onready var horse_groan_sfx_2: AudioStreamPlayer = $SFX/HorseGroanSFX
 @onready var button_click_sfx: AudioStreamPlayer = $SFX/ButtonClickSFX
 @onready var button_hover_sfx: AudioStreamPlayer = $SFX/ButtonHoverSFX
 @onready var start_whistle_sfx: AudioStreamPlayer = $SFX/StartWhistleSFX
@@ -434,7 +432,6 @@ func celebrate_win(target_position: Vector2) -> void:
 		Vector2(1.15, 0.8),
 		0.12
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	horse_win_sfx.play()
 	
 	await squash_tween.finished
 	

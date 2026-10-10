@@ -8,6 +8,9 @@ signal player_scored(points: int)
 @onready var transition_fade: TransitionFade = $"../TransitionFade"
 @onready var intro_screen: IntroScreen = $"../IntroScreen"
 
+@onready var horse_win_sfx: AudioStreamPlayer = $"../SFX/HorseWinSFX"
+@onready var horse_groan_sfx: AudioStreamPlayer = $"../SFX/HorseGroanSFX"
+
 var ball: GameBall
 var ball_spawn: Marker2D
 var holes: Node2D
@@ -57,8 +60,10 @@ func _on_race_finished(winner: RaceHorse, player_won: bool) -> void:
 			intro_screen.show_end_screen()
 		else:
 			next_round_button.show_button()
+			horse_win_sfx.play()
 	else:
 		try_again_button.show_button()
+		horse_groan_sfx.play()
 
 func _on_ball_scored(hole: ScoringHole) -> void:
 	var points := hole.get_points()
