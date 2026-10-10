@@ -21,6 +21,9 @@ extends Control
 @export var title_wave_height := 8.0
 @export var title_wave_offset := 0.8
 
+@onready var button_click_sfx: AudioStreamPlayer = $"../SFX/ButtonClickSFX"
+@onready var button_hover_sfx: AudioStreamPlayer = $"../SFX/ButtonHoverSFX"
+
 var starting_game := false
 var title_time := 0.0
 var title_is_animating := true
