@@ -16,7 +16,7 @@ position = Vector2(0, -440)
 [node name="Hole3" parent="GameTable/Holes" parent_id_path=PackedInt32Array(359746636, 175197404) index="2" unique_id=1893582721]
 position = Vector2(384, -808)
 
-[node name="Block" parent="." unique_id=678022419 instance=ExtResource("2_qoeng")]
+[node name="Block" parent="." unique_id=678022419 groups=["bottom", "table_sides"] instance=ExtResource("2_qoeng")]
 z_index = 2
 position = Vector2(384, 336)
 direction = 2
