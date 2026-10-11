@@ -26,10 +26,6 @@ shader_parameter/glow_color = Color(1, 0.85, 0.35, 1)
 shader_parameter/glow_strength = 0.0
 shader_parameter/glow_size = 3.0
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ldntv"]
-streams_count = 1
-stream_0/stream = ExtResource("11_4xiap")
-
 [node name="GameScene" type="Node2D" unique_id=571208444]
 
 [node name="GameManager" type="Node" parent="." unique_id=929343372]
@@ -110,7 +106,7 @@ stream = ExtResource("10_uscyt")
 volume_db = -11.0
 
 [node name="ButtonHover" type="AudioStreamPlayer" parent="SFX" unique_id=1679746325]
-stream = SubResource("AudioStreamRandomizer_ldntv")
+stream = ExtResource("11_4xiap")
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="SFX" unique_id=1031157349]
 stream = ExtResource("12_ldntv")
