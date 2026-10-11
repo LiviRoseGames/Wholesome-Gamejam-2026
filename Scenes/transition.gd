@@ -1,3 +1,4 @@
+
 class_name TransitionFade
 extends ColorRect
 
@@ -9,17 +10,18 @@ extends ColorRect
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-
-	shader_material.set_shader_parameter("progress", 0.0)
+	shader_material.set_shader_parameter("progress", 1.0)
 	shader_material.set_shader_parameter("edge_size", edge_size)
 
 
 func fade_to_black() -> void:
-	var tween := create_tween()
+	if shader_material == null:
+		return
 
+	var tween := create_tween()
 	tween.tween_method(
 		set_progress,
-		0.0,
+		get_progress(),
 		1.0,
 		transition_duration
 	).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
@@ -28,11 +30,13 @@ func fade_to_black() -> void:
 
 
 func fade_from_black() -> void:
-	var tween := create_tween()
+	if shader_material == null:
+		return
 
+	var tween := create_tween()
 	tween.tween_method(
 		set_progress,
-		1.0,
+		get_progress(),
 		0.0,
 		transition_duration
 	).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
@@ -40,5 +44,15 @@ func fade_from_black() -> void:
 	await tween.finished
 
 
+func get_progress() -> float:
+	if shader_material == null:
+		return 0.0
+
+	return shader_material.get_shader_parameter("progress")
+
+
 func set_progress(value: float) -> void:
+	if shader_material == null:
+		return
+
 	shader_material.set_shader_parameter("progress", value)

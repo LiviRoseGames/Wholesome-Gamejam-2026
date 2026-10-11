@@ -1,7 +1,188 @@
 [gd_scene format=3 uid="uid://bqmnpn5tbkh0m"]
 
 [ext_resource type="PackedScene" uid="uid://dr5fc5hp8u6dt" path="res://Scenes/game_table.tscn" id="1_7u4ml"]
+[ext_resource type="Script" uid="uid://wlcftye0nl36" path="res://tutorial.gd" id="2_16p8j"]
+[ext_resource type="Script" uid="uid://dnvmduif206l4" path="res://tutorial_arrow.gd" id="3_1ukdm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ukdm"]
+content_margin_left = 36.0
+content_margin_top = 28.0
+content_margin_right = 36.0
+content_margin_bottom = 28.0
+bg_color = Color(0.1254902, 0.14901961, 0.25882354, 0.78431374)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 0.9411765, 0.8235294, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.2509804)
+shadow_size = 12
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0xrym"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+bg_color = Color(0.8235294, 0.32941177, 0.3764706, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m0h5h"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+bg_color = Color(0.64509237, 0.22250721, 0.26937777, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c0r4e"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+bg_color = Color(0.9233063, 0.511693, 0.53350556, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_20uw2"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+bg_color = Color(0.2627451, 0.5058824, 0.75686276, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i36j2"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+bg_color = Color(0.14659622, 0.33091617, 0.5178618, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hkfpk"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+bg_color = Color(0.39383188, 0.6266181, 0.8740629, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [node name="Level1" type="Node2D" unique_id=841713198]
 
 [node name="GameTable" parent="." unique_id=359746636 instance=ExtResource("1_7u4ml")]
+
+[node name="TutorialLayer" type="CanvasLayer" parent="." unique_id=3813179]
+process_mode = 3
+script = ExtResource("2_16p8j")
+
+[node name="TutorialPanel" type="PanelContainer" parent="TutorialLayer" unique_id=1424227524]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 200.0
+offset_top = -280.0
+offset_right = 1400.0
+offset_bottom = 720.0
+grow_vertical = 2
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_1ukdm")
+
+[node name="MarginContainer" type="MarginContainer" parent="TutorialLayer/TutorialPanel" unique_id=1082182371]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Content" type="VBoxContainer" parent="TutorialLayer/TutorialPanel/MarginContainer" unique_id=363581575]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="StepTitle" type="RichTextLabel" parent="TutorialLayer/TutorialPanel/MarginContainer/Content" unique_id=547669941]
+custom_minimum_size = Vector2(900, 90)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 128
+fit_content = true
+autowrap_mode = 0
+
+[node name="StepDescription" type="RichTextLabel" parent="TutorialLayer/TutorialPanel/MarginContainer/Content" unique_id=761072177]
+custom_minimum_size = Vector2(900, 180)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.9647059, 0.94509804, 0.9019608, 1)
+theme_override_font_sizes/normal_font_size = 80
+fit_content = true
+
+[node name="NextButton" type="Button" parent="TutorialLayer/TutorialPanel/MarginContainer/Content" unique_id=515226389]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_0xrym")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_m0h5h")
+theme_override_styles/hover = SubResource("StyleBoxFlat_c0r4e")
+text = "NEXT"
+
+[node name="SkipButton" type="Button" parent="TutorialLayer/TutorialPanel/MarginContainer/Content" unique_id=690998199]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_20uw2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i36j2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hkfpk")
+text = "SKIP"
+
+[node name="TutorialArrow" type="Control" parent="TutorialLayer" unique_id=73363629]
+process_mode = 3
+modulate = Color(1, 0, 0.050980393, 1)
+z_index = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_1ukdm")
+
+[node name="TutorialMarkers" type="Node2D" parent="." unique_id=2047656983]
+
+[node name="RacerMarker" type="Marker2D" parent="TutorialMarkers" unique_id=748655248]
+position = Vector2(-1500, -300)
+
+[node name="HoleMarker" type="Marker2D" parent="TutorialMarkers" unique_id=455753206]
+position = Vector2(-500, -900)
+
+[node name="YellowHoleMarker" type="Marker2D" parent="TutorialMarkers" unique_id=941691370]
+position = Vector2(-550, -500)
+
+[node name="BlueHoleMarker" type="Marker2D" parent="TutorialMarkers" unique_id=1340270997]
+position = Vector2(200, -900)
+
+[node name="RedHoleMarker" type="Marker2D" parent="TutorialMarkers" unique_id=1291556214]
+position = Vector2(450, -600)
+
+[node name="BallMarker" type="Marker2D" parent="TutorialMarkers" unique_id=635532868]
+position = Vector2(-450, 800)
+
+[editable path="GameTable"]

@@ -179,6 +179,8 @@ func launch(direction: Vector2, force: float) -> void:
 
 	var spin_direction: float = -sign(direction.x)
 	angular_velocity = spin_direction * force * 0.01
+	
+	shot_started.emit()
 
 	throw_ball_sfx.play()
 

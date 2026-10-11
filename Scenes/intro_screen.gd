@@ -1,12 +1,10 @@
+
 class_name IntroScreen
 extends Control
 
-@onready var start_button: Control = $StartButton
-@onready var replay_button: Control = $Control/ReplayButton
-@onready var end_screen: Sprite2D = $Control/EndScreen
+signal start_requested
 
-@onready var transition_fade: TransitionFade = $"../TransitionFade"
-@onready var start_label: RichTextLabel = $StartButton/StartLabel
+@onready var start_button: CustomButton = $StartButton
 @onready var horse_title: RichTextLabel = $Title/Wild
 @onready var derby_title: RichTextLabel = $Title/Derby
 @onready var carnival_title: RichTextLabel = $Title/Carnival
@@ -37,67 +35,84 @@ func _ready() -> void:
 	visible = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
-	transition_fade.set_progress(1.0)
-
-	end_screen.hide()
-	replay_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
 	horse_start_position = horse_title.position
 	derby_start_position = derby_title.position
 	carnival_start_position = carnival_title.position
 
-	# Start the title words above the screen.
-	horse_title.position = horse_start_position
-	horse_title.position.y -= title_drop_distance
+	horse_title.hide()
+	derby_title.hide()
+	carnival_title.hide()
 
-	derby_title.position = derby_start_position
-	derby_title.position.y -= title_drop_distance
-
-	carnival_title.position = carnival_start_position
-	carnival_title.position.y -= title_drop_distance
-
-	start_button.hide()
+	start_button.hide_button()
 	start_title_animation()
 
 
 func start_title_animation() -> void:
-	var horse_tween := create_tween()
-	horse_tween.tween_property(
+	horse_title.position = horse_start_position + Vector2(
+		0.0, -title_drop_distance
+	)
+	horse_title.show()
+
+	var horse_tween := GameAnimations.move_to(
 		horse_title,
-		"position:y",
-		horse_start_position.y,
-		title_drop_duration
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		horse_start_position,
+		title_drop_duration,
+		Tween.TRANS_BACK,
+		Tween.EASE_OUT
+	)
+
+	await horse_tween.finished
+	if not is_inside_tree():
+		return
 
 	await get_tree().create_timer(title_drop_delay).timeout
+	if not is_inside_tree():
+		return
 
-	var derby_tween := create_tween()
-	derby_tween.tween_property(
+	derby_title.position = derby_start_position + Vector2(
+		0.0, -title_drop_distance
+	)
+	derby_title.show()
+
+	var derby_tween := GameAnimations.move_to(
 		derby_title,
-		"position:y",
-		derby_start_position.y,
-		title_drop_duration
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		derby_start_position,
+		title_drop_duration,
+		Tween.TRANS_BACK,
+		Tween.EASE_OUT
+	)
+
+	await derby_tween.finished
+	if not is_inside_tree():
+		return
 
 	await get_tree().create_timer(title_drop_delay).timeout
+	if not is_inside_tree():
+		return
 
-	var carnival_tween := create_tween()
-	carnival_tween.tween_property(
+	carnival_title.position = carnival_start_position + Vector2(
+		0.0, -title_drop_distance
+	)
+	carnival_title.show()
+
+	var carnival_tween := GameAnimations.move_to(
 		carnival_title,
-		"position:y",
-		carnival_start_position.y,
-		title_drop_duration
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		carnival_start_position,
+		title_drop_duration,
+		Tween.TRANS_BACK,
+		Tween.EASE_OUT
+	)
 
 	await carnival_tween.finished
+	if not is_inside_tree():
+		return
 
-	# Now that the title has landed, bring in the Start button.
 	title_is_animating = false
 	start_button.show_button()
 
 
 func _process(delta: float) -> void:
-	if title_is_animating:
+	if title_is_animating or starting_game:
 		return
 
 	title_time += delta
@@ -109,12 +124,14 @@ func _process(delta: float) -> void:
 
 	derby_title.position = derby_start_position + Vector2(
 		0.0,
-		sin(title_time * title_wave_speed + title_wave_offset) * title_wave_height
+		sin(title_time * title_wave_speed + title_wave_offset)
+			* title_wave_height
 	)
 
 	carnival_title.position = carnival_start_position + Vector2(
 		0.0,
-		sin(title_time * title_wave_speed + title_wave_offset * 2.0) * title_wave_height
+		sin(title_time * title_wave_speed + title_wave_offset * 2.0)
+			* title_wave_height
 	)
 
 
@@ -123,30 +140,50 @@ func _on_start_button_pressed() -> void:
 		return
 
 	starting_game = true
-	start_button.hide()
+	title_is_animating = true
+	start_button.disabled = true
 
-	await transition_fade.fade_from_black()
-
-	visible = false
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	start_requested.emit()
 
 
-func show_end_screen() -> void:
-	visible = true
-	mouse_filter = Control.MOUSE_FILTER_STOP
+func play_exit_animations() -> void:
+	var exit_position := Vector2(0.0, -title_drop_distance)
 
-	$Title.hide()
-	start_button.hide()
+	var horse_tween := GameAnimations.move_to(
+		horse_title,
+		horse_title.position + exit_position,
+		title_drop_duration,
+		Tween.TRANS_QUAD,
+		Tween.EASE_IN
+	)
 
-	end_screen.show()
-	replay_button.mouse_filter = Control.MOUSE_FILTER_STOP
+	var derby_tween := GameAnimations.move_to(
+		derby_title,
+		derby_title.position + exit_position,
+		title_drop_duration,
+		Tween.TRANS_QUAD,
+		Tween.EASE_IN
+	)
 
+	var carnival_tween := GameAnimations.move_to(
+		carnival_title,
+		carnival_title.position + exit_position,
+		title_drop_duration,
+		Tween.TRANS_QUAD,
+		Tween.EASE_IN
+	)
 
-func _on_replay_button_pressed() -> void:
-	replay_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	end_screen.hide()
+	var button_tween := GameAnimations.move_to(
+		start_button,
+		start_button.position + Vector2(
+			0.0, -start_button.drop_distance
+		),
+		title_drop_duration,
+		Tween.TRANS_QUAD,
+		Tween.EASE_IN
+	)
 
-	$"../LevelManager".load_level(1)
-
-	visible = false
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	await horse_tween.finished
+	await derby_tween.finished
+	await carnival_tween.finished
+	await button_tween.finished

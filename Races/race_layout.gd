@@ -1,6 +1,7 @@
 extends Node2D
 
 signal race_finished(winner: RaceHorse, player_won: bool)
+signal racer_selected(horse: RaceHorse)
 
 @export_group("Bush Layout")
 @export var bush_scene: PackedScene
@@ -35,6 +36,8 @@ var player_horse: RaceHorse
 var horse_selected := false
 var race_started := false
 
+var tutorial_mode := false
+
 #var ai_score_timers: Array[float] = []
 var ai_levels: Array[int] = []
 var ai_check_timers: Array[float] = []
@@ -45,13 +48,14 @@ var bushes: Array[RaceBush] = []
 var is_race_finished := false
 
 func _ready() -> void:
+	add_to_group("race_layout")
 	spawn_bushes()
 	spawn_horses()
 
-	var game_manager := $"../GameManager"
+	var game_manager = get_node("../GameManager")
 	game_manager.player_scored.connect(_on_player_scored)
 
-	var level_manager := $"../LevelManager"
+	var level_manager: LevelManager = get_tree().root.get_node("Main/LevelManager")
 	level_manager.level_loaded.connect(_on_level_loaded)
 
 func _process(delta: float) -> void:
@@ -82,8 +86,12 @@ func _on_horse_selected(horse: RaceHorse) -> void:
 		race_horse.set_selected(race_horse == horse)
 		race_horse.set_selection_phase_active(false)
 
+	racer_selected.emit(horse)
+	
+	if tutorial_mode:
+		return
+	
 	race_started = true
-
 	$"../GameManager".drop_ball_into_play()
 
 func _on_horse_finished(horse: RaceHorse) -> void:
