@@ -89,6 +89,13 @@ func start_game() -> void:
 
 	await transition_fade.fade_from_black()
 	transitioning = false
+	
+	var tutorial := current_level_scene.get_node_or_null(
+		"TutorialLayer"
+	)
+
+	if tutorial and tutorial.has_method("start_tutorial"):
+		tutorial.start_tutorial()
 
 
 func load_level(level_number: int) -> void:
@@ -199,6 +206,13 @@ func replay_game() -> void:
 	await level_loaded
 	await transition_fade.fade_from_black()
 	transitioning = false
+
+	var tutorial := current_level_scene.get_node_or_null(
+		"TutorialLayer"
+	)
+
+	if tutorial and tutorial.has_method("start_tutorial"):
+		tutorial.start_tutorial()
 
 
 func is_last_level() -> bool:

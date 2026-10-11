@@ -21,6 +21,7 @@ var transition_active := false
 var final_level_won := false
 
 func _ready() -> void:
+	add_to_group("game_manager")
 	level_manager.level_loaded.connect(_on_level_loaded)
 
 	var race_layout = get_node("../RaceLayout")
@@ -35,6 +36,9 @@ func _ready() -> void:
 
 func _on_level_loaded(game_table: GameTable) -> void:
 	game_table.ball_out_of_bounds.connect(_on_ball_out_of_bounds)
+	
+	var tutorial_layer = game_table.get_parent().get_node_or_null("TutorialLayer")
+	$"../RaceLayout".tutorial_mode = tutorial_layer != null
 
 	next_round_button.hide()
 	try_again_button.hide()
