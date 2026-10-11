@@ -44,13 +44,13 @@ var tutorial_steps: Array[Dictionary] = [
 		"title": "Blue holes — Fast",
 		"description": "Blue holes make your horse move faster!",
 		"marker": "BlueHoleMarker",
-		"angle": 160.0
+		"angle": 120.0
 	},
 	{
 		"title": "Red holes — Fastest",
 		"description": "Red holes give your horse the biggest boost!",
 		"marker": "RedHoleMarker",
-		"angle": 120.0
+		"angle": 160.0
 	},
 	{
 		"title": "Flick the ball!",
