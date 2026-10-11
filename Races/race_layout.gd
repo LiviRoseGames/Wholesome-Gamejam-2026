@@ -48,10 +48,10 @@ func _ready() -> void:
 	spawn_bushes()
 	spawn_horses()
 
-	var game_manager := $"../GameManager"
+	var game_manager = get_node("../GameManager")
 	game_manager.player_scored.connect(_on_player_scored)
 
-	var level_manager := $"../LevelManager"
+	var level_manager: LevelManager = get_tree().root.get_node("Main/LevelManager")
 	level_manager.level_loaded.connect(_on_level_loaded)
 
 func _process(delta: float) -> void:

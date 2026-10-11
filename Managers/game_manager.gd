@@ -1,3 +1,4 @@
+
 extends Node
 
 signal player_scored(points: int)
@@ -5,8 +6,10 @@ signal player_scored(points: int)
 @onready var winner_popup: WinnerPopup = $"../RaceLayout/WinnerPopup"
 @onready var next_round_button: TextureButton = $"../NextRoundButton"
 @onready var try_again_button: TextureButton = $"../TryAgainButton"
-@onready var transition_fade: TransitionFade = $"../TransitionFade"
-@onready var intro_screen: IntroScreen = $"../IntroScreen"
+
+@onready var main: Node = get_tree().root.get_node("Main")
+@onready var level_manager: LevelManager = main.get_node("LevelManager")
+@onready var transition_fade: TransitionFade = main.get_node("TransitionFade")
 
 var ball: GameBall
 var ball_spawn: Marker2D
@@ -16,20 +19,26 @@ var player_score := 0
 var is_race_finished := false
 var transition_active := false
 
+
 func _ready() -> void:
-	var level_manager := $"../LevelManager"
 	level_manager.level_loaded.connect(_on_level_loaded)
 
-	var race_layout := $"../RaceLayout"
+	var race_layout = get_node("../RaceLayout")
 	race_layout.race_finished.connect(_on_race_finished)
+
+	if not next_round_button.pressed.is_connected(_on_next_round_button_pressed):
+		next_round_button.pressed.connect(_on_next_round_button_pressed)
+
+	if not try_again_button.pressed.is_connected(_on_try_again_button_pressed):
+		try_again_button.pressed.connect(_on_try_again_button_pressed)
 
 
 func _on_level_loaded(game_table: GameTable) -> void:
 	game_table.ball_out_of_bounds.connect(_on_ball_out_of_bounds)
-	
+
 	next_round_button.hide()
 	try_again_button.hide()
-	
+
 	player_score = 0
 	is_race_finished = false
 
@@ -46,19 +55,28 @@ func _on_level_loaded(game_table: GameTable) -> void:
 	if transition_active:
 		transition_active = false
 		await transition_fade.fade_from_black()
-	
+
+
 func _on_race_finished(winner: RaceHorse, player_won: bool) -> void:
 	is_race_finished = true
 	disable_ball()
 	winner_popup.show_winner(winner.horse_name, player_won)
 
 	if player_won:
-		if $"../LevelManager".is_last_level():
-			intro_screen.show_end_screen()
+		if level_manager.is_last_level():
+			transition_active = true
+			await transition_fade.fade_to_black()
+
+			winner_popup.hide()
+			level_manager.show_end_scene()
+
+			await transition_fade.fade_from_black()
+			transition_active = false
 		else:
 			next_round_button.show_button()
 	else:
 		try_again_button.show_button()
+
 
 func _on_ball_scored(hole: ScoringHole) -> void:
 	var points := hole.get_points()
@@ -68,8 +86,8 @@ func _on_ball_scored(hole: ScoringHole) -> void:
 	player_scored.emit(points)
 
 	ball.begin_scoring()
-
 	call_deferred("_handle_ball_scored", hole_position)
+
 
 func _on_ball_out_of_bounds() -> void:
 	if is_race_finished:
@@ -88,34 +106,29 @@ func _on_ball_out_of_bounds() -> void:
 
 	ball.respawn_at(respawn_position)
 
+
 func _handle_ball_scored(hole_position: Vector2) -> void:
 	var tween := create_tween()
 	tween.set_parallel(true)
 
 	tween.tween_property(
-		ball,
-		"global_position",
-		hole_position,
-		0.25
+		ball, "global_position", hole_position, 0.25
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
 	tween.tween_property(
-		ball,
-		"scale",
-		Vector2.ZERO,
-		0.25
+		ball, "scale", Vector2.ZERO, 0.25
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
 	await tween.finished
-
 	await respawn_ball(hole_position.x)
+
 
 func hide_ball() -> void:
 	ball.visible = false
 	ball.freeze = true
-
 	ball.linear_velocity = Vector2.ZERO
 	ball.angular_velocity = 0.0
+
 
 func drop_ball_into_play() -> void:
 	ball.visible = true
@@ -123,15 +136,15 @@ func drop_ball_into_play() -> void:
 	ball.scale = Vector2.ONE
 	ball.global_position = ball_spawn.global_position
 	ball.z_index = ball.spawn_z_index
-	
 	ball.drop_into_play()
+
 
 func disable_ball() -> void:
 	ball.disable()
 
+
 func respawn_ball(respawn_x: float) -> void:
 	ball.begin_respawn()
-
 	await get_tree().create_timer(0.35).timeout
 
 	var respawn_position := Vector2(
@@ -141,16 +154,18 @@ func respawn_ball(respawn_x: float) -> void:
 
 	ball.respawn_at(respawn_position)
 
+
 func _on_try_again_button_pressed() -> void:
 	try_again_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	
+
 	transition_active = true
 	await transition_fade.fade_to_black()
-	$"../LevelManager".restart_level()
+	level_manager.restart_level()
+
 
 func _on_next_round_button_pressed() -> void:
 	next_round_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	
+
 	transition_active = true
 	await transition_fade.fade_to_black()
-	$"../LevelManager".next_level()
+	level_manager.next_level()
