@@ -18,7 +18,7 @@ var holes: Node2D
 var player_score := 0
 var is_race_finished := false
 var transition_active := false
-
+var final_level_won := false
 
 func _ready() -> void:
 	level_manager.level_loaded.connect(_on_level_loaded)
@@ -62,20 +62,27 @@ func _on_race_finished(winner: RaceHorse, player_won: bool) -> void:
 	disable_ball()
 	winner_popup.show_winner(winner.horse_name, player_won)
 
+	final_level_won = false
+
 	if player_won:
 		if level_manager.is_last_level():
-			transition_active = true
-			await transition_fade.fade_to_black()
-
-			winner_popup.hide()
-			level_manager.show_end_scene()
-
-			await transition_fade.fade_from_black()
-			transition_active = false
+			final_level_won = true
+			_set_try_again_button_text("Congrats!")
+			try_again_button.show_button()
 		else:
 			next_round_button.show_button()
 	else:
+		_set_try_again_button_text("Try Again")
 		try_again_button.show_button()
+
+
+func _set_try_again_button_text(new_text: String) -> void:
+	var label := try_again_button.find_child("TryAgainLabel", true, false) as RichTextLabel
+
+	if label:
+		label.text = new_text
+	else:
+		push_warning("TryAgainButton needs a child Label to change its text.")
 
 
 func _on_ball_scored(hole: ScoringHole) -> void:
@@ -156,12 +163,19 @@ func respawn_ball(respawn_x: float) -> void:
 
 
 func _on_try_again_button_pressed() -> void:
-	try_again_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if transition_active:
+		return
 
 	transition_active = true
-	await transition_fade.fade_to_black()
-	level_manager.restart_level()
 
+	if final_level_won:
+		await level_manager.show_end_scene_with_transition()
+	else:
+		await transition_fade.fade_to_black()
+		level_manager.restart_level()
+		await level_manager.level_loaded
+		await transition_fade.fade_from_black()
+		transition_active = false
 
 func _on_next_round_button_pressed() -> void:
 	next_round_button.mouse_filter = Control.MOUSE_FILTER_IGNORE

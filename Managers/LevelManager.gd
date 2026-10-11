@@ -124,6 +124,18 @@ func next_level() -> void:
 func restart_level() -> void:
 	load_level(current_level)
 
+func show_end_scene_with_transition() -> void:
+	if transitioning:
+		return
+
+	transitioning = true
+	await transition_fade.fade_to_black()
+
+	show_end_scene()
+
+	await get_tree().process_frame
+	await transition_fade.fade_from_black()
+	transitioning = false
 
 func show_end_scene() -> void:
 	_clear_level()
