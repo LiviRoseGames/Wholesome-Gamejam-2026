@@ -71,6 +71,12 @@ var tarp_number_glowing := false
 @onready var tarp_number: Label = $NumberLabel
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+@onready var horse_groan: AudioStreamPlayer = $SFX/HorseGroan
+@onready var horse_win: AudioStreamPlayer = $SFX/HorseWin
+@onready var button_hover: AudioStreamPlayer = $SFX/ButtonHover
+@onready var button_click: AudioStreamPlayer = $SFX/ButtonClick
+@onready var start_whistle: AudioStreamPlayer = $SFX/StartWhistle
+
 static var previous_variant := -1
 static var used_names: Array[String] = []
 static var used_name_styles: Array[int] = []
@@ -148,6 +154,9 @@ func _on_selection_area_input_event(
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			selected.emit(self)
+			button_click.play()
+			await get_tree().create_timer(1.0).timeout
+			start_whistle.play()
 
 func randomize_appearance() -> void:
 	if body_variants.size() > 0:
@@ -380,6 +389,7 @@ func update_hover() -> void:
 	if is_hovered:
 		scale_head_to(hover_head_scale)
 		set_name_visible(true)
+		button_hover.play()
 	else:
 		scale_head_to(normal_head_scale)
 		set_name_visible(false)

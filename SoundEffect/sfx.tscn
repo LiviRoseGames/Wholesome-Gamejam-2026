@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://egaoptlmv1mp"]
+
+[ext_resource type="AudioStream" uid="uid://dmp5jmrx8uu1f" path="res://SoundEffect/SelectHover.mp3" id="1_8qcgl"]
+[ext_resource type="AudioStream" uid="uid://dfmxiwl0la0q8" path="res://SoundEffect/StartWhistle.mp3" id="2_dkw57"]
+[ext_resource type="AudioStream" uid="uid://di86t3wgfgewq" path="res://SoundEffect/HorseGroan.mp3" id="3_8dusy"]
+[ext_resource type="AudioStream" uid="uid://bduocl4rda1rd" path="res://SoundEffect/HorseWin.mp3" id="4_wfryk"]
+[ext_resource type="AudioStream" uid="uid://b6cwqrkxwj78b" path="res://SoundEffect/HitHole.mp3" id="5_80hne"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_d8mhh"]
+random_pitch = 1.5914406
+streams_count = 1
+stream_0/stream = ExtResource("1_8qcgl")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kog7a"]
+random_pitch = 1.0723927
+random_volume_offset_db = 2.95
+streams_count = 1
+stream_0/stream = ExtResource("5_80hne")
+
+[node name="SFX" type="Node" unique_id=352795058]
+
+[node name="ButtonHover" type="AudioStreamPlayer" parent="." unique_id=986463319]
+stream = SubResource("AudioStreamRandomizer_d8mhh")
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="." unique_id=1521248509]
+stream = ExtResource("1_8qcgl")
+
+[node name="StartWhistle" type="AudioStreamPlayer" parent="." unique_id=42014099]
+stream = ExtResource("2_dkw57")
+
+[node name="HorseGroan" type="AudioStreamPlayer" parent="." unique_id=2120018570]
+stream = ExtResource("3_8dusy")
+
+[node name="HorseWin" type="AudioStreamPlayer" parent="." unique_id=542338930]
+stream = ExtResource("4_wfryk")
+
+[node name="HitHole" type="AudioStreamPlayer" parent="." unique_id=474454154]
+stream = SubResource("AudioStreamRandomizer_kog7a")
+volume_db = -7.0

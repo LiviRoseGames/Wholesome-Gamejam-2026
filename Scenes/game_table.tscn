@@ -6,6 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://4hxdppls2u7a" path="res://Ball/ball.tscn" id="3_ipb7x"]
 [ext_resource type="Script" uid="uid://bfubmxdywgkve" path="res://Scenes/ball_hold_area.gd" id="4_ipb7x"]
 [ext_resource type="PackedScene" uid="uid://bbayk8d3th0cg" path="res://Hole/hole.tscn" id="5_6ex0o"]
+[ext_resource type="AudioStream" uid="uid://b6cwqrkxwj78b" path="res://SoundEffect/HitHole.mp3" id="7_1gg3k"]
+[ext_resource type="AudioStream" uid="uid://c5wo0exo4pfsr" path="res://SoundEffect/BlockMoving.mp3" id="7_pac8e"]
+[ext_resource type="AudioStream" uid="uid://di86t3wgfgewq" path="res://SoundEffect/HorseGroan.mp3" id="7_tjn26"]
+[ext_resource type="AudioStream" uid="uid://bduocl4rda1rd" path="res://SoundEffect/HorseWin.mp3" id="8_pac8e"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u0qty"]
 friction = 0.0
@@ -30,6 +34,18 @@ bounce = 0.2
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ef17l"]
 size = Vector2(1280, 500)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_gkem2"]
+random_pitch = 1.0680654
+random_volume_offset_db = 1.85
+streams_count = 1
+stream_0/stream = ExtResource("7_pac8e")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0t0x3"]
+random_pitch = 1.0723927
+random_volume_offset_db = 2.95
+streams_count = 1
+stream_0/stream = ExtResource("7_1gg3k")
+
 [node name="GameTable" type="Node2D" unique_id=359746636]
 script = ExtResource("1_6ex0o")
 
@@ -45,26 +61,26 @@ texture = ExtResource("2_gwftx")
 
 [node name="TableSides" type="Node2D" parent="." unique_id=1855572765]
 
-[node name="Left" type="StaticBody2D" parent="TableSides" unique_id=1043553436]
+[node name="Left" type="StaticBody2D" parent="TableSides" unique_id=1043553436 groups=["table_sides"]]
 physics_material_override = SubResource("PhysicsMaterial_u0qty")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Left" unique_id=1723533799]
 position = Vector2(-700, 0)
 shape = SubResource("RectangleShape2D_3foiw")
 
-[node name="Right" type="StaticBody2D" parent="TableSides" unique_id=225905138]
+[node name="Right" type="StaticBody2D" parent="TableSides" unique_id=225905138 groups=["table_sides"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Right" unique_id=2039347073]
 position = Vector2(700, 0)
 shape = SubResource("RectangleShape2D_gdyat")
 
-[node name="Top" type="StaticBody2D" parent="TableSides" unique_id=763046273]
+[node name="Top" type="StaticBody2D" parent="TableSides" unique_id=763046273 groups=["table_sides"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Top" unique_id=1661767426]
 position = Vector2(0, -1288)
 shape = SubResource("RectangleShape2D_kani2")
 
-[node name="Bottom" type="StaticBody2D" parent="TableSides" unique_id=668653793]
+[node name="Bottom" type="StaticBody2D" parent="TableSides" unique_id=668653793 groups=["bottom", "table_sides"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TableSides/Bottom" unique_id=636785991]
 position = Vector2(0, 1288)
@@ -101,5 +117,22 @@ hole_type = 1
 [node name="Hole3" parent="Holes" unique_id=1893582721 instance=ExtResource("5_6ex0o")]
 position = Vector2(1, -876)
 hole_type = 2
+
+[node name="SFX" type="Node" parent="." unique_id=1623997857]
+
+[node name="BlockMoving" type="AudioStreamPlayer" parent="SFX" unique_id=1175033851]
+stream = SubResource("AudioStreamRandomizer_gkem2")
+
+[node name="HorseGroan" type="AudioStreamPlayer" parent="SFX" unique_id=354386349]
+stream = ExtResource("7_tjn26")
+volume_db = -3.0
+
+[node name="HorseWin" type="AudioStreamPlayer" parent="SFX" unique_id=2042245578]
+stream = ExtResource("8_pac8e")
+volume_db = -11.0
+
+[node name="HitHole" type="AudioStreamPlayer" parent="SFX" unique_id=407194271]
+stream = SubResource("AudioStreamRandomizer_0t0x3")
+volume_db = -7.0
 
 [connection signal="body_entered" from="Ball" to="Ball" method="_on_body_entered"]

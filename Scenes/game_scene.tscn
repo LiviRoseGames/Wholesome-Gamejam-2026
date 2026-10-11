@@ -8,6 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://hqwhx30xfv57" path="res://Art/NextRound.png" id="5_uscyt"]
 [ext_resource type="Script" uid="uid://uq1o265a4xg0" path="res://Scenes/CustomButton.gd" id="6_4xiap"]
 [ext_resource type="Texture2D" uid="uid://brmv1f2yukek1" path="res://Art/CloudContainerNew.png" id="7_wywco"]
+[ext_resource type="AudioStream" uid="uid://di86t3wgfgewq" path="res://SoundEffect/HorseGroan.mp3" id="9_5dgvu"]
+[ext_resource type="AudioStream" uid="uid://bduocl4rda1rd" path="res://SoundEffect/HorseWin.mp3" id="10_uscyt"]
+[ext_resource type="AudioStream" uid="uid://dmp5jmrx8uu1f" path="res://SoundEffect/SelectHover.mp3" id="11_4xiap"]
+[ext_resource type="AudioStream" uid="uid://bpvpdkw5p3dl5" path="res://SoundEffect/ButtonClick.mp3" id="12_ldntv"]
+[ext_resource type="AudioStream" uid="uid://dfmxiwl0la0q8" path="res://SoundEffect/StartWhistle.mp3" id="12_wywco"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ldntv"]
 shader = ExtResource("4_5dgvu")
@@ -89,3 +94,22 @@ text = "Try Again?"
 fit_content = true
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="SFX" type="Node" parent="." unique_id=685847329]
+
+[node name="HorseGroan" type="AudioStreamPlayer" parent="SFX" unique_id=2045951321]
+stream = ExtResource("9_5dgvu")
+volume_db = -3.0
+
+[node name="HorseWin" type="AudioStreamPlayer" parent="SFX" unique_id=695272429]
+stream = ExtResource("10_uscyt")
+volume_db = -11.0
+
+[node name="ButtonHover" type="AudioStreamPlayer" parent="SFX" unique_id=1679746325]
+stream = ExtResource("11_4xiap")
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="SFX" unique_id=1031157349]
+stream = ExtResource("12_ldntv")
+
+[node name="StartWhistle" type="AudioStreamPlayer" parent="SFX" unique_id=1910620488]
+stream = ExtResource("12_wywco")

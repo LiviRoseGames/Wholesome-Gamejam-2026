@@ -14,11 +14,17 @@
 [ext_resource type="PackedScene" uid="uid://cix4y2di8erv8" path="res://Scenes/game_scene.tscn" id="8_wsu2k"]
 [ext_resource type="Shader" uid="uid://wwr0cmn0wo80" path="res://Scenes/fade.gdshader" id="11_b3802"]
 [ext_resource type="Script" uid="uid://c3wn8lf8ehn02" path="res://Scenes/transition.gd" id="12_fevyy"]
+[ext_resource type="AudioStream" uid="uid://bpvpdkw5p3dl5" path="res://SoundEffect/ButtonClick.mp3" id="16_k12tt"]
+[ext_resource type="AudioStream" uid="uid://dmp5jmrx8uu1f" path="res://SoundEffect/SelectHover.mp3" id="17_hibaj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3foiw"]
 shader = ExtResource("11_b3802")
 shader_parameter/progress = 0.0
 shader_parameter/edge_size = 0.08
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_h1bgf"]
+streams_count = 1
+stream_0/stream = ExtResource("17_hibaj")
 
 [node name="Main" type="Node2D" unique_id=2023708926]
 
@@ -43,3 +49,11 @@ offset_right = 4088.0
 offset_bottom = 3582.0
 color = Color(0.60784316, 0.09411765, 0.23529412, 1)
 script = ExtResource("12_fevyy")
+
+[node name="SFX" type="Node" parent="." unique_id=514740835]
+
+[node name="ButtonHover" type="AudioStreamPlayer" parent="SFX" unique_id=1658077199]
+stream = SubResource("AudioStreamRandomizer_h1bgf")
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="SFX" unique_id=778318387]
+stream = ExtResource("16_k12tt")

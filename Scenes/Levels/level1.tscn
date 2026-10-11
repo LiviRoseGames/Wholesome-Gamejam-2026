@@ -176,10 +176,10 @@ position = Vector2(-500, -900)
 [node name="YellowHoleMarker" type="Marker2D" parent="TutorialMarkers" unique_id=941691370]
 position = Vector2(-550, -500)
 
-[node name="BlueHoleMarker" type="Marker2D" parent="TutorialMarkers" unique_id=1340270997]
+[node name="RedHoleMarker" type="Marker2D" parent="TutorialMarkers" unique_id=1340270997]
 position = Vector2(200, -900)
 
-[node name="RedHoleMarker" type="Marker2D" parent="TutorialMarkers" unique_id=1291556214]
+[node name="BlueHoleMarker" type="Marker2D" parent="TutorialMarkers" unique_id=1291556214]
 position = Vector2(450, -600)
 
 [node name="BallMarker" type="Marker2D" parent="TutorialMarkers" unique_id=635532868]

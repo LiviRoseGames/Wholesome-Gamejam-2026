@@ -11,6 +11,9 @@ extends TextureButton
 
 @onready var label: RichTextLabel = $TryAgainLabel
 
+@onready var button_hover: AudioStreamPlayer = $SFX/ButtonHover
+@onready var button_click: AudioStreamPlayer = $SFX/ButtonClick
+
 var final_position := Vector2.ZERO
 var shader_material: ShaderMaterial
 
@@ -51,6 +54,7 @@ func show_button() -> void:
 
 
 func _on_mouse_entered() -> void:
+	button_hover.play()
 	if shader_material == null:
 		return
 
@@ -65,6 +69,7 @@ func _on_mouse_entered() -> void:
 
 
 func _on_mouse_exited() -> void:
+	button_click.play()
 	if shader_material == null:
 		return
 

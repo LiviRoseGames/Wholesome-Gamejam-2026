@@ -25,6 +25,9 @@ extends TextureButton
 @export_group("Pop In")
 @export var pop_duration := 0.35
 
+@onready var button_hover: AudioStreamPlayer = $"../SFX/ButtonHover"
+@onready var button_click: AudioStreamPlayer = $"../SFX/ButtonClick"
+
 var normal_scale := Vector2.ONE
 var final_position := Vector2.ZERO
 var shader_material: ShaderMaterial
@@ -45,6 +48,7 @@ func _ready() -> void:
 
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+	pressed.connect(_on_pressed)
 
 	if start_hidden:
 		hide_button()
@@ -79,6 +83,7 @@ func _on_mouse_entered() -> void:
 		hover_tween = GameAnimations.scale_to(
 			self, normal_scale * hover_scale, hover_scale_duration
 		)
+		button_hover.play()
 
 	if hover_glow_enabled:
 		set_glow_strength(hover_glow_strength)
@@ -86,6 +91,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	if hover_scale_enabled:
+		button_click.play()
 		_kill_tween(hover_tween)
 		hover_tween = GameAnimations.scale_to(
 			self, normal_scale, hover_scale_duration
@@ -94,6 +100,8 @@ func _on_mouse_exited() -> void:
 	if hover_glow_enabled:
 		set_glow_strength(0.0)
 
+func _on_pressed() -> void:
+	button_click.play()
 
 func set_glow_strength(value: float) -> void:
 	if shader_material == null:

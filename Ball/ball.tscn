@@ -3,12 +3,32 @@
 [ext_resource type="Script" uid="uid://dqxmcg08se75n" path="res://Ball/ball.gd" id="1_l4sn5"]
 [ext_resource type="Texture2D" uid="uid://b5478nf2wdpg5" path="res://Art/Baseball_Test.png" id="2_65gad"]
 [ext_resource type="Shader" uid="uid://cxm3ct173t1wq" path="res://Ball/ball.gdshader" id="3_ngrkv"]
+[ext_resource type="AudioStream" uid="uid://mo52jvv04nhd" path="res://SoundEffect/HitWall.mp3" id="4_4s4qd"]
+[ext_resource type="AudioStream" uid="uid://lfwelp7hjf3y" path="res://SoundEffect/ThrowBall1.mp3" id="4_rg84v"]
+[ext_resource type="AudioStream" uid="uid://dc7ol8wrjbccd" path="res://SoundEffect/ThrowBall2.mp3" id="5_hsaat"]
+[ext_resource type="AudioStream" uid="uid://bmu0bjx1683un" path="res://SoundEffect/ThrowBall3.mp3" id="6_oompg"]
+[ext_resource type="AudioStream" uid="uid://ddq08jqyxn2hq" path="res://SoundEffect/ThrowBall4.mp3" id="7_bjqt2"]
+[ext_resource type="AudioStream" uid="uid://di86t3wgfgewq" path="res://SoundEffect/HorseGroan.mp3" id="9_bjqt2"]
+[ext_resource type="AudioStream" uid="uid://bduocl4rda1rd" path="res://SoundEffect/HorseWin.mp3" id="10_o177p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_65gad"]
 shader = ExtResource("3_ngrkv")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8gbba"]
 radius = 101.07918
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4s4qd"]
+random_pitch = 1.0619138
+streams_count = 4
+stream_0/stream = ExtResource("4_rg84v")
+stream_1/stream = ExtResource("5_hsaat")
+stream_2/stream = ExtResource("6_oompg")
+stream_3/stream = ExtResource("7_bjqt2")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o177p"]
+random_pitch = 1.0699178
+streams_count = 1
+stream_0/stream = ExtResource("4_4s4qd")
 
 [node name="Ball" type="RigidBody2D" unique_id=297288324]
 gravity_scale = 0.0
@@ -32,3 +52,19 @@ texture = ExtResource("2_65gad")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=801342274]
 shape = SubResource("CircleShape2D_8gbba")
+
+[node name="SFX" type="Node" parent="." unique_id=2121172937]
+
+[node name="ThrowBallSFX" type="AudioStreamPlayer" parent="SFX" unique_id=142897558]
+stream = SubResource("AudioStreamRandomizer_4s4qd")
+
+[node name="HitWallSFX" type="AudioStreamPlayer" parent="SFX" unique_id=519026005]
+stream = SubResource("AudioStreamRandomizer_o177p")
+
+[node name="HorseGroan" type="AudioStreamPlayer" parent="SFX" unique_id=2093193798]
+stream = ExtResource("9_bjqt2")
+volume_db = -3.0
+
+[node name="HorseWin" type="AudioStreamPlayer" parent="SFX" unique_id=1036017961]
+stream = ExtResource("10_o177p")
+volume_db = -11.0

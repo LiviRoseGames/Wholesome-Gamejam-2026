@@ -4,6 +4,8 @@
 [ext_resource type="Shader" uid="uid://dretd6iaj4e0q" path="res://Scenes/hoverglow.gdshader" id="2_8p78e"]
 [ext_resource type="Texture2D" uid="uid://d0x3p5vtsn0vd" path="res://Art/Replay.png" id="3_20ln8"]
 [ext_resource type="Script" uid="uid://uq1o265a4xg0" path="res://Scenes/CustomButton.gd" id="4_foadp"]
+[ext_resource type="AudioStream" uid="uid://dmp5jmrx8uu1f" path="res://SoundEffect/SelectHover.mp3" id="5_8p78e"]
+[ext_resource type="AudioStream" uid="uid://bpvpdkw5p3dl5" path="res://SoundEffect/ButtonClick.mp3" id="6_20ln8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k12tt"]
 shader = ExtResource("2_8p78e")
@@ -44,3 +46,11 @@ hover_glow_enabled = true
 pop_in_enabled = true
 wiggle_enabled = true
 metadata/_edit_use_anchors_ = true
+
+[node name="SFX" type="Node" parent="." unique_id=367853512]
+
+[node name="ButtonHover" type="AudioStreamPlayer" parent="SFX" unique_id=1144765493]
+stream = ExtResource("5_8p78e")
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="SFX" unique_id=1059712981]
+stream = ExtResource("6_20ln8")
