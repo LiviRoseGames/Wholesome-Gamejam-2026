@@ -1,10 +1,10 @@
+
 class_name IntroScreen
 extends Control
 
 signal start_requested
 
 @onready var start_button: CustomButton = $StartButton
-@onready var start_label: RichTextLabel = $StartButton/StartLabel
 @onready var horse_title: RichTextLabel = $Title/Wild
 @onready var derby_title: RichTextLabel = $Title/Derby
 @onready var carnival_title: RichTextLabel = $Title/Carnival
@@ -36,46 +36,69 @@ func _ready() -> void:
 	derby_start_position = derby_title.position
 	carnival_start_position = carnival_title.position
 
-	horse_title.position.y -= title_drop_distance
-	derby_title.position.y -= title_drop_distance
-	carnival_title.position.y -= title_drop_distance
+	horse_title.hide()
+	derby_title.hide()
+	carnival_title.hide()
 
 	start_button.hide_button()
 	start_title_animation()
 
 
 func start_title_animation() -> void:
-	var horse_tween := create_tween()
-	horse_tween.tween_property(
+	horse_title.position = horse_start_position + Vector2(
+		0.0, -title_drop_distance
+	)
+	horse_title.show()
+
+	var horse_tween := GameAnimations.move_to(
 		horse_title,
-		"position:y",
-		horse_start_position.y,
-		title_drop_duration
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		horse_start_position,
+		title_drop_duration,
+		Tween.TRANS_BACK,
+		Tween.EASE_OUT
+	)
+
+	await horse_tween.finished
+	if not is_inside_tree():
+		return
 
 	await get_tree().create_timer(title_drop_delay).timeout
 	if not is_inside_tree():
 		return
 
-	var derby_tween := create_tween()
-	derby_tween.tween_property(
+	derby_title.position = derby_start_position + Vector2(
+		0.0, -title_drop_distance
+	)
+	derby_title.show()
+
+	var derby_tween := GameAnimations.move_to(
 		derby_title,
-		"position:y",
-		derby_start_position.y,
-		title_drop_duration
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		derby_start_position,
+		title_drop_duration,
+		Tween.TRANS_BACK,
+		Tween.EASE_OUT
+	)
+
+	await derby_tween.finished
+	if not is_inside_tree():
+		return
 
 	await get_tree().create_timer(title_drop_delay).timeout
 	if not is_inside_tree():
 		return
 
-	var carnival_tween := create_tween()
-	carnival_tween.tween_property(
+	carnival_title.position = carnival_start_position + Vector2(
+		0.0, -title_drop_distance
+	)
+	carnival_title.show()
+
+	var carnival_tween := GameAnimations.move_to(
 		carnival_title,
-		"position:y",
-		carnival_start_position.y,
-		title_drop_duration
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		carnival_start_position,
+		title_drop_duration,
+		Tween.TRANS_BACK,
+		Tween.EASE_OUT
+	)
 
 	await carnival_tween.finished
 	if not is_inside_tree():
@@ -86,7 +109,7 @@ func start_title_animation() -> void:
 
 
 func _process(delta: float) -> void:
-	if title_is_animating:
+	if title_is_animating or starting_game:
 		return
 
 	title_time += delta
@@ -114,5 +137,50 @@ func _on_start_button_pressed() -> void:
 		return
 
 	starting_game = true
-	start_button.hide_button()
+	title_is_animating = true
+	start_button.disabled = true
+
 	start_requested.emit()
+
+
+func play_exit_animations() -> void:
+	var exit_position := Vector2(0.0, -title_drop_distance)
+
+	var horse_tween := GameAnimations.move_to(
+		horse_title,
+		horse_title.position + exit_position,
+		title_drop_duration,
+		Tween.TRANS_QUAD,
+		Tween.EASE_IN
+	)
+
+	var derby_tween := GameAnimations.move_to(
+		derby_title,
+		derby_title.position + exit_position,
+		title_drop_duration,
+		Tween.TRANS_QUAD,
+		Tween.EASE_IN
+	)
+
+	var carnival_tween := GameAnimations.move_to(
+		carnival_title,
+		carnival_title.position + exit_position,
+		title_drop_duration,
+		Tween.TRANS_QUAD,
+		Tween.EASE_IN
+	)
+
+	var button_tween := GameAnimations.move_to(
+		start_button,
+		start_button.position + Vector2(
+			0.0, -start_button.drop_distance
+		),
+		title_drop_duration,
+		Tween.TRANS_QUAD,
+		Tween.EASE_IN
+	)
+
+	await horse_tween.finished
+	await derby_tween.finished
+	await carnival_tween.finished
+	await button_tween.finished

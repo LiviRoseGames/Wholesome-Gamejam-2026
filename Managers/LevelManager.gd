@@ -52,13 +52,20 @@ func show_intro() -> void:
 		intro.start_requested.connect(start_game)
 
 
+
 func start_game() -> void:
 	if transitioning:
 		return
 
 	transitioning = true
+
+	# Keep a reference to the intro before removing it later.
+	var intro := current_screen_scene as IntroScreen
+
+	# Close the curtain before loading.
 	await transition_fade.fade_to_black()
 
+	# Remove the intro and load the game behind the closed curtain.
 	_clear_screen()
 
 	if game_scene == null:
@@ -76,6 +83,10 @@ func start_game() -> void:
 	_load_level_into_game(current_level)
 
 	await level_loaded
+
+	if is_instance_valid(intro):
+		intro.play_exit_animations()
+
 	await transition_fade.fade_from_black()
 	transitioning = false
 
