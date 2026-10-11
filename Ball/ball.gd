@@ -12,13 +12,6 @@ signal shot_started
 @export var motion_line_width := 25.0
 @export var max_motion_lines := 8
 
-@export_group("Bottom Hit Sound")
-@export var bottom_repeat_window := 0.5
-@export var bottom_repeat_volume_db := -8.0
-@export var bottom_repeat_pitch := 0.9
-
-var last_bottom_hit_time := -1.0
-
 @onready var motion_trail: Node2D = $"../MotionTrail"
 
 const OBSTACLE_LAYER := 4
@@ -28,8 +21,6 @@ var motion_line_timer := 0.0
 var spawn_z_index := 0
 var held_z_index := 4
 
-@onready var throw_ball_sfx: AudioStreamPlayer = $"../SFX/ThrowBallSFX"
-@onready var hit_wall_sfx: AudioStreamPlayer = $"../SFX/HitWallSFX"
 
 #~~~~~~~~~~~~~~~~~~ STATE MACHINE CODE ~~~~~~~~~~~~~~~~~~
 enum State {
@@ -110,28 +101,6 @@ func _physics_process(delta: float) -> void:
 	$Highlight.rotation = -rotation
 	update_motion_trail(delta)
 
-func _on_body_entered(body: Node) -> void:
-	if body.is_in_group("bottom"):
-		var current_time := Time.get_ticks_msec() / 1000.0
-		var is_repeat_hit := (
-			last_bottom_hit_time >= 0.0
-			and current_time - last_bottom_hit_time <= bottom_repeat_window
-		)
-		
-		if is_repeat_hit:
-			hit_wall_sfx.volume_db = bottom_repeat_volume_db
-			hit_wall_sfx.pitch_scale = bottom_repeat_pitch
-		else:
-			hit_wall_sfx.volume_db = 0.0
-			hit_wall_sfx.pitch_scale = 1.0
-
-		hit_wall_sfx.play()
-		last_bottom_hit_time = current_time
-
-	elif body.is_in_group("table_sides"):
-		hit_wall_sfx.volume_db = 0.0
-		hit_wall_sfx.play()
-
 func set_obstacle_collision(enabled: bool) -> void:
 	if enabled:
 		collision_mask |= 1 << (OBSTACLE_LAYER - 1)
@@ -181,8 +150,6 @@ func launch(direction: Vector2, force: float) -> void:
 	angular_velocity = spin_direction * force * 0.01
 	
 	shot_started.emit()
-
-	throw_ball_sfx.play()
 
 func disable() -> void:
 	freeze = true

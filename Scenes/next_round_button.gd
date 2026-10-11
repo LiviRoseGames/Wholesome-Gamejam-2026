@@ -2,8 +2,6 @@ extends TextureButton
 
 @export var hover_scale := Vector2(1.08, 1.08)
 @export var animation_duration := 0.12
-@onready var button_click_sfx: AudioStreamPlayer = $"../SFX/ButtonClickSFX"
-@onready var button_hover_sfx: AudioStreamPlayer = $"../SFX/ButtonHoverSFX"
 
 var normal_scale := Vector2.ONE
 var hover_tween: Tween
@@ -15,7 +13,6 @@ func _ready() -> void:
 
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
-
 
 func show_button() -> void:
 	visible = true
@@ -29,7 +26,6 @@ func hide_button() -> void:
 func _on_mouse_entered() -> void:
 	if hover_tween:
 		hover_tween.kill()
-		button_hover_sfx.play()
 
 	hover_tween = create_tween()
 	hover_tween.tween_property(
@@ -42,7 +38,6 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	if hover_tween:
 		hover_tween.kill()
-		button_click_sfx.play()
 
 	hover_tween = create_tween()
 	hover_tween.tween_property(
