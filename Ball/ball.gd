@@ -28,8 +28,8 @@ var motion_line_timer := 0.0
 var spawn_z_index := 0
 var held_z_index := 4
 
-@onready var throw_ball_sfx: AudioStreamPlayer = $"../SFX/ThrowBallSFX"
-@onready var hit_wall_sfx: AudioStreamPlayer = $"../SFX/HitWallSFX"
+@onready var throw_ball_sfx: AudioStreamPlayer = $SFX/ThrowBallSFX
+@onready var hit_wall_sfx: AudioStreamPlayer = $SFX/HitWallSFX
 
 #~~~~~~~~~~~~~~~~~~ STATE MACHINE CODE ~~~~~~~~~~~~~~~~~~
 enum State {

@@ -11,8 +11,8 @@ signal player_scored(points: int)
 @onready var level_manager: LevelManager = main.get_node("LevelManager")
 @onready var transition_fade: TransitionFade = main.get_node("TransitionFade")
 
-@onready var horse_win_sfx: AudioStreamPlayer = $"../SFX/HorseWinSFX"
-@onready var horse_groan_sfx: AudioStreamPlayer = $"../SFX/HorseGroanSFX"
+@onready var horse_groan: AudioStreamPlayer = $"../SFX/HorseGroan"
+@onready var horse_win: AudioStreamPlayer = $"../SFX/HorseWin"
 
 var ball: GameBall
 var ball_spawn: Marker2D
@@ -78,11 +78,11 @@ func _on_race_finished(winner: RaceHorse, player_won: bool) -> void:
 			try_again_button.show_button()
 		else:
 			next_round_button.show_button()
-			horse_win_sfx.play()
+			horse_win.play()
 	else:
 		_set_try_again_button_text("Try Again")
 		try_again_button.show_button()
-		horse_groan_sfx.play()
+		horse_groan.play()
 
 
 func _set_try_again_button_text(new_text: String) -> void:

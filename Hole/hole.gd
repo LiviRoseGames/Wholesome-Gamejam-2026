@@ -12,7 +12,7 @@ enum HoleType {
 signal ball_scored(hole: ScoringHole)
 
 @onready var ring: Sprite2D = $Ring
-@onready var hit_hole_sfx: AudioStreamPlayer = $"../../SFX/HitHoleSFX"
+@onready var hit_hole_sfx: AudioStreamPlayer = $"../../SFX/HitHole"
 
 func _ready() -> void:
 	_setup_hole()

@@ -14,7 +14,7 @@ enum Direction {
 @export var move_time := 1.0
 @export var pause_time := 0.5
 
-@onready var block_moving_sfx: AudioStreamPlayer = $BlockMovingSFX
+@onready var block_moving: AudioStreamPlayer = $SFX/BlockMoving
 
 var start_position: Vector2
 var end_position: Vector2
@@ -41,7 +41,7 @@ func get_direction_vector() -> Vector2:
 func start_cycle() -> void:
 	while true:
 		await get_tree().create_timer(pause_time).timeout
-		block_moving_sfx.play()
+		block_moving.play()
 
 		var move_out := create_tween()
 		move_out.tween_property(
@@ -56,7 +56,7 @@ func start_cycle() -> void:
 		await get_tree().create_timer(pause_time).timeout
 
 		var move_back := create_tween()
-		block_moving_sfx.play()
+		block_moving.play()
 		move_back.tween_property(
 			self,
 			"position",

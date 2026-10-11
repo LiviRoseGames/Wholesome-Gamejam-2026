@@ -31,6 +31,11 @@
 [ext_resource type="Texture2D" uid="uid://de48y6spb6eqw" path="res://Art/Horse/Horse7_Head.png" id="27_8rkhm"]
 [ext_resource type="Texture2D" uid="uid://5e7e32abgqej" path="res://Art/Horse/Horse8_Head.png" id="28_vevfa"]
 [ext_resource type="Texture2D" uid="uid://c0sdthcxkkqbf" path="res://Art/Horse/Horse9_Head.png" id="30_vevfa"]
+[ext_resource type="AudioStream" uid="uid://di86t3wgfgewq" path="res://SoundEffect/HorseGroan.mp3" id="32_okd8x"]
+[ext_resource type="AudioStream" uid="uid://bduocl4rda1rd" path="res://SoundEffect/HorseWin.mp3" id="33_0ejf6"]
+[ext_resource type="AudioStream" uid="uid://dmp5jmrx8uu1f" path="res://SoundEffect/SelectHover.mp3" id="34_qm8hn"]
+[ext_resource type="AudioStream" uid="uid://bpvpdkw5p3dl5" path="res://SoundEffect/ButtonClick.mp3" id="35_0ejf6"]
+[ext_resource type="AudioStream" uid="uid://dfmxiwl0la0q8" path="res://SoundEffect/StartWhistle.mp3" id="35_gq8pe"]
 
 [sub_resource type="Animation" id="Animation_e3mc8"]
 resource_name = "Horse Animation"
@@ -197,6 +202,11 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3foiw"]
 size = Vector2(357.02304, 163.85516)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kyia8"]
+random_pitch = 1.5914406
+streams_count = 1
+stream_0/stream = ExtResource("34_qm8hn")
+
 [node name="Horse" type="Node2D" unique_id=390380381]
 z_index = 10
 script = ExtResource("1_akykj")
@@ -262,3 +272,22 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="SFX" type="Node" parent="." unique_id=1759148327]
+
+[node name="HorseGroan" type="AudioStreamPlayer" parent="SFX" unique_id=2009559668]
+stream = ExtResource("32_okd8x")
+volume_db = -3.0
+
+[node name="HorseWin" type="AudioStreamPlayer" parent="SFX" unique_id=2107844946]
+stream = ExtResource("33_0ejf6")
+volume_db = -11.0
+
+[node name="ButtonHover" type="AudioStreamPlayer" parent="SFX" unique_id=1215515393]
+stream = SubResource("AudioStreamRandomizer_kyia8")
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="SFX" unique_id=974820234]
+stream = ExtResource("35_0ejf6")
+
+[node name="StartWhistle" type="AudioStreamPlayer" parent="SFX" unique_id=136433745]
+stream = ExtResource("35_gq8pe")

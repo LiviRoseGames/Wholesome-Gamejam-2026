@@ -9,9 +9,11 @@ extends TextureButton
 @export var glow_fade_duration := 0.12
 @export var glow_color := Color(1.0, 0.85, 0.35)
 
+@onready var button_hover: AudioStreamPlayer = $SFX/ButtonHover
+@onready var button_click: AudioStreamPlayer = $SFX/ButtonClick
+
 var final_position := Vector2.ZERO
 var shader_material: ShaderMaterial
-
 
 func _ready() -> void:
 	final_position = position
@@ -45,10 +47,12 @@ func show_button() -> void:
 
 func _on_mouse_entered() -> void:
 	set_glow_strength(hover_glow_strength)
+	button_hover.play()
 
 
 func _on_mouse_exited() -> void:
 	set_glow_strength(0.0)
+	button_click.play()
 
 
 func set_glow_strength(value: float) -> void:
